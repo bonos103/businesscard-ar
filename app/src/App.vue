@@ -2,19 +2,19 @@
   <router-view/>
 </template>
 <script>
-  export default {
-    metaInfo() {
-      return {
-        meta: [
-          {
-            vmid: 'viewport',
-            name: 'viewport',
-            content: 'width=device-width,initial-scale=1.0'
-          },
-        ],
-      }
+export default {
+  metaInfo() {
+    return {
+      meta: [
+        {
+          vmid: 'viewport',
+          name: 'viewport',
+          content: 'width=device-width,initial-scale=1.0',
+        },
+      ],
     }
-  }
+  },
+}
 </script>
 <style>
 #app {
