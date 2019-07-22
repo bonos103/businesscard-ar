@@ -51,10 +51,10 @@ export default {
         {
           vmid: 'viewport',
           name: 'viewport',
-          content: 'width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0'
+          content: 'width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0',
         },
       ],
     }
-  }
+  },
 }
 </script>
