@@ -8,7 +8,7 @@
     <a-plane position="0 0 0" rotation="-90 0 0" width="1" height="1" color="#7BC8A4"></a-plane>
     <a-marker preset="hiro">
         <a-text value="My name is soeyu!\n Nice to meet you!"
-        position=" 0 0 1" align="center" rotation="-90 0 0" color="#7993ff"></a-text>
+        position=" 0 0.5 -0.5" align="center" rotation="-60 0 0" color="#7993ff" scale="3 3 3"></a-text>
     </a-marker>
     <a-entity camera></a-entity>
     <!-- <a-marker-camera preset='hiro'></a-marker-camera> -->
