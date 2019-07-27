@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>test</title>
+    <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
   </head>
   <body>
     <noscript>
@@ -12,5 +14,12 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+
+    <a-scene v-if="show">
+      <a-box color="red" position="0 2 -5" rotation="0 45 45" scale="2 2 2"></a-box>
+      <a-entity environment="preset: default; dressingAmount: 500"></a-entity>
+      <!-- <a-plane rotation="-90 0 0" width="40" height="40"></a-plane> -->
+      <!-- <a-sky src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/sechelt.jpg"></a-sky> -->
+    </a-scene>
   </body>
 </html>
