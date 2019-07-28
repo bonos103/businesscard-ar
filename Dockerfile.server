@@ -1,0 +1,11 @@
+FROM node:10-alpine
+
+WORKDIR /app
+
+RUN yarn global add @adonisjs/cli
+
+COPY ./server/package.json ./
+#COPY ./server/yarn.lock ./
+
+RUN yarn
+
