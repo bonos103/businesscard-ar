@@ -3,9 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta data-vmid="viewport" name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>test</title>
     <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.7/aframe/build/aframe-ar.js"></script>
     <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
   </head>
   <body>
@@ -14,25 +16,6 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
-
-    <a-scene v-if="show" inspector="url: http://localhost:3333/dist/aframe-inspector.js">
-      <!-- <a-box color="red" position="0 2 -5" rotation="0 45 45" scale="2 2 2"></a-box> -->
-      <a-entity environment="preset: default; dressingAmount: 500"></a-entity>
-      <!-- <a-plane rotation="-90 0 0" width="40" height="40"></a-plane> -->
-      <!-- <a-sky src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/sechelt.jpg"></a-sky> -->
-      <a-box
-        src="#boxTexture"
-        position="0 2 -5"
-        rotation="0 45 45"
-        scale="2 2 2"
-        animation__position="property: object3D.position.y; to: 2.2; dir: alternate; dur: 2000; loop: true"
-        animation__mouseenter="property: scale; to: 2.3 2.3 2.3; dur: 300; startEvents: mouseenter"
-        animation__mouseleave="property: scale; to: 2 2 2; dur: 300; startEvents: mouseleave"></a-box>
-      <a-entity
-        text="value: Hello, A-Frame!; color: #BBB; align: center"
-        position="0 0.2 -3"
-        scale="1.5 1.5 1.5"></a-entity>
-    </a-scene>
 
   </body>
 </html>
