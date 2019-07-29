@@ -7,6 +7,9 @@ class storeUser {
       password: 'required',
     }
   }
+  get validateAll () {
+    return true
+  }
 }
 
 module.exports = storeUser
