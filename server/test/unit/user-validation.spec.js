@@ -15,9 +15,23 @@ test('cannot create user if no password', async ({ assert, client }) => {
   }
   const validator = new ValidatorStoreUser()
   const validation = await validateAll(data, validator.rules)
-  console.log(validation.messages())
+  const messages = validation.messages()
   assert.isTrue(validation.fails())
+  assert.equal(messages[0] && messages[0].field, 'password')
 })
+
+test('cannot create user if no email', async ({ assert, client }) => {
+  const { password } = await Factory.model('App/Models/User').make()
+  const data = {
+    password,
+  }
+  const validator = new ValidatorStoreUser()
+  const validation = await validateAll(data, validator.rules)
+  const messages = validation.messages()
+  assert.isTrue(validation.fails())
+  assert.equal(messages[0] && messages[0].field, 'email')
+})
+
 test('can create user if valid data', async ({ assert }) => {
   const { email, password } = await Factory.model('App/Models/User').make()
   const data = {
