@@ -21,5 +21,7 @@ Route.get('/', () => {
 })
 
 Route.group(() => {
-  Route.resource('user', 'UserController').apiOnly()
+  Route.resource('user', 'UserController').apiOnly().validator(new Map([
+    [['user.store'], ['User/StoreUser']],
+  ]))
 }).prefix('api/v1').namespace('Api/v1')

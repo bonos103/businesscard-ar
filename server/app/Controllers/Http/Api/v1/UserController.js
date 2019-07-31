@@ -8,7 +8,7 @@ class UserController {
   }
   async store({ request, response }) {
     const user = await User.create(request.only(['email', 'password']))
-    return response.created({ hoge: 'hoge'})
+    return response.created(user)
   }
 
 }

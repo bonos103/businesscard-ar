@@ -1,0 +1,5 @@
+{
+  "required": "{field}は必須です",
+  "email": "{field}が正しくありません",
+  "unique": "{field}は既に存在しています"
+}
