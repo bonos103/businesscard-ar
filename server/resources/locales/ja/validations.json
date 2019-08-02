@@ -1,5 +1,7 @@
 {
   "required": "{field}は必須です",
   "email": "{field}が正しくありません",
-  "unique": "{field}は既に存在しています"
+  "unique": "{field}は既に存在しています",
+  "validAuthCode": "認証に失敗しました",
+  "timeoutCode": "期限切れです"
 }

@@ -101,13 +101,63 @@ test('メール認証：認証コードが不正', async ({ client }) => {
     {
       message: '認証に失敗しました',
       field: 'code',
-      validation: 'invalid',
+      validation: 'validAuthCode',
+    },
+  ])
+})
+test('メール認証：認証コードが不正 if no email in code', async ({ client }) => {
+  const { password } = await UserFactory.make()
+  const createdDate = moment().subtract(2, 'days')
+  const code = Encryption.encrypt(JSON.stringify({ password, createdDate }))
+  const data = {
+    code,
+  }
+  const response = await client.post('/api/v1/user/auth').send(data).end()
+  response.assertStatus(400)
+  response.assertJSONSubset([
+    {
+      message: '認証に失敗しました',
+      field: 'code',
+      validation: 'validAuthCode',
+    },
+  ])
+})
+test('メール認証：認証コードが不正 if no password in code', async ({ client }) => {
+  const { email } = await UserFactory.make()
+  const createdDate = moment()
+  const code = Encryption.encrypt(JSON.stringify({ email, createdDate }))
+  const data = {
+    code,
+  }
+  const response = await client.post('/api/v1/user/auth').send(data).end()
+  response.assertStatus(400)
+  response.assertJSONSubset([
+    {
+      message: '認証に失敗しました',
+      field: 'code',
+      validation: 'validAuthCode',
+    },
+  ])
+})
+test('メール認証：認証コードが不正 if no createdDate in code', async ({ client }) => {
+  const { email, password } = await UserFactory.make()
+  const code = Encryption.encrypt(JSON.stringify({ email, password }))
+  const data = {
+    code,
+  }
+  const response = await client.post('/api/v1/user/auth').send(data).end()
+  response.assertStatus(400)
+  response.assertJSONSubset([
+    {
+      message: '認証に失敗しました',
+      field: 'code',
+      validation: 'validAuthCode',
     },
   ])
 })
 test('メール認証：認証コードが期限切れ', async ({ client }) => {
   const { email, password } = await UserFactory.make()
-  const createdDate = moment().subtract(1, 'days')
+  const createdDate = moment().subtract(2, 'days')
   const code = Encryption.encrypt(JSON.stringify({ email, password, createdDate }))
   const data = {
     code,
@@ -116,9 +166,9 @@ test('メール認証：認証コードが期限切れ', async ({ client }) => {
   response.assertStatus(400)
   response.assertJSONSubset([
     {
-      message: '期限切れです。',
+      message: '期限切れです',
       field: 'code',
-      validation: 'codeTimeout',
+      validation: 'timeoutCode',
     },
   ])
 })

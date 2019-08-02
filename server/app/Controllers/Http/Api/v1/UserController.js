@@ -10,6 +10,9 @@ class UserController {
     const user = await User.create(request.only(['email', 'password']))
     return response.created(user)
   }
+  async auth({ request, response}) {
+
+  }
 
 }
 
