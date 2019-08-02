@@ -14,6 +14,10 @@ class User extends Model {
     this.addHook('beforeCreate', 'UserHook.hashPassword')
   }
 
+  static get visible () {
+    return ['id', 'email', 'created_at', 'updated_at']
+  }
+
   /**
    * A relationship on tokens is required for auth to
    * work. Since features like `refreshTokens` or

@@ -102,10 +102,10 @@ test('メール認証：認証コードが正しい場合は、ユーザー作�
   }
   const response = await client.post('/api/v1/user/auth').send(data).end()
 
-  response.assertStatus(200)
+  response.assertStatus(201)
   response.assertJSONSubset({
-    message: '登録完了しました。',
-    user: { email, password },
+    message: '登録完了しました',
   })
-  assert.exists(response.token)
+  assert.exists(response.body.user)
+  assert.exists(response.body.token)
 })
