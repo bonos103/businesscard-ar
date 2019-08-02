@@ -2,13 +2,15 @@
 
 const { test, trait } = use('Test/Suite')('User')
 const Factory = use('Factory')
+const Mail = use('Mail')
 
 const UserFactory = Factory.model('App/Models/User')
 
 trait('DatabaseTransactions')
 trait('Test/ApiClient')
 
-test('can create a user if valid data', async ({ assert, client }) => {
+test('send authentication email if valid data', async ({ assert, client }) => {
+  Mail.fake()
   const { email, password } = await UserFactory.make()
   const data = {
     email,
@@ -19,6 +21,12 @@ test('can create a user if valid data', async ({ assert, client }) => {
   response.assertJSONSubset({
     email,
   })
+
+  const recentEmail = Mail.pullRecent()
+  console.log(recentEmail)
+  assert.equal(recentEmail.message.to[0].address, email)
+
+  Mail.restore()
 })
 
 test('cannot create a user if no email', async ({ assert, client }) => {
