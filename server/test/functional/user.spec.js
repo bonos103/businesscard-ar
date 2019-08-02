@@ -23,11 +23,11 @@ test('send authentication email if valid data', async ({ assert, client }) => {
   })
 
   const recentEmail = Mail.pullRecent()
-  console.log(recentEmail)
   assert.equal(recentEmail.message.to[0].address, email)
+  assert.equal(recentEmail.message.subject, '会員登録いただきありがとうございます。')
 
   Mail.restore()
-})
+}).timeout(60000)
 
 test('cannot create a user if no email', async ({ assert, client }) => {
   const { password } = await UserFactory.make()
