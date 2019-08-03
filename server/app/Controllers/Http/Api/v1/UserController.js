@@ -9,15 +9,21 @@ class UserController {
   index() {
     return { hoge: 'hoge' }
   }
-  async store({ request, response }) {
+  async store({ auth, request, response }) {
     const user = await User.create(request.only(['email', 'password']))
-    await Mail.send('emails.user.signup', user.toJSON(), (message) => {
+    const token = await auth.generate(user)
+    const loginURL = new URL('/login', Env.get('URL'))
+    await Mail.send('emails.user.signup', { loginURL: loginURL.href }, (message) => {
       message
         .to(user.email)
         .from(Env.get('MAIL_ADMIN'))
         .subject('会員登録いただきありがとうございます。')
     })
-    return response.created(user)
+    return response.created({
+      message: '会員登録完了しました',
+      user,
+      token: token.token,
+    })
   }
   async auth({ auth, request, response}) {
     const { code } = request.only(['code'])

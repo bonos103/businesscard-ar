@@ -9,7 +9,7 @@ const UserFactory = Factory.model('App/Models/User')
 trait('DatabaseTransactions')
 trait('Test/ApiClient')
 
-test('send authentication email if valid data', async ({ assert, client }) => {
+test('can create user if valid data', async ({ assert, client }) => {
   Mail.fake()
   const { email, password } = await UserFactory.make()
   const data = {
@@ -19,15 +19,17 @@ test('send authentication email if valid data', async ({ assert, client }) => {
   const response = await client.post('/api/v1/user').send(data).end()
   response.assertStatus(201)
   response.assertJSONSubset({
-    email,
+    message: '会員登録完了しました',
   })
+  assert.exists(response.body.user)
+  assert.exists(response.body.token)
 
   const recentEmail = Mail.pullRecent()
   assert.equal(recentEmail.message.to[0].address, email)
   assert.equal(recentEmail.message.subject, '会員登録いただきありがとうございます。')
 
   Mail.restore()
-}).timeout(60000)
+}).timeout(6000)
 
 test('cannot create a user if no email', async ({ assert, client }) => {
   const { password } = await UserFactory.make()
