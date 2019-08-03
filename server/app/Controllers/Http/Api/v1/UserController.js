@@ -37,6 +37,23 @@ class UserController {
     })
   }
 
+  async login({ auth, request, response }) {
+    const { email, password } = request.only(['email', 'password'])
+    try {
+      const token = await auth.attempt(email, password)
+      return response.ok({
+        message: 'ログインしました',
+        token,
+      })
+    } catch(err) {
+      return response.unauthorized({
+        message: 'メールアドレスかパスワードが間違っています。',
+        field: 'password',
+        validation: 'auth',
+      })
+    }
+  }
+
 }
 
 module.exports = UserController

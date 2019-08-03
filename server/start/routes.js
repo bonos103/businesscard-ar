@@ -25,4 +25,5 @@ Route.group(() => {
     [['user.store'], ['User/StoreUser']],
   ]))
   Route.post('user/auth', 'UserController.auth').validator('User/AuthUser')
+  Route.post('user/login', 'UserController.login').middleware(['guest'])
 }).prefix('api/v1').namespace('Api/v1')
