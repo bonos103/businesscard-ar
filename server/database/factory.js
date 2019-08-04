@@ -20,3 +20,11 @@ Factory.blueprint('App/Models/User', (faker, i, data) => {
     password: data.password || 'password',
   }
 })
+
+Factory.blueprint('App/Models/Ar', (faker, i, data) => {
+  return {
+    title: data.title || faker.sentence({ word: 5 }),
+    content: data.content || faker.paragraph(),
+  }
+})
+
