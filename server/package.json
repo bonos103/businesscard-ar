@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
+    "dev": "esw -w & adonis serve --dev",
     "test": "node ace test"
   },
   "keywords": [
@@ -31,7 +32,12 @@
     "moment": "^2.24.0",
     "mysql2": "^1.6.5"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-watch": "^6.0.0"
+  },
   "autoload": {
     "App": "./app"
   }

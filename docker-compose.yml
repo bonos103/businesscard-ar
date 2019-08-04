@@ -29,7 +29,7 @@ services:
       - /app/node_modules
     links:
       - mysql:mysql
-    command: adonis serve --dev
+    command: npm run dev
     logging:
       driver: "json-file"
       options:
