@@ -12,7 +12,6 @@ trait('DatabaseTransactions')
 trait('Test/ApiClient')
 
 test('メール認証：認証コードが不正', async ({ client }) => {
-  const illegalCode = 'hogehgoe'
   const data = {
     code: 'hogehgoe',
   }

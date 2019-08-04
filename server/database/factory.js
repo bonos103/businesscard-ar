@@ -14,17 +14,12 @@
 /** @type {import('@adonisjs/lucid/src/Factory')} */
 const Factory = use('Factory')
 
-Factory.blueprint('App/Models/User', (faker, i, data) => {
-  return {
-    email: data.email || faker.email(),
-    password: data.password || 'password',
-  }
-})
+Factory.blueprint('App/Models/User', (faker, i, data) => ({
+  email: data.email || faker.email(),
+  password: data.password || 'password',
+}))
 
-Factory.blueprint('App/Models/Ar', (faker, i, data) => {
-  return {
-    title: data.title || faker.sentence({ word: 5 }),
-    content: data.content || faker.paragraph(),
-  }
-})
-
+Factory.blueprint('App/Models/Ar', (faker, i, data) => ({
+  title: data.title || faker.sentence({ word: 5 }),
+  content: data.content || faker.paragraph(),
+}))

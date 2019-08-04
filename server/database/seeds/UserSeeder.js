@@ -16,7 +16,7 @@ const Factory = use('Factory')
 const User = use('App/Models/User')
 
 class UserSeeder {
-  async run () {
+  static async run() {
     let user = await User.findBy('email', 'tomi@ryou103.com')
     if (!user) {
       user = await Factory.model('App/Models/User').create({

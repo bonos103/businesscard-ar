@@ -18,8 +18,9 @@
 */
 
 const { Ignitor } = require('@adonisjs/ignitor')
+const Ford = require('@adonisjs/fold')
 
-new Ignitor(require('@adonisjs/fold'))
+new Ignitor(Ford)
   .appRoot(__dirname)
   .fireHttpServer()
   .catch(console.error)

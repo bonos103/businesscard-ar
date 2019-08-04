@@ -4,14 +4,14 @@
 const Schema = use('Schema')
 
 class AddColumnToArSchema extends Schema {
-  up () {
+  up() {
     this.alter('ars', (table) => {
       // alter table
       table.integer('user_id').unsigned().references('id').inTable('users')
     })
   }
 
-  down () {
+  down() {
     this.alter('ars', (table) => {
       // reverse alternations
       table.dropColumn('user_id')

@@ -3,29 +3,29 @@
 const Antl = use('Antl')
 
 class UsersStoreUser {
-  get rules() {
+  static get rules() {
     return {
       email: 'required|email|unique:users,email',
       password: 'required',
     }
   }
 
-  get validateAll() {
+  static get validateAll() {
     return true
   }
 
-  get messages() {
+  static get messages() {
     const email = Antl.formatMessage('User.email')
     const password = Antl.formatMessage('User.password')
     return {
       'email.required': Antl.formatMessage('validations.required', { field: email }),
       'email.email': Antl.formatMessage('validations.email', { field: email }),
       'email.unique': Antl.formatMessage('validations.unique', { field: email }),
-      'password.required': Antl.formatMessage('validations.required', { field: password })
+      'password.required': Antl.formatMessage('validations.required', { field: password }),
     }
   }
 
-  async fails(errorMessages) {
+  static async fails(errorMessages) {
     return this.ctx.response.badRequest(errorMessages)
   }
 }

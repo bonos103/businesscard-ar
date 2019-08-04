@@ -4,7 +4,7 @@
 const Schema = use('Schema')
 
 class UserSchema extends Schema {
-  up () {
+  up() {
     this.createIfNotExists('users', (table) => {
       table.increments()
       table.string('email', 254).notNullable().unique()
@@ -13,7 +13,7 @@ class UserSchema extends Schema {
     })
   }
 
-  down () {
+  down() {
     this.dropIfExists('users')
   }
 }

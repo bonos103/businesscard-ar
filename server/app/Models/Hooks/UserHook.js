@@ -3,7 +3,7 @@
 const Hash = use('Hash')
 
 class UserHook {
-  async hashPassword(user) {
+  static async hashPassword(user) {
     user.password = await Hash.make(user.password)
   }
 }

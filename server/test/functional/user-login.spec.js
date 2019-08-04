@@ -4,12 +4,11 @@ const { test, trait } = use('Test/Suite')('User Login')
 const Factory = use('Factory')
 
 const UserFactory = Factory.model('App/Models/User')
-const Token = use('App/Models/Token')
 
 trait('DatabaseTransactions')
 trait('Test/ApiClient')
 
-test('success login if valid data', async ({ assert,client }) => {
+test('success login if valid data', async ({ assert, client }) => {
   const user = await UserFactory.create({
     password: 'password',
   })
@@ -25,7 +24,7 @@ test('success login if valid data', async ({ assert,client }) => {
   assert.exists(response.body.token)
 })
 
-test('failed login if invalid valid', async ({ assert,client }) => {
+test('failed login if invalid valid', async ({ client }) => {
   const user = await UserFactory.create({
     password: 'password',
   })

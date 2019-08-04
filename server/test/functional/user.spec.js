@@ -31,7 +31,7 @@ test('can create user if valid data', async ({ assert, client }) => {
   Mail.restore()
 }).timeout(6000)
 
-test('cannot create a user if no email', async ({ assert, client }) => {
+test('cannot create a user if no email', async ({ client }) => {
   const { password } = await UserFactory.make()
   const data = {
     password,
@@ -47,7 +47,7 @@ test('cannot create a user if no email', async ({ assert, client }) => {
   ])
 })
 
-test('cannot create a user if invalid email', async ({ assert, client }) => {
+test('cannot create a user if invalid email', async ({ client }) => {
   const { password } = await UserFactory.make()
   const data = {
     email: 'invalid email',
@@ -64,7 +64,7 @@ test('cannot create a user if invalid email', async ({ assert, client }) => {
   ])
 })
 
-test('cannot create a user if exist email', async ({ assert, client }) => {
+test('cannot create a user if exist email', async ({ client }) => {
   const user = await UserFactory.create()
   const data = {
     email: user.email,
@@ -81,7 +81,7 @@ test('cannot create a user if exist email', async ({ assert, client }) => {
   ])
 })
 
-test('cannot create a user if no password', async ({ assert, client }) => {
+test('cannot create a user if no password', async ({ client }) => {
   const { email } = await UserFactory.make()
   const data = {
     email,
@@ -96,5 +96,3 @@ test('cannot create a user if no password', async ({ assert, client }) => {
     },
   ])
 })
-
-

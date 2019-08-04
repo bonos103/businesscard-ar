@@ -4,7 +4,7 @@
 const Schema = use('Schema')
 
 class ArSchema extends Schema {
-  up () {
+  up() {
     this.createIfNotExists('ars', (table) => {
       table.increments()
       table.string('title', 254)
@@ -13,7 +13,7 @@ class ArSchema extends Schema {
     })
   }
 
-  down () {
+  down() {
     this.dropIfExists('ars')
   }
 }

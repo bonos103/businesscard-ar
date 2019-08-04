@@ -6,10 +6,11 @@ const Encryption = use('Encryption')
 const User = use('App/Models/User')
 
 class UserController {
-  index() {
+  static index() {
     return { hoge: 'hoge' }
   }
-  async store({ auth, request, response }) {
+
+  static async store({ auth, request, response }) {
     const user = await User.create(request.only(['email', 'password']))
     const token = await auth.generate(user)
     const loginURL = new URL('/login', Env.get('URL'))
@@ -25,7 +26,8 @@ class UserController {
       token: token.token,
     })
   }
-  async auth({ auth, request, response}) {
+
+  static async auth({ auth, request, response }) {
     const { code } = request.only(['code'])
     const { email, password } = JSON.parse(Encryption.decrypt(code))
     const user = await User.create({ email, password })
@@ -37,7 +39,7 @@ class UserController {
     })
   }
 
-  async login({ auth, request, response }) {
+  static async login({ auth, request, response }) {
     const { email, password } = request.only(['email', 'password'])
     try {
       const token = await auth.attempt(email, password)
@@ -45,7 +47,7 @@ class UserController {
         message: 'ログインしました',
         token,
       })
-    } catch(err) {
+    } catch (err) {
       return response.unauthorized({
         message: 'メールアドレスかパスワードが間違っています。',
         field: 'password',
@@ -53,7 +55,6 @@ class UserController {
       })
     }
   }
-
 }
 
 module.exports = UserController

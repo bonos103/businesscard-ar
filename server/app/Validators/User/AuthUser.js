@@ -3,26 +3,24 @@
 const Antl = use('Antl')
 
 class UsersStoreUser {
-  get rules() {
+  static get rules() {
     return {
       code: 'validAuthCode|timeoutCode',
     }
   }
 
-  get validateAll() {
+  static get validateAll() {
     return true
   }
 
-  get messages() {
-    const email = Antl.formatMessage('User.email')
-    const password = Antl.formatMessage('User.password')
+  static get messages() {
     return {
       'code.validAuthCode': Antl.formatMessage('validations.validAuthCode'),
-      'code.timeoutCode': Antl.formatMessage('validations.timeoutCode')
+      'code.timeoutCode': Antl.formatMessage('validations.timeoutCode'),
     }
   }
 
-  async fails(errorMessages) {
+  static async fails(errorMessages) {
     return this.ctx.response.badRequest(errorMessages)
   }
 }

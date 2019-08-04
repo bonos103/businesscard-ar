@@ -4,7 +4,7 @@
 const Model = use('Model')
 
 class User extends Model {
-  static boot () {
+  static boot() {
     super.boot()
 
     /**
@@ -14,7 +14,7 @@ class User extends Model {
     this.addHook('beforeCreate', 'UserHook.hashPassword')
   }
 
-  static get visible () {
+  static get visible() {
     return ['id', 'email', 'created_at', 'updated_at']
   }
 
@@ -28,11 +28,11 @@ class User extends Model {
    *
    * @return {Object}
    */
-  tokens () {
+  tokens() {
     return this.hasMany('App/Models/Token')
   }
 
-  ars () {
+  ars() {
     return this.hasMany('App/Models/Ar')
   }
 }
