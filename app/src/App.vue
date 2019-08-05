@@ -36,4 +36,11 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+html {
+  font-size: 62.5%; /*ベースを10pxにしています*/
+}
+body {
+  font-size: 1.0rem; /*10px*/
+}
 </style>
