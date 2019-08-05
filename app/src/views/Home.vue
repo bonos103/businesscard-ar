@@ -1,5 +1,11 @@
 <template lang="pug">
-  h1 {{title}}
+  div
+    h1 {{title}}
+    div
+      a-textarea(
+        :placeholder="placeholder",
+        :autosize="{ minRows: 2, maxRows: 6 }"
+      )
 </template>
 
 <script>
@@ -8,6 +14,7 @@ export default {
   data() {
     return {
       title: 'HOME',
+      placeholder: 'Autosize height with minimum and maximum number of lines Autosize height with minimum and maximum number of lines',
     }
   },
   metaInfo() {
