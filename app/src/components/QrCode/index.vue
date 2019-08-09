@@ -20,6 +20,9 @@ export default {
       SITE_URL: process.env.VUE_APP_URL,
     }
   },
+  mounted() {
+    this.createQRCode(this.text)
+  },
   methods: {
     async createQRCode(value) {
       const link = new URL('ar-sample', this.SITE_URL)
