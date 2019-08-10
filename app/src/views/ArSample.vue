@@ -30,9 +30,8 @@
 <script>
 import 'aframe'
 import html2canvas from 'html2canvas'
-import QRCode from 'qrcode'
 import LoadScript from '@/utils/LoadScript'
-import THREEx from '@/assets/javascripts/threex-arpatternfile'
+import MarkerPattern from '@/utils/MarkerPattern'
 
 export default {
   name: 'About',
@@ -51,18 +50,6 @@ export default {
     }
   },
   methods: {
-    async createMarker(value) {
-      const link = new URL('ar-sample', this.SITE_URL)
-      link.searchParams.append('text', value)
-      const imgSrc = await QRCode.toDataURL(link.href)
-      return new Promise((resolve) => {
-        THREEx.ArPatternFile.encodeImageURL(imgSrc, (patternFileString) => {
-          this.marker = patternFileString
-          this.markerUrl = window.URL.createObjectURL(new Blob([patternFileString], { type: 'text/plain' }))
-          resolve()
-        })
-      })
-    },
     async createMaterial(id = '#target1') {
       return new Promise((resolve) => {
         html2canvas(document.querySelector(id), { backgroundColor: 'transparent' }).then((canvas) => {
@@ -90,10 +77,16 @@ export default {
   async mounted() {
     if (this.$route.query.text) {
       this.text = this.$route.query.text
-      await this.createMarker(this.text)
+
+      const link = new URL('ar-sample', this.SITE_URL)
+      link.searchParams.append('text', this.text)
+      const markerPattern = new MarkerPattern(link.href)
+      this.markerUrl = await markerPattern.markerSrc
     }
+
     const loadAframeAr = new LoadScript('https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.5/aframe/build/aframe-ar.js', 'aframe-ar-script').load()
     await Promise.all([loadAframeAr])
+
     this.show = true
     this.$nextTick(async () => {
       await this.createMaterial()
