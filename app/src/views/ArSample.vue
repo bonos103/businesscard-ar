@@ -31,6 +31,7 @@
 import 'aframe'
 import html2canvas from 'html2canvas'
 import QRCode from 'qrcode'
+import LoadScript from '@/utils/LoadScript'
 import THREEx from '@/assets/javascripts/threex-arpatternfile'
 
 export default {
@@ -50,28 +51,6 @@ export default {
     }
   },
   methods: {
-    loadScript({ src, id }) {
-      if (!document) {
-        return
-      }
-      const script = document.createElement('script')
-      script.src = src
-      if (id) {
-        script.id = id
-      }
-      document.body.appendChild(script)
-    },
-    async loadPromise(id) {
-      return new Promise((resolve, reject) => {
-        const $el = document.querySelector(id)
-        if (!$el) {
-          reject()
-        }
-        $el.addEventListener('load', () => {
-          resolve()
-        })
-      })
-    },
     async createMarker(value) {
       const link = new URL('ar-sample', this.SITE_URL)
       link.searchParams.append('text', value)
@@ -113,10 +92,8 @@ export default {
       this.text = this.$route.query.text
       await this.createMarker(this.text)
     }
-    // this.loadScript({ src: 'https://aframe.io/releases/0.9.2/aframe.min.js', id: 'aframe-script' })
-    this.loadScript({ src: 'https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.5/aframe/build/aframe-ar.js', id: 'aframe-ar-script' })
-    // await Promise.all([this.loadPromise('#aframe-script'), this.loadPromise('#aframe-ar-script')])
-    await Promise.all([this.loadPromise('#aframe-ar-script')])
+    const loadAframeAr = new LoadScript('https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.5/aframe/build/aframe-ar.js', 'aframe-ar-script').load()
+    await Promise.all([loadAframeAr])
     this.show = true
     this.$nextTick(async () => {
       await this.createMaterial()
