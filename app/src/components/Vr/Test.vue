@@ -14,12 +14,9 @@
 
 <script>
 import 'aframe'
-import 'aframe-html-shader'
 import html2canvas from 'html2canvas'
 import QRCode from 'qrcode'
 import THREEx from '@/assets/javascripts/threex-arpatternfile'
-
-// require('aframe-ar') // eslint-disable-line
 
 export default {
   name: 'About',
