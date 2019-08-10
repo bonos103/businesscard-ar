@@ -29,9 +29,9 @@
 
 <script>
 import 'aframe'
-import html2canvas from 'html2canvas'
 import LoadScript from '@/utils/LoadScript'
 import MarkerPattern from '@/utils/MarkerPattern'
+import Object2Canvas from '@/utils/Object2Canvas'
 
 export default {
   name: 'About',
@@ -51,27 +51,21 @@ export default {
   },
   methods: {
     async createMaterial(id = '#target1') {
-      return new Promise((resolve) => {
-        html2canvas(document.querySelector(id), { backgroundColor: 'transparent' }).then((canvas) => {
-          document.body.append(canvas)
-          this.src = canvas.toDataURL('image/png')
-          const w = canvas.width
-          const h = canvas.height
-          if (w < h) {
-            this.size = {
-              width: w / w,
-              height: h / w,
-            }
-          } else {
-            this.size = {
-              width: w / h,
-              height: h / h,
-            }
-          }
-          console.log(this.src)
-          resolve()
-        })
-      })
+      const canvas = await new Object2Canvas(document.querySelector(id)).canvas()
+      this.src = canvas.toDataURL('image/png')
+      const w = canvas.width
+      const h = canvas.height
+      if (w < h) {
+        this.size = {
+          width: w / w,
+          height: h / w,
+        }
+      } else {
+        this.size = {
+          width: w / h,
+          height: h / h,
+        }
+      }
     },
   },
   async mounted() {
