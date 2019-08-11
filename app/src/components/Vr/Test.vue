@@ -1,14 +1,19 @@
 <template>
   <a-scene
+   vr-mode-ui="enabled: false;"
    embedded
-   v-if="show" >
+   v-if="show"
+   background="color:  #24CAFF" >
     <a-assets>
       <img :src="src" id="image1">
+      <img src="@/assets/images/vr/businesscard.png" id="businesscard" />
     </a-assets>
-    <a-text :value="text"
-      position=" 0 0.5 -3" align="center"
-      rotation="0 0 0" color="#7993ff" scale="1 1 1"></a-text>
-    <a-image src="#image1" position=" 0 0.5 -3"></a-image>
+    <a-image src="#image1" position="0.55 0.6 -3.3"></a-image>
+    <a-image
+      src="#businesscard"
+      width="1.64545" height="1"
+      rotation="-90 0 0"
+      position=" 0 0 -3"></a-image>
   </a-scene>
 </template>
 

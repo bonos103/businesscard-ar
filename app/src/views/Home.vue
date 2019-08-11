@@ -1,21 +1,37 @@
 <template lang="pug">
-  layout-content
-    text-heading {{title}}
-    div
-      a-textarea(
-        v-model="value",
-        :autosize="{ minRows: 4, maxRows: 6 }"
-      )
-    div
-      qr-code(:text="text")
-    div(v-if="isShow")
-      div(
-        style="width: 100%; height: 100%; position: fixed; left: 0; top: 0; z-index: -1; overflow: hidden;"
-      )
-        vr-object(:text="value")
-    img(:src="src" v-if="src")
+  layout-content(:class="$style.wrapper")
+    div(:class="$style.main")
+      text-heading {{title}}
+      div
+        a-textarea(
+          v-model="value",
+          :autosize="{ minRows: 4, maxRows: 6 }"
+        )
+      div
+        qr-code(:text="text")
+      div(v-if="isShow")
+        div(
+          style="width: 100%; height: 100%; position: fixed; left: 0; top: 0; z-index: -1; overflow: hidden;"
+        )
+          vr-object(:text="value")
+      //- img(:src="src" v-if="src")
+    div(:class="$style.vr")
+      iframe(width="100%", height="100%" src="https://localhost:8080/vr?text=hoge", allowfullscreen="yes", allowvr="yes", scrolling="no", :class="$style.iframe")
 </template>
-
+<style module>
+  .wrapper {
+    display: flex;
+  }
+  .main {
+    flex: 1 1 66.66%;
+  }
+  .vr {
+    flex: 1 1 33.33%;
+  }
+  .iframe {
+    border: 0;
+  }
+</style>
 <script>
 import LayoutContent from '@/components/Layout/Content.vue'
 import TextHeading from '@/components/Text/Heading.vue'
