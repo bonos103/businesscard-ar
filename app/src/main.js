@@ -1,7 +1,9 @@
-import Antd from 'ant-design-vue'
+import {
+  Layout,
+  Input,
+} from 'ant-design-vue'
 import Vue from 'vue'
 import VueMeta from 'vue-meta'
-import 'ant-design-vue/dist/antd.css'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -10,7 +12,8 @@ import '@/assets/stylesheets/ress.css'
 
 Vue.config.productionTip = false
 
-Vue.use(Antd)
+Vue.use(Layout)
+Vue.use(Input)
 Vue.use(VueMeta)
 
 new Vue({

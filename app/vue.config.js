@@ -19,4 +19,14 @@ module.exports = {
       },
     }
   },
+  css: {
+    loaderOptions: {
+      less: {
+        modifyVars: {
+          'font-family': '"游ゴシック体", "Yu Gothic", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", "Meiryo", "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;'
+        },
+        javascriptEnabled: true,
+      },
+    },
+  },
 }
