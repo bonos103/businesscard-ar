@@ -1,7 +1,10 @@
 <template lang="pug">
   div
-    p Footer
+    div(:class="$style.copyright") © 2019 BONOS
 </template>
-<script>
-
-</script>
+<style module>
+  .copyright {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+</style>

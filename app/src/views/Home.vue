@@ -1,6 +1,6 @@
 <template lang="pug">
-  layout-content(:class="$style.wrapper")
-    div(:class="$style.main")
+  div(:class="$style.wrapper")
+    layout-content(:class="$style.main")
       text-heading {{title}}
       div
         a-textarea(
@@ -20,15 +20,33 @@
 </template>
 <style module>
   .wrapper {
-    display: flex;
+    width: 100%;
+    @media (--md) {
+      display: flex;
+    }
   }
   .main {
     flex: 1 1 66.66%;
+    @media (--md) {
+      flex: 1 1 60%
+    }
+    @media (--lg) {
+      flex: 1 1 50%;
+    }
   }
+
   .vr {
     flex: 1 1 33.33%;
+    min-width: 320px;
+    @media (--md) {
+      flex: 1 1 40%;
+    }
+    @media (--lg) {
+      flex: 1 1 50%;
+    }
   }
   .iframe {
+    min-height: 50vh;
     border: 0;
   }
 </style>
