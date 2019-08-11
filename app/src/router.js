@@ -22,7 +22,7 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/ArSample.vue'),
+      component: () => import(/* webpackChunkName: "Ar" */ './views/ArSample.vue'),
     },
     {
       path: '/vr',
@@ -30,7 +30,7 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/Vr.vue'),
+      component: () => import(/* webpackChunkName: "Vr" */ './views/Vr.vue'),
     },
   ],
 })

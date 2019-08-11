@@ -6,10 +6,7 @@
   >
     <div style="width: 100%; height: 100%;
     position: fixed; left: 0; top: 0; z-index: -1; overflow: hidden">
-      <div id="target1"
-        style="color: blue; width: 900px; height: 300px; font-size: 36px;">
-        {{text}}日本語
-      </div>
+      <vr-object :text="text"></vr-object>
     </div>
     <a-assets>
       <img :src="src" id="image1" v-if="src" />
@@ -29,12 +26,16 @@
 
 <script>
 import 'aframe'
+import VrObject from '@/components/Vr/Object.vue'
 import LoadScript from '@/utils/LoadScript'
 import MarkerPattern from '@/utils/MarkerPattern'
 import Object2Canvas from '@/utils/Object2Canvas'
 
 export default {
   name: 'About',
+  components: {
+    VrObject,
+  },
   data() {
     return {
       show: false,

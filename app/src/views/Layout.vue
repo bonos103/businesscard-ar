@@ -20,9 +20,9 @@ export default {
 </script>
 <style module>
   .layout {
-    height: 100%;
+    min-height: 100%;
   }
   .content {
-    flex: 1 1 auto;
+    flex: 1 0 auto;
   }
 </style>

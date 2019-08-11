@@ -9,14 +9,19 @@
     div
       qr-code(:text="text")
     div(v-if="isShow")
-      div#target1(style="color: blue; width: 900px; height: 300px;font-size: 36px;") {{text}}
+      div(
+        style="width: 100%; height: 100%; position: fixed; left: 0; top: 0; z-index: -1; overflow: hidden;"
+      )
+        vr-object(:text="value")
+    img(:src="src" v-if="src")
 </template>
 
 <script>
-import html2canvas from 'html2canvas'
 import LayoutContent from '@/components/Layout/Content.vue'
 import TextHeading from '@/components/Text/Heading.vue'
 import QrCode from '@/components/QrCode/index.vue'
+import VrObject from '@/components/Vr/Object.vue'
+import Object2Canvas from '@/utils/Object2Canvas'
 
 export default {
   name: 'home',
@@ -24,13 +29,15 @@ export default {
     LayoutContent,
     TextHeading,
     QrCode,
+    VrObject,
   },
   data() {
-    const defaultValue = 'Autosize height with minimum and maximum number of lines Autosize height\n with minimum and maximum number of lines'
+    const defaultValue = 'Autosize height with\n\n minimum and maximum number of lines Autosize height\n with minimum and maximum number of lines'
     return {
+      src: null,
       title: 'HOME',
-      value: defaultValue,
       text: defaultValue,
+      value: defaultValue,
       timer: null,
       isShow: false,
     }
@@ -38,9 +45,7 @@ export default {
   mounted() {
     this.isShow = true
     this.$nextTick(() => {
-      html2canvas(document.querySelector('#target1')).then((canvas) => {
-        document.body.appendChild(canvas)
-      })
+      this.reloadObject()
     })
   },
   watch: {
@@ -48,13 +53,17 @@ export default {
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         this.reloadQRCode(value)
+        this.reloadObject()
       }, 1000)
     },
   },
   methods: {
-    reloadQRCode(value) {
-      console.log(value)
+    async reloadQRCode(value) {
       this.text = value
+    },
+    async reloadObject() {
+      const canvas = await new Object2Canvas(document.querySelector('#target1')).canvas()
+      this.src = canvas.toDataURL('image/png')
     },
   },
   metaInfo() {
