@@ -10,13 +10,11 @@
       div
         qr-code(:text="text")
       div(v-if="isShow")
-        div(
-          style="width: 100%; height: 100%; position: fixed; left: 0; top: 0; z-index: -1; overflow: hidden;"
-        )
+        div(:class="$style.vrObject")
           vr-object(:text="value")
       //- img(:src="src" v-if="src")
     div(:class="$style.vr")
-      iframe(width="100%", height="100%", :src="`https://localhost:8080/vr?text=${text}`", allowfullscreen="yes", allowvr="yes", scrolling="no", :class="$style.iframe")
+      iframe#iframe(width="100%", height="100%", :src="`https://localhost:8080/vr?text=.`", allowfullscreen="yes", allowvr="yes", scrolling="no", :class="$style.iframe")
 </template>
 <style module>
   .wrapper {
@@ -34,7 +32,15 @@
       flex: 1 1 50%;
     }
   }
-
+  .vrObject {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    overflow: hidden;
+  }
   .vr {
     flex: 1 1 33.33%;
     min-width: 320px;
@@ -69,6 +75,10 @@ export default {
     const defaultValue = 'Autosize height with\n\n minimum and maximum number of lines Autosize height\n with minimum and maximum number of lines'
     return {
       src: null,
+      size: {
+        width: 0,
+        height: 0,
+      },
       title: 'HOME',
       text: defaultValue,
       value: defaultValue,
@@ -88,7 +98,7 @@ export default {
       this.timer = setTimeout(() => {
         this.reloadQRCode(value)
         this.reloadObject()
-      }, 1000)
+      }, 500)
     },
   },
   methods: {
@@ -96,8 +106,24 @@ export default {
       this.text = value
     },
     async reloadObject() {
-      const canvas = await new Object2Canvas(document.querySelector('#target1')).canvas()
-      this.src = canvas.toDataURL('image/png')
+      console.log('hoge1')
+      const object2Canvas = new Object2Canvas(document.querySelector('#target1'))
+      console.log('hoge2')
+      await object2Canvas.init()
+      console.log('hoge3')
+      this.src = await object2Canvas.toDataURL('image/png')
+      console.log('hoge4')
+      this.size = await object2Canvas.aframeSize()
+      console.log('hoge5')
+      this.updateIframe()
+    },
+    updateIframe() {
+      const $iframe = document.querySelector('#iframe')
+      const $image = $iframe.contentDocument.querySelector('#object')
+      $image.setAttribute('src', this.src)
+      $image.setAttribute('width', this.size.width)
+      $image.setAttribute('height', this.size.height)
+      $image.setAttribute('position', `0.55 ${(this.size.height / 2) + 0.1} -3.3`)
     },
   },
   metaInfo() {

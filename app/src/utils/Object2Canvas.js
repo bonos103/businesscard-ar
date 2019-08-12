@@ -24,16 +24,10 @@ class Object2Canvas {
     }
     const w = this.canvas.width
     const h = this.canvas.height
-    const ratio = w / 900
-    if (w < h) {
-      return {
-        width: (w / w) * ratio,
-        height: (h / w) * ratio,
-      }
-    }
+    const ratio = (w / 1800) * 2
     return {
-      width: (w / h) * ratio,
-      height: (h / h) * ratio,
+      width: (w / w) * ratio,
+      height: (h / w) * ratio,
     }
   }
 }

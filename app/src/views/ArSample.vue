@@ -4,8 +4,7 @@
    arjs="debugUIEnabled:false; trackingMethod: best; sourceType: webcam;"
    v-if="show"
   >
-    <div style="width: 100%; height: 100%;
-    position: fixed; left: 0; top: -100%; z-index: -1; overflow: hidden">
+    <div :class="$style.vrObject">
       <vr-object :text="text"></vr-object>
     </div>
     <a-assets>
@@ -23,7 +22,17 @@
     <!-- <a-marker-camera preset='hiro'></a-marker-camera> -->
   </a-scene>
 </template>
-
+<style module>
+  .vrObject {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 100%;
+    z-index: -1;
+    overflow: hidden;
+  }
+</style>
 <script>
 import 'aframe'
 import VrObject from '@/components/Vr/Object.vue'

@@ -1,11 +1,13 @@
 <template lang="pug">
-  div#target1(:class="$style.wrapper") {{text}}
+  div#target1(:class="$style.wrapper")
+    div {{text}}
 </template>
 <style module>
   .wrapper {
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
     color: blue;
-    max-width: 900px;
+    width: 900px;
     font-size: 36px;
     white-space: pre-wrap;
   }

@@ -4,11 +4,10 @@
    embedded
    background="color:  #24CAFF" >
     <a-assets>
-      <img :src="src" id="image1" v-if="src">
       <img src="@/assets/images/vr/businesscard.png" id="businesscard" />
     </a-assets>
-    <a-image src="#image1" :position="`0.55 ${size.height} -3.3`"
-      :width="size.width" :height="size.height" v-if="src"></a-image>
+    <a-image :src="src" :position="`0.55 ${size.height} -3.3`"
+      :width="size.width" :height="size.height" id="object"></a-image>
     <a-image
       src="#businesscard"
       width="1.64545" height="1"
@@ -19,7 +18,7 @@
 
 <script>
 import 'aframe'
-import Object2Canvas from '@/utils/Object2Canvas'
+// import Object2Canvas from '@/utils/Object2Canvas'
 
 export default {
   name: 'VrScene',
@@ -40,11 +39,11 @@ export default {
   },
   async mounted() {
     this.show = true
-    await this.$nextTick()
-    const object2Canvas = new Object2Canvas(this.node)
-    await object2Canvas.init()
-    this.src = await object2Canvas.toDataURL('image/png')
-    this.size = await object2Canvas.aframeSize()
+    // await this.$nextTick()
+    // const object2Canvas = new Object2Canvas(this.node)
+    // await object2Canvas.init()
+    // this.src = await object2Canvas.toDataURL('image/png')
+    // this.size = await object2Canvas.aframeSize()
   },
   metaInfo() {
     return {
