@@ -5,7 +5,7 @@
    v-if="show"
   >
     <div style="width: 100%; height: 100%;
-    position: fixed; left: 0; top: 0; z-index: -1; overflow: hidden">
+    position: fixed; left: 0; top: -100%; z-index: -1; overflow: hidden">
       <vr-object :text="text"></vr-object>
     </div>
     <a-assets>
@@ -13,7 +13,7 @@
     </a-assets>
     <!-- <a-marker type="barcode" value="63"> -->
     <a-marker type="pattern" :url="markerUrl" smooth="true" v-if="show && src">
-      <a-image src="#image1" rotation="-60 0 0" position=" 0 0.5 -0.5"
+      <a-image src="#image1" rotation="-60 0 0" :position="`0 ${size.height} -0.5`"
       :width="size.width" :height="size.height"></a-image>
       <!--<a-text :value="text"
       position=" 0 0.5 -0.5" align="center"
@@ -52,21 +52,10 @@ export default {
   },
   methods: {
     async createMaterial(id = '#target1') {
-      const canvas = await new Object2Canvas(document.querySelector(id)).canvas()
-      this.src = canvas.toDataURL('image/png')
-      const w = canvas.width
-      const h = canvas.height
-      if (w < h) {
-        this.size = {
-          width: w / w,
-          height: h / w,
-        }
-      } else {
-        this.size = {
-          width: w / h,
-          height: h / h,
-        }
-      }
+      const object2Canvas = await new Object2Canvas(document.querySelector(id))
+      await object2Canvas.init()
+      this.src = await object2Canvas.toDataURL('image/png')
+      this.size = await object2Canvas.aframeSize()
     },
   },
   async mounted() {

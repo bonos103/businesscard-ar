@@ -16,7 +16,7 @@
           vr-object(:text="value")
       //- img(:src="src" v-if="src")
     div(:class="$style.vr")
-      iframe(width="100%", height="100%" src="https://localhost:8080/vr?text=hoge", allowfullscreen="yes", allowvr="yes", scrolling="no", :class="$style.iframe")
+      iframe(width="100%", height="100%", :src="`https://localhost:8080/vr?text=${text}`", allowfullscreen="yes", allowvr="yes", scrolling="no", :class="$style.iframe")
 </template>
 <style module>
   .wrapper {

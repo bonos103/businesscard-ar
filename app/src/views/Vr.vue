@@ -1,17 +1,28 @@
 <template lang="pug">
-  Material
+  div(:class="$style.wrapper")
+    Object(ref="material", :text="text")
 </template>
+<style module>
+  .wrapper {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    overflow: hidden;
+  }
+</style>
 <script>
 import Vue from 'vue'
-import Test from '@/components/Vr/Test.vue'
-import Material from '@/components/Vr/Material.vue'
+import VrScene from '@/components/Vr/VrScene.vue'
+import Object from '@/components/Vr/Object.vue'
 import router from '@/router'
 
 export default {
   name: 'Vr',
   components: {
-    Material,
-    Test,
+    Object,
   },
   data() {
     return {
@@ -23,13 +34,17 @@ export default {
     if (this.$route.query.text) {
       this.text = this.$route.query.text
     }
-  },
-  beforeMount() {
     const el = document.body.appendChild(document.createElement('div'))
     new Vue({
       router,
-      render: h => h(Test),
+      render: h => h(VrScene, {
+        props: {
+          node: this.$refs.material.$el,
+        },
+      }),
     }).$mount(el)
+  },
+  beforeMount() {
   },
   metaInfo() {
     return {
