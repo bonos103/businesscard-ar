@@ -1,15 +1,13 @@
 <template lang="pug">
-  a-icon(:component="ArIcon")
+  a-icon(:component="ArIcon", :style="customStyle")
 </template>
 <script>
-import qrCodeSvg from '@/assets/images/icons/qr-code.svg?component'
-
-console.log(qrCodeSvg)
-const ArIcon = {
-  template: qrCodeSvg,
-}
+import ArIcon from '@/assets/images/icons/qr-code.svg?component'
 
 export default {
+  props: {
+    customStyle: { type: Object },
+  },
   data() {
     return {
       ArIcon,

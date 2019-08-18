@@ -12,10 +12,10 @@
       div(v-if="isShow")
         div(:class="$style.vrObject")
           vr-object(:text="value")
-      a-button(type="primary", icon="download", size="large")
-        a-icon(type="home")
+      a-button(type="primary", size="large", :class="$style.confirmButton", @click="isQrModal = true")
+        ar-icon(:custom-style="{ fontSize: '1.5em' }")
         | ARで確認する
-      qr-code-confirm-modal(v-model="isQrModal")
+      qr-code-confirm-modal(v-model="isQrModal", v-if="isQrModal")
         p hoge
       //- img(:src="src" v-if="src")
     div(:class="$style.vr")
@@ -59,6 +59,10 @@
   .iframe {
     min-height: 50vh;
     border: 0;
+  }
+  .confirmButton {
+    display: inline-flex;
+    align-items: center;
   }
 </style>
 <script>
