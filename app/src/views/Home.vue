@@ -12,6 +12,11 @@
       div(v-if="isShow")
         div(:class="$style.vrObject")
           vr-object(:text="value")
+      a-button(type="primary", icon="download", size="large")
+        a-icon(type="home")
+        | ARで確認する
+      qr-code-confirm-modal(v-model="isQrModal")
+        p hoge
       //- img(:src="src" v-if="src")
     div(:class="$style.vr")
       iframe#iframe(width="100%", height="100%", :src="`https://localhost:8080/vr?text=.`", allowfullscreen="yes", allowvr="yes", scrolling="no", :class="$style.iframe")
@@ -57,18 +62,22 @@
   }
 </style>
 <script>
+import ArIcon from '@/components/Icon/ArIcon.vue'
 import LayoutContent from '@/components/Layout/Content.vue'
 import TextHeading from '@/components/Text/Heading.vue'
 import QrCode from '@/components/QrCode/index.vue'
+import QrCodeConfirmModal from '@/components/QrCode/ConfirmModal.vue'
 import VrObject from '@/components/Vr/Object.vue'
 import Object2Canvas from '@/utils/Object2Canvas'
 
 export default {
   name: 'home',
   components: {
+    ArIcon,
     LayoutContent,
     TextHeading,
     QrCode,
+    QrCodeConfirmModal,
     VrObject,
   },
   data() {
@@ -84,6 +93,7 @@ export default {
       value: defaultValue,
       timer: null,
       isShow: false,
+      isQrModal: false,
     }
   },
   mounted() {
@@ -106,15 +116,10 @@ export default {
       this.text = value
     },
     async reloadObject() {
-      console.log('hoge1')
       const object2Canvas = new Object2Canvas(document.querySelector('#target1'))
-      console.log('hoge2')
       await object2Canvas.init()
-      console.log('hoge3')
       this.src = await object2Canvas.toDataURL('image/png')
-      console.log('hoge4')
       this.size = await object2Canvas.aframeSize()
-      console.log('hoge5')
       this.updateIframe()
     },
     updateIframe() {

@@ -1,5 +1,5 @@
 <template lang="pug">
-  h1(:class="$style.header") QRAR
+  h1(:class="$style.header") 名刺作成ツール QRAR
 </template>
 
 <style module>
