@@ -30,8 +30,7 @@
   }
 </style>
 <script>
-import QRCode from 'qrcode'
-import THREEx from '@/assets/javascripts/threex-arpatternfile'
+import MarkerPattern from '@/utils/MarkerPattern'
 
 export default {
   props: {
@@ -41,6 +40,7 @@ export default {
   data() {
     return {
       canvas: null,
+      markerSrc: null,
       SITE_URL: process.env.VUE_APP_URL,
     }
   },
@@ -55,13 +55,8 @@ export default {
     async createQRCode(value) {
       const link = new URL('ar-sample', this.SITE_URL)
       link.searchParams.append('text', value)
-      this.imgSrc = await QRCode.toDataURL(link.href)
-      return new Promise((resolve) => {
-        THREEx.ArPatternFile.buildFullMarker(this.imgSrc, 0.5, 300, 'black', (imageURL) => {
-          this.markerSrc = imageURL
-          resolve(imageURL)
-        })
-      })
+      const markerPattern = new MarkerPattern(link.href)
+      this.markerSrc = await markerPattern.markerImage
     },
     async updateCanvas() {
       const cvs = this.$refs.canvas
