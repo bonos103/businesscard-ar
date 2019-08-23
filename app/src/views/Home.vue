@@ -1,28 +1,32 @@
 <template lang="pug">
   div(:class="$style.wrapper")
-    layout-content(:class="$style.main")
-      text-heading {{title}}
-      div
-        a-textarea(
-          v-model="value",
-          :autosize="{ minRows: 4, maxRows: 6 }"
-        )
-      div
-        qr-code(:text="text")
+    div(:class="$style.creative")
+      layout-content(:class="$style.main")
+        //- text-heading {{title}}
+        div(:class="$style.textarea")
+          a-textarea(
+            v-model="value",
+            :autosize="{ minRows: 10, maxRows: 18 }"
+          )
+        //- div
+          qr-code(:text="text")
+        a-button(type="primary", size="large", :class="$style.confirmButton", @click="isQrModal = true")
+          ar-icon(:custom-style="{ fontSize: '1.5em' }")
+          | ARで確認する
+        qr-code-confirm-modal(v-model="isQrModal", :text="value", v-if="isQrModal")
+          p hoge
+        //- img(:src="src" v-if="src")
+      div(:class="$style.vr")
+        iframe#iframe(width="100%", height="100%", :src="`https://localhost:8080/vr?text=.`", allowfullscreen="yes", allowvr="yes", scrolling="no", :class="$style.iframe")
       div(v-if="isShow")
         div(:class="$style.vrObject")
           vr-object(:text="value")
-      a-button(type="primary", size="large", :class="$style.confirmButton", @click="isQrModal = true")
-        ar-icon(:custom-style="{ fontSize: '1.5em' }")
-        | ARで確認する
-      qr-code-confirm-modal(v-model="isQrModal", v-if="isQrModal")
-        p hoge
-      //- img(:src="src" v-if="src")
-    div(:class="$style.vr")
-      iframe#iframe(width="100%", height="100%", :src="`https://localhost:8080/vr?text=.`", allowfullscreen="yes", allowvr="yes", scrolling="no", :class="$style.iframe")
 </template>
 <style module>
   .wrapper {
+    width: 100%;
+  }
+  .creative {
     width: 100%;
     @media (--md) {
       display: flex;
@@ -30,12 +34,17 @@
   }
   .main {
     flex: 1 1 66.66%;
+    padding-top: 20px;
     @media (--md) {
-      flex: 1 1 60%
+      flex: 1 1 60%;
     }
     @media (--lg) {
       flex: 1 1 50%;
+      padding: 30px 30px 0;
     }
+  }
+  .textarea {
+    margin-bottom: 30px;
   }
   .vrObject {
     width: 100%;
@@ -57,8 +66,17 @@
     }
   }
   .iframe {
-    min-height: 50vh;
+    min-height: 60vw;
     border: 0;
+    @media (--md) {
+      min-height: 30vw;
+    }
+    @media (--lg) {
+      min-height: 40vw;
+    }
+    @media (--sm) {
+      margin-top: 30px;
+    }
   }
   .confirmButton {
     display: inline-flex;
@@ -85,7 +103,7 @@ export default {
     VrObject,
   },
   data() {
-    const defaultValue = 'Autosize height with\n\n minimum and maximum number of lines Autosize height\n with minimum and maximum number of lines'
+    const defaultValue = 'ここに\nARで表示したい文字を\n入力してください。'
     return {
       src: null,
       size: {
