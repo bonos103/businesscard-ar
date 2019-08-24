@@ -2,17 +2,17 @@
   div(:class="$style.wrapper")
     div(:class="$style.creative")
       layout-content(:class="$style.main")
-        //- text-heading {{title}}
+        text-heading Try it out
         div(:class="$style.textarea")
           a-textarea(
             v-model="value",
-            :autosize="{ minRows: 10, maxRows: 18 }"
           )
         //- div
           qr-code(:text="text")
-        a-button(type="primary", size="large", :class="$style.confirmButton", @click="isQrModal = true")
-          ar-icon(:custom-style="{ fontSize: '1.5em' }")
-          | ARで確認する
+        div
+          a-button(type="primary", size="large", :class="$style.confirmButton", @click="isQrModal = true")
+            ar-icon(:custom-style="{ fontSize: '1.5em' }")
+            | ARで確認する
         qr-code-confirm-modal(v-model="isQrModal", :text="value", v-if="isQrModal")
           p hoge
         //- img(:src="src" v-if="src")
@@ -34,6 +34,8 @@
   }
   .main {
     flex: 1 1 66.66%;
+    display: flex;
+    flex-direction: column;
     padding-top: 20px;
     @media (--md) {
       flex: 1 1 60%;
@@ -44,7 +46,12 @@
     }
   }
   .textarea {
+    flex: 1 1 auto;
     margin-bottom: 30px;
+    & textarea {
+      height: 100%;
+      min-height: 10em;
+    }
   }
   .vrObject {
     width: 100%;
@@ -81,6 +88,10 @@
   .confirmButton {
     display: inline-flex;
     align-items: center;
+    @media (--md) {
+      font-size: 2rem;
+      height: 50px;
+    }
   }
 </style>
 <script>

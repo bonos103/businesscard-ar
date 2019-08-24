@@ -5,7 +5,9 @@
 <style module>
   .heading {
     font-size: 2.4rem;
-    margin-top: 1em;
     margin-bottom: 1em;
+    @media (--md) {
+      font-size: 3rem;
+    }
   }
 </style>
