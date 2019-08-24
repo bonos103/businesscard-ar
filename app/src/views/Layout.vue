@@ -1,6 +1,6 @@
 <template lang="pug">
   a-layout(:class="$style.layout")
-    a-layout-header
+    a-layout-header(:class="$style.header")
       layout-header
     a-layout-content(:class="$style.content")
       router-view
@@ -25,5 +25,11 @@ export default {
   .content {
     flex: 1 0 auto;
     display: flex;
+  }
+  .header {
+    padding: 0 20px;
+    @media (--md) {
+      padding: 0 30px;
+    }
   }
 </style>

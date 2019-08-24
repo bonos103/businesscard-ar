@@ -7,6 +7,8 @@
       | QRコードを読み込むとWebブラウザを開きます。
       br
       | ブラウザ上で起動したカメラをこちらのQRコードに向けてください。
+    div(:class="$style.registerButton")
+      a-button(type="primary", size="large") オリジナルARを作成する(無料)
 </template>
 <style module>
   .title{
@@ -27,6 +29,10 @@
         display: none;
       }
     }
+  }
+  .registerButton {
+    text-align: center;
+    margin-top: 30px;
   }
 </style>
 <script>
