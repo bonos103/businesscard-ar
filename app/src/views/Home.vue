@@ -21,6 +21,20 @@
       div(v-if="isShow")
         div(:class="$style.vrObject")
           vr-object(:text="value")
+    div(:class="$style.section")
+      div(:class="$style.sectionTitle") 使い方
+      div(:class="$style.step")
+        div(:class="$style.stepItem")
+          img(:class="$style.stepImage", src="@/assets/images/top/step1.png")
+          div 読み込む
+        div(:class="$style.stepItem")
+          img(:class="$style.stepImage", src="@/assets/images/top/step2.png")
+          div かざす
+        div(:class="$style.stepItem")
+          img(:class="$style.stepImage", src="@/assets/images/top/step3.png")
+          div 体験する
+    div(:class="$style.registerButton")
+      a-button(type="primary", size="large") オリジナルARを作成する(無料)
 </template>
 <style module>
   .wrapper {
@@ -92,6 +106,57 @@
       font-size: 2rem;
       height: 50px;
     }
+  }
+
+  .section {
+    padding-top: 20px;
+    @media (--md) {
+      padding-top: 40px;
+    }
+  }
+  .sectionTitle {
+    font-size: 2.4rem;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    @media (--md) {
+      font-size: 3.2rem;
+    }
+  }
+  .step {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1200px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    @media (--md) {
+      padding-top: 30px;
+      padding-bottom: 60px;
+    }
+  }
+  .stepItem {
+    flex: 1 1 33.33%;
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-align: center;
+    @media (--md) {
+      font-size: 2.4rem;
+    }
+  }
+  .stepImage {
+    width: 100%;
+    max-width: 100px;
+    margin-bottom: 20px;
+    @media (--md) {
+      max-width: 170px;
+    }
+  }
+  .registerButton {
+    text-align: center;
   }
 </style>
 <script>
