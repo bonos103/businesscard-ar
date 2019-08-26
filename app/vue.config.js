@@ -29,6 +29,9 @@ module.exports = {
           minChunks: 2,
         },
       },
+      resolve: {
+        extensions: ['.js', '.vue'],
+      },
     }
   },
   css: {

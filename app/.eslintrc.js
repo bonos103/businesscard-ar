@@ -13,7 +13,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'semi': ['error', 'never'],
     'max-len': ['error', { 'code': 100, 'ignoreComments': true, 'ignoreTrailingComments': true, 'ignoreUrls': true, 'ignoreStrings': true, 'ignoreTemplateLiterals': true, 'ignoreRegExpLiterals': true }],
-    'import/extensions': ['error', 'never'],
+    'import/extensions': ['error', 'always'],
   },
   parserOptions: {
     parser: 'babel-eslint',
