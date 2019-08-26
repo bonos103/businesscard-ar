@@ -35,6 +35,8 @@
           div 体験する
     div(:class="$style.registerButton")
       a-button(type="primary", size="large") オリジナルARを作成する(無料)
+      br
+      a-button(type="link", size="large") 登録済みの方
 </template>
 <style module>
   .wrapper {
