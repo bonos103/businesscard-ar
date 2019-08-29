@@ -1,16 +1,20 @@
 'use strict'
 
 class ConvertEmptyStringsToNull {
-  static async handle({ request }, next) {
+  async handle({ request }, next) {
     if (Object.keys(request.body).length) {
-      request.body = Object.assign(
-        ...Object.keys(request.body).map(key => ({
-          [key]: request.body[key] !== '' ? request.body[key] : null,
-        })),
-      )
+      request.body = this.string2null(request.body)
     }
 
     await next()
+  }
+
+  static string2null(body) {
+    return Object.assign(
+      ...Object.keys(body).map(key => ({
+        [key]: body[key] !== '' ? body[key] : null,
+      })),
+    )
   }
 }
 
