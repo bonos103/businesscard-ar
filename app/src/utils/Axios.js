@@ -1,10 +1,13 @@
 import axios from 'axios'
 import Cookie from 'universal-cookie'
 
+const API_URL = process.env.VUE_APP_API_URL
+
 class Axios {
-  constructor() {
+  constructor(url) {
+    this.url = url || `${API_URL}`
     this.client = axios.create({
-      baseURL: `${process.env.VUE_API_URL}/api/v1`,
+      baseURL: this.url,
     })
     this.client.interceptors.request.use((config) => {
       const cookies = new Cookie()
