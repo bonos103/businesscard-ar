@@ -6,7 +6,7 @@
       | QRAR
     div(:class="$style.menu")
       div(:class="$style.buttonGroup")
-        a(href="#", :class="$style.button") 新規登録
+        router-link(to="/signup", :class="$style.button") 新規登録
         a(href="#", :class="$style.button") ログイン
 </template>
 <style module>
@@ -17,7 +17,7 @@
   }
   .title {
     color: #fff;
-    font-style: 2rem;
+    font-size: 2rem;
     margin-bottom: 0;
     @media (--md) {
       & br {
