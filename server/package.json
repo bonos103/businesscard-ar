@@ -30,10 +30,11 @@
     "@adonisjs/validator": "^5.0.6",
     "@adonisjs/vow": "^1.0.17",
     "moment": "^2.24.0",
-    "mysql2": "^1.6.5"
+    "mysql2": "^1.6.5",
+    "pem": "^1.14.2"
   },
   "devDependencies": {
-    "eslint": "^6.1.0",
+    "eslint": "5",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-watch": "^6.0.0"

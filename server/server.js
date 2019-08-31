@@ -19,8 +19,21 @@
 
 const { Ignitor } = require('@adonisjs/ignitor')
 const Ford = require('@adonisjs/fold')
+const https = require('https')
+const pem = require('pem')
 
-new Ignitor(Ford)
-  .appRoot(__dirname)
-  .fireHttpServer()
-  .catch(console.error)
+pem.createCertificate({ days: 1, selfSigned: true }, (error, keys) => {
+  if (error) {
+    return console.log(error)
+  }
+
+  const options = {
+    key: keys.serviceKey,
+    cert: keys.certificate,
+  }
+
+  return new Ignitor(Ford)
+    .appRoot(__dirname)
+    .fireHttpServer(handler => https.createServer(options, handler))
+    .catch(console.error)
+})

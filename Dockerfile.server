@@ -2,6 +2,8 @@ FROM node:10-alpine
 
 WORKDIR /app
 
+RUN apk add openssl
+
 RUN yarn global add @adonisjs/cli
 
 COPY ./server/package.json ./
