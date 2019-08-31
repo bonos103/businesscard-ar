@@ -16,7 +16,15 @@ module.exports = {
   | Function - Receives the current origin and should return one of the above values.
   |
   */
-  origin: false,
+  // origin: false,
+  origin: (currentOrigin) => {
+    console.log(currentOrigin)
+    const whiteList = [
+      'https://localhost:8080',
+      'https://192.168.43.107:8080',
+    ]
+    return whiteList.includes(currentOrigin)
+  },
 
   /*
   |--------------------------------------------------------------------------

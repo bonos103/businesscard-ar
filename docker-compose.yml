@@ -9,8 +9,8 @@ services:
     volumes:
       - ./app:/app
       - /app/node_modules
-    links:
-      - server:api-server
+    # links:
+    #   - server:api-server
     command: yarn serve
     logging:
       driver: "json-file"
