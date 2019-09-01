@@ -3,18 +3,18 @@
 const Antl = use('Antl')
 
 class UsersStoreUser {
-  static get rules() {
+  get rules() {
     return {
       email: 'required|email|unique:users,email',
       password: 'required',
     }
   }
 
-  static get validateAll() {
+  get validateAll() {
     return true
   }
 
-  static get messages() {
+  get messages() {
     const email = Antl.formatMessage('User.email')
     const password = Antl.formatMessage('User.password')
     return {
@@ -25,7 +25,7 @@ class UsersStoreUser {
     }
   }
 
-  static async fails(errorMessages) {
+  async fails(errorMessages) {
     return this.ctx.response.badRequest(errorMessages)
   }
 }

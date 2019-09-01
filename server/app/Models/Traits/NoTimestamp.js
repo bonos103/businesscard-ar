@@ -1,7 +1,7 @@
 'use strict'
 
 class NoTimestamp {
-  static register(Model) {
+  register(Model) {
     Object.defineProperties(Model, {
       createdAtColumn: {
         get: () => null,

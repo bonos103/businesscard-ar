@@ -6,11 +6,11 @@ const Encryption = use('Encryption')
 const User = use('App/Models/User')
 
 class UserController {
-  static index() {
+  index() {
     return { hoge: 'hoge' }
   }
 
-  static async store({ auth, request, response }) {
+  async store({ auth, request, response }) {
     const user = await User.create(request.only(['email', 'password']))
     const token = await auth.generate(user)
     const loginURL = new URL('/login', Env.get('URL'))
@@ -27,7 +27,7 @@ class UserController {
     })
   }
 
-  static async auth({ auth, request, response }) {
+  async auth({ auth, request, response }) {
     const { code } = request.only(['code'])
     const { email, password } = JSON.parse(Encryption.decrypt(code))
     const user = await User.create({ email, password })
@@ -39,7 +39,7 @@ class UserController {
     })
   }
 
-  static async login({ auth, request, response }) {
+  async login({ auth, request, response }) {
     const { email, password } = request.only(['email', 'password'])
     try {
       const token = await auth.attempt(email, password)

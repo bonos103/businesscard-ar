@@ -4,7 +4,7 @@
 const Model = use('Model')
 
 class User extends Model {
-  static boot() {
+  boot() {
     super.boot()
 
     /**
@@ -14,7 +14,7 @@ class User extends Model {
     this.addHook('beforeCreate', 'UserHook.hashPassword')
   }
 
-  static get visible() {
+  get visible() {
     return ['id', 'email', 'created_at', 'updated_at']
   }
 
