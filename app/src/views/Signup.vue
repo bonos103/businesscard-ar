@@ -7,13 +7,13 @@
       form
         form-control
           label(:class="$style.label") Email
-          a-input(placeholder="input your email address.", type="email")
+          a-input(placeholder="input your email address.", type="email", v-model="email")
         form-control
           label(:class="$style.label") Password
-          a-input(placeholder="半角英数 6文字以上", type="password")
+          a-input(placeholder="半角英数 6文字以上", type="password", v-model="password")
         form-control
           label(:class="$style.label") Confirm Password
-          a-input(placeholder="", type="password")
+          a-input(placeholder="", type="password", v-model="passwordConfirm")
         div(:class="$style.buttonBlock")
           a-button(size="large", ghost) 登録(無料)
 </template>
@@ -48,11 +48,33 @@
   }
 </style>
 <script>
+import { mapActions } from 'vuex'
+import { USER_REGISTER } from '@/store/modules/users/types'
 import FormControl from '@/components/Form/Control.vue'
 
 export default {
   components: {
     FormControl,
+  },
+  data() {
+    return {
+      email: '',
+      password: '',
+      passwordConfirm: '',
+    }
+  },
+  methods: {
+    ...mapActions('users', {
+      USER_REGISTER,
+    }),
+    async submit() {
+      const data = {
+        email: this.email,
+        password: this.password,
+      }
+      const response = await this.USER_REGISTER(data)
+      console.log(response)
+    },
   },
 }
 </script>

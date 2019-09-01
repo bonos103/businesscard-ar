@@ -1,5 +1,20 @@
+import Axios from '@/utils/Axios'
+import { USER_REGISTER } from './types'
+
+const axios = new Axios()
+
 export default {
+  namespaced: true,
+
   state: { count: 0 },
+
+  actions: {
+    async [USER_REGISTER](context, data) {
+      const result = await axios.post('/user', data)
+      return result
+    },
+  },
+
   mutations: {
     increment(state) {
       // `state` はモジュールのローカルステート

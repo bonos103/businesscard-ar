@@ -5,7 +5,7 @@ const API_URL = process.env.VUE_APP_API_URL
 
 class Axios {
   constructor(url) {
-    this.url = url || `${API_URL}`
+    this.url = url || `${API_URL}/api/v1`
     this.client = axios.create({
       baseURL: this.url,
     })
