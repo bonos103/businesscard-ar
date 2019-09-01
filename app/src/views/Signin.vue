@@ -11,11 +11,8 @@
         form-control
           label(:class="$style.label") Password
           a-input(placeholder="半角英数 6文字以上", type="password")
-        form-control
-          label(:class="$style.label") Confirm Password
-          a-input(placeholder="", type="password")
         div(:class="$style.buttonBlock")
-          a-button(size="large", ghost) 登録(無料)
+          a-button(size="large", ghost) ログイン
 </template>
 <style module>
   .wrapper {
