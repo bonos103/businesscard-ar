@@ -6027,7 +6027,7 @@ lodash@3.6.x:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.6.0.tgz#5266a8f49dd989be4f9f681b6f2a0c55285d0d9a"
   integrity sha1-Umao9J3Zib5Pn2gbbyoMVShdDZo=
 
-lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0:
+lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0:
   version "4.17.15"
   resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha1-tEf2ZwoEVbv+7dETku/zMOoJdUg=
@@ -9942,6 +9942,11 @@ vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.npm.taobao.org/vary/download/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
+
+vee-validate@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/vee-validate/-/vee-validate-3.0.3.tgz#3426dbd35e4d3e46b4b4d64f7b74734346d63019"
+  integrity sha512-DsM1h1KDrUNzyL90JTfZkz6wmcGC033g2PjWhW40uU4rySueBg0tq+bb5zois/1vRAfNCXL5JVwVWeDQec4wuw==
 
 vendors@^1.0.0:
   version "1.0.3"

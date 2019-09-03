@@ -10,7 +10,12 @@
         //- div
           qr-code(:text="text")
         div
-          a-button(type="primary", size="large", :class="$style.confirmButton", @click="isQrModal = true")
+          a-button(
+            type="primary",
+            size="large",
+            :class="$style.confirmButton",
+            @click="isQrModal = true"
+          )
             ar-icon(:custom-style="{ fontSize: '1.5em' }")
             | ARで確認する
         qr-code-confirm-modal(v-model="isQrModal", :text="value", v-if="isQrModal")

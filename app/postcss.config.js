@@ -18,12 +18,12 @@ module.exports = {
             resolve('./src/assets/stylesheets/media.css'),
           ],
         },
-        // 'custom-properties': {
-        //   preserve: false,
-        //   importFrom: [
-        //     resolve('./src/assets/stylesheets/variables.css'),
-        //   ],
-        // },
+        'custom-properties': {
+          preserve: false,
+          importFrom: [
+            resolve('./src/assets/stylesheets/variables.css'),
+          ],
+        },
       },
     },
   },
