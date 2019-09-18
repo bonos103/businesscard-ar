@@ -9,6 +9,7 @@
         ref="observer",
         @submit.prevent="handleSubmit",
         :class="$style.form",
+        novalidate,
       )
         form-control
           label(:class="$style.label") E-mail
@@ -142,6 +143,11 @@ export default {
         })
       })
       if (response) {
+        notification.success({
+          message: '登録ありがとうございます。',
+          description: '入力いただいたメールアドレスに登録完了メールを送信しました。',
+          duration: 6,
+        })
         console.log(response)
       }
     },
