@@ -13,47 +13,31 @@
       )
         form-control
           label(:class="$style.label") E-mail
-          validation-provider(
+          text-field(
             name="E-mail",
             rules="required|email",
-            v-slot="{ errors, touched, dirty }",
+            v-model="email",
+            placeholder="input your email address.",
+            type="email",
           )
-            a-input(
-              placeholder="input your email address.",
-              type="email",
-              v-model="email",
-              :class="$style.input",
-            )
-            span(:class="$style.error", v-if="touched && dirty") {{errors[0]}}
         form-control
           label(:class="$style.label") Password
-          validation-provider(
+          text-field(
             name="Password",
             rules="required|alpha_dash|min:6",
-            v-slot="{ errors, touched, dirty }",
             vid="password",
+            v-model="password",
+            placeholder="半角英数 6文字以上",
+            type="password",
           )
-            a-input(
-              placeholder="半角英数 6文字以上",
-              type="password",
-              v-model="password",
-              :class="$style.input",
-            )
-            span(:class="$style.error", v-if="touched && dirty") {{errors[0]}}
         form-control
           label(:class="$style.label") Confirm Password
-          validation-provider(
+          text-field(
             name="Password",
             rules="required|confirmed:password",
-            v-slot="{ errors, touched, dirty }",
+            v-model="passwordConfirm",
+            type="password",
           )
-            a-input(
-              placeholder="",
-              type="password",
-              v-model="passwordConfirm",
-              :class="$style.input"
-            )
-            span(:class="$style.error", v-if="touched && dirty") {{errors[0]}}
         div(:class="$style.buttonBlock")
           a-button(htmlType="submit", size="large", ghost) 登録(無料)
 </template>
@@ -94,31 +78,21 @@
     text-align: center;
     margin-top: 40px;
   }
-  .input {
-    width: 100%;
-  }
-  .error {
-    display: inline-block;
-    color: var(--danger);
-    font-size: 1.4rem;
-    line-height: 1.5;
-    margin-top: 0.3em;
-    margin-bottom: 0.3em;
-  }
 </style>
 <script>
 import _get from 'lodash/get'
 import { mapActions } from 'vuex'
-import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import { ValidationObserver } from 'vee-validate'
 import { notification } from 'ant-design-vue'
 import { USER_REGISTER } from '@/store/modules/users/types'
 import FormControl from '@/components/Form/Control.vue'
+import TextField from '@/components/Form/TextField.vue'
 
 export default {
   components: {
     ValidationObserver,
-    ValidationProvider,
     FormControl,
+    TextField,
   },
   data() {
     return {
