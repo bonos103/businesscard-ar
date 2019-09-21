@@ -14,7 +14,7 @@
       rotation="-90 0 0"
       position=" 0 0 -3"></a-image>
     <a-entity rotation="-20 0 0" >
-      <a-camera id="camera" far=4000 fov=70 zoom=1.5 ></a-camera>
+      <a-camera id="camera" far=1000 fov=80 zoom=1.5 ></a-camera>
     </a-entity>
   </a-scene>
 </template>
