@@ -71,7 +71,11 @@
   }
 </style>
 <script>
+import _get from 'lodash/get'
+import { mapActions } from 'vuex'
 import { ValidationObserver } from 'vee-validate'
+import { notification } from 'ant-design-vue'
+import { USER_LOGIN } from '@/store/modules/users/types'
 import FormControl from '@/components/Form/Control.vue'
 import TextField from '@/components/Form/TextField.vue'
 
@@ -88,6 +92,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions('users', {
+      USER_LOGIN,
+    }),
     async handleSubmit() {
       const isValid = await this.$refs.observer.validate()
       Object.values(this.$refs.observer.refs).forEach(provider => provider.setFlags({
@@ -98,8 +105,24 @@ export default {
         await this.submit()
       }
     },
-    submit() {
-      console.log('submit!')
+    async submit() {
+      const data = {
+        email: this.email,
+        password: this.password,
+      }
+      const response = await this.USER_LOGIN(data).catch((err) => {
+        const message = _get(err, 'response.data.message')
+        notification.error({
+          message,
+        })
+      })
+      if (response) {
+        notification.success({
+          message: _get(response, 'data.message'),
+          duration: 6,
+        })
+        console.log(response)
+      }
     },
   },
 }

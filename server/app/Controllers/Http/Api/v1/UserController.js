@@ -3,6 +3,7 @@
 const Mail = use('Mail')
 const Env = use('Env')
 const Encryption = use('Encryption')
+const Logger = use('Logger')
 const User = use('App/Models/User')
 
 class UserController {
@@ -48,6 +49,7 @@ class UserController {
         token,
       })
     } catch (err) {
+      Logger.error(err)
       return response.unauthorized({
         message: 'メールアドレスかパスワードが間違っています。',
         field: 'password',

@@ -1,5 +1,5 @@
 import Axios from '@/utils/Axios'
-import { USER_REGISTER } from './types'
+import { USER_LOGIN, USER_REGISTER } from './types'
 
 const axios = new Axios()
 
@@ -11,6 +11,10 @@ export default {
   actions: {
     async [USER_REGISTER](context, data) {
       const result = await axios.post('/user', data)
+      return result
+    },
+    async [USER_LOGIN](context, data) {
+      const result = await axios.post('/user/login', data)
       return result
     },
   },

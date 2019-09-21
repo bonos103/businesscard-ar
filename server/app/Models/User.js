@@ -4,7 +4,7 @@
 const Model = use('Model')
 
 class User extends Model {
-  boot() {
+  static boot() {
     super.boot()
 
     /**

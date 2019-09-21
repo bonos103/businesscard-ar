@@ -7,7 +7,7 @@
     div(:class="$style.menu")
       div(:class="$style.buttonGroup")
         router-link(to="/signup", :class="$style.button") 新規登録
-        a(href="#", :class="$style.button") ログイン
+        router-link(to="/signin", :class="$style.button") ログイン
 </template>
 <style module>
   .header {
