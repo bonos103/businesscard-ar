@@ -1,7 +1,7 @@
 import _get from 'lodash/get'
 import Cookie from 'universal-cookie'
 import Axios from '@/utils/Axios'
-import { USER_LOGIN, USER_REGISTER } from './types'
+import { USER_CHECK, USER_LOGIN, USER_REGISTER } from './types'
 
 const axios = new Axios()
 
@@ -18,6 +18,10 @@ export default {
   state: { count: 0 },
 
   actions: {
+    async [USER_CHECK]() {
+      const result = await axios.get('/user/check')
+      return result
+    },
     async [USER_REGISTER](context, data) {
       const result = await axios.post('/user', data)
       saveToken(_get(result, 'data.token'))

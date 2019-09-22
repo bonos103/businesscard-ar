@@ -19,9 +19,10 @@ const Route = use('Route')
 Route.get('/', () => ({ greeting: 'Hello world in JSON' }))
 
 Route.group(() => {
+  Route.get('user/check', 'UserController.check').middleware(['auth'])
+  Route.post('user/auth', 'UserController.auth').validator('User/AuthUser')
+  Route.post('user/login', 'UserController.login').middleware(['guest'])
   Route.resource('user', 'UserController').apiOnly().validator(new Map([
     [['user.store'], ['User/StoreUser']],
   ]))
-  Route.post('user/auth', 'UserController.auth').validator('User/AuthUser')
-  Route.post('user/login', 'UserController.login').middleware(['guest'])
 }).prefix('api/v1').namespace('Api/v1')

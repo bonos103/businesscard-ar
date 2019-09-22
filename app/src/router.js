@@ -1,11 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '@/store';
+import { USER_CHECK } from '@/store/modules/users/types'
 import Home from '@/views/Home.vue'
 import Layout from '@/views/Layout.vue'
+import Project from '@/views/Project.vue'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -14,17 +17,25 @@ export default new Router({
       component: Layout,
       children: [
         { path: '', name: 'Home', component: Home },
+        {
+          path: 'project',
+          name: 'Project',
+          component: Project,
+          meta: { requiredAuth: true },
+        },
       ],
     },
     {
       path: '/signin',
       name: 'Signin',
       component: () => import(/* webpackChunkName: "Auth" */'./views/Signin.vue'),
+      meta: { guestOnly: true },
     },
     {
       path: '/signup',
       name: 'Signup',
       component: () => import(/* webpackChunkName: "Auth" */'./views/Signup.vue'),
+      meta: { guestOnly: true },
     },
     {
       path: '/ar-sample',
@@ -44,3 +55,21 @@ export default new Router({
     },
   ],
 })
+
+router.beforeEach(async (to, from, next) => {
+  await store.dispatch(`users/${USER_CHECK}`).catch(() => {
+    if (to.matched.some(record => record.meta.requiredAuth)) {
+      return next({
+        path: '/sigin',
+        query: { redirect: to.fullPath },
+      })
+    }
+    return next()
+  })
+  if (to.matched.some(record => record.meta.guestOnly)) {
+    return next({ path: '/project' })
+  }
+  return next()
+})
+
+export default router

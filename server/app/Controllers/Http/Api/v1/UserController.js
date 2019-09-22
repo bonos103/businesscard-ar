@@ -40,13 +40,18 @@ class UserController {
     })
   }
 
+  check({ auth, response }) {
+    Logger.info(auth.current)
+    return response.accepted(auth.current && auth.current.user)
+  }
+
   async login({ auth, request, response }) {
     const { email, password } = request.only(['email', 'password'])
     try {
       const token = await auth.attempt(email, password)
       return response.ok({
         message: 'ログインしました',
-        token.token,
+        token: token.token,
       })
     } catch (err) {
       Logger.error(err)

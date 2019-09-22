@@ -119,6 +119,7 @@ export default {
         }
       })
       if (response) {
+        this.$router.push({ path: '/project' })
         notification.success({
           message: _get(response, 'data.message'),
           duration: 6,
