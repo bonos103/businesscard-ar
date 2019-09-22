@@ -112,16 +112,17 @@ export default {
       }
       const response = await this.USER_LOGIN(data).catch((err) => {
         const message = _get(err, 'response.data.message')
-        notification.error({
-          message,
-        })
+        if (message) {
+          notification.error({
+            message,
+          })
+        }
       })
       if (response) {
         notification.success({
           message: _get(response, 'data.message'),
           duration: 6,
         })
-        console.log(response)
       }
     },
   },

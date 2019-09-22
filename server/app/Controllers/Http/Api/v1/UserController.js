@@ -46,7 +46,7 @@ class UserController {
       const token = await auth.attempt(email, password)
       return response.ok({
         message: 'ログインしました',
-        token,
+        token.token,
       })
     } catch (err) {
       Logger.error(err)
