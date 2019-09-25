@@ -1,27 +1,38 @@
 <template lang="pug">
   div(:class="$style.header")
     h1(:class="$style.title")
-      logo-simple-icon
+      span 名刺作成ツール
+      br
+      | QRAR
     div(:class="$style.menu")
       div(:class="$style.buttonGroup")
+        router-link(to="/signup", :class="$style.button") 新規登録
+        router-link(to="/signin", :class="$style.button") ログイン
 </template>
 <style module>
   .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 60px;
-    background-color: #fff;
-    box-shadow: 0 0 10px color-mod(var(--black) a(10%));
-    padding: 0 20px;
-    @media (--md) {
-      padding: 0 30px;
-    }
   }
   .title {
-    color: var(--black);
-    font-size: 2.4rem;
+    color: #fff;
+    font-size: 2rem;
     margin-bottom: 0;
+    @media (--md) {
+      & br {
+        display: none;
+      }
+    }
+    @media (--sm) {
+      font-size: 1.6rem;
+      line-height: 1.2;
+      letter-spacing: 8px;
+      & span {
+        font-size: 1rem;
+        letter-spacing: 0;
+      }
+    }
   }
   .menu {}
   .buttonGroup {
@@ -37,12 +48,3 @@
     }
   }
 </style>
-<script>
-import LogoSimpleIcon from '@/components/Icon/LogoSimpleIcon.vue';
-
-export default {
-  components: {
-    LogoSimpleIcon,
-  },
-}
-</script>

@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from '@/store';
+import store from '@/store'
 import { USER_CHECK } from '@/store/modules/users/types'
 import Home from '@/views/Home.vue'
 import Layout from '@/views/Layout.vue'
+import LayoutHome from '@/views/LayoutHome.vue'
 import Project from '@/views/Project.vue'
 
 Vue.use(Router)
@@ -14,9 +15,15 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      component: Layout,
+      component: LayoutHome,
       children: [
         { path: '', name: 'Home', component: Home },
+      ],
+    },
+    {
+      path: '/',
+      component: Layout,
+      children: [
         {
           path: 'project',
           name: 'Project',
