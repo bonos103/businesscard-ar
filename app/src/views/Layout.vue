@@ -24,7 +24,9 @@ export default {
   }
   .content {
     flex: 1 0 auto;
-    display: flex;
+    background: #fff;
   }
-  .header {}
+  .header {
+    z-index: 1;
+  }
 </style>
