@@ -3,6 +3,13 @@ module.exports = {
   env: {
     node: true,
   },
+  settings: {
+    'import/resolver': {
+      webpack: {
+        config: require.resolve('@vue/cli-service/webpack.config.js'),
+      },
+    },
+  },
   extends: [
     'plugin:vue/essential',
     '@vue/airbnb',
@@ -16,6 +23,7 @@ module.exports = {
     'max-len': ['error', { 'code': 100, 'ignoreComments': true, 'ignoreTrailingComments': true, 'ignoreUrls': true, 'ignoreStrings': true, 'ignoreTemplateLiterals': true, 'ignoreRegExpLiterals': true }],
     'import/extensions': ['error', 'always', {
       js: 'never',
+      svg: 'never',
     }],
   },
   parserOptions: {
