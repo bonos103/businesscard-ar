@@ -5,7 +5,7 @@ import { USER_CHECK } from '@/store/modules/users/types'
 import Home from '@/views/Home.vue'
 import Layout from '@/views/Layout.vue'
 import LayoutHome from '@/views/LayoutHome.vue'
-import Project from '@/views/Project.vue'
+import Project from '@/views/Project/Index.vue'
 
 Vue.use(Router)
 
