@@ -6,6 +6,15 @@
           img(src="@/assets/images/project/qr.png")
         div(:class="$style.tool")
           edit-tool
+        component(
+          v-for="(item, index) in items",
+          :key="index",
+          is="ItemText",
+          :item="item",
+          :active="activeItem.includes(item)",
+          @activate="activateItem($event, item)",
+          @deactivate="deactivateItem($event, item)",
+        )
 
 </template>
 <style module>
@@ -48,10 +57,36 @@
 </style>
 <script>
 import EditTool from '@/components/Project/Edit/Tool.vue'
+import ItemText from '@/components/Project/Edit/ItemText.vue'
 
 export default {
   components: {
     EditTool,
+    ItemText,
+  },
+  data() {
+    return {
+      activeItem: [],
+      items: [
+        {
+          type: 'text',
+          value: 'hogehoge',
+          scaleX: 1,
+          scaleY: 1,
+          scaleZ: 1,
+          rotationX: 0,
+          rotationY: 0,
+          rotationZ: 0,
+          x: 0,
+          y: 1,
+          z: 0,
+          font: 18,
+          color: '#000000',
+          width: 3,
+          height: 2,
+        },
+      ],
+    }
   },
   mounted() {
     this.init()
@@ -64,6 +99,12 @@ export default {
     },
     handlePoint(e) {
       console.log(e)
+    },
+    activateItem(e, item) {
+      this.activeItem = [item]
+    },
+    deactivateItem() {
+      this.activeItem = []
     },
   },
 }
