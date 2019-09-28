@@ -15,7 +15,7 @@
 </style>
 <script>
 import Vue from 'vue'
-import VrScene from '@/components/Vr/VrScene.vue'
+import VrScene from '@/components/Vr/VrScene2.vue'
 import Object from '@/components/Vr/Object.vue'
 import router from '@/router'
 

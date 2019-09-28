@@ -205,7 +205,11 @@ export default {
   mounted() {
     this.isShow = true
     this.$nextTick(() => {
-      this.reloadObject()
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.reloadQRCode(this.value)
+        this.reloadObject()
+      }, 500)
     })
   },
   watch: {
@@ -234,7 +238,7 @@ export default {
       $image.setAttribute('src', this.src)
       $image.setAttribute('width', this.size.width)
       $image.setAttribute('height', this.size.height)
-      $image.setAttribute('position', `0.55 ${(this.size.height / 2) + 0.1} -3.3`)
+      $image.setAttribute('position', `0 ${this.size.height / 2 + 0.5} 0`)
     },
   },
   metaInfo() {
