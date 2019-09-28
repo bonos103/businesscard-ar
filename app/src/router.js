@@ -6,6 +6,7 @@ import Home from '@/views/Home.vue'
 import Layout from '@/views/Layout.vue'
 import LayoutHome from '@/views/LayoutHome.vue'
 import Project from '@/views/Project/Index.vue'
+import ProjectNew from '@/views/Project/New.vue'
 
 Vue.use(Router)
 
@@ -31,6 +32,12 @@ const router = new Router({
           meta: { requiredAuth: true },
         },
       ],
+    },
+    {
+      path: '/project/new',
+      name: 'ProjectNew',
+      component: ProjectNew,
+      meta: { requiredAuth: true },
     },
     {
       path: '/signin',
