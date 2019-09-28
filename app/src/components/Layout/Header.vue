@@ -11,13 +11,14 @@
           @touchend.prevent="toggleMenu()",
         )
           user-circle-icon
-          div(v-if="isMenu", :class="$style.userMenuBox")
-            div(:class="$style.userMenuHeader")
-              div(:class="$style.userMenuUser") tennisnowboarderyou@gmail.com
-            div(:class="$style.userMenuBody")
-              div
-                div(:class="$style.userMenuItem") アカウント
-                div(:class="$style.userMenuItem") ログアウト
+          transition(name="menu")
+            div(v-if="isMenu", :class="$style.userMenuBox")
+              div(:class="$style.userMenuHeader")
+                div(:class="$style.userMenuUser") tennisnowboarderyou@gmail.com
+              div(:class="$style.userMenuBody")
+                div
+                  div(:class="$style.userMenuItem") アカウント
+                  div(:class="$style.userMenuItem") ログアウト
 </template>
 <style module>
   .header {
@@ -79,6 +80,17 @@
   .userMenuItem {
     font-size: 1.4rem;
     padding: 0.3em 0;
+  }
+  :global {
+    & .menu-enter,
+    & .menu-leave-to {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    & .menu-enter-active,
+    & .menu-leave-active {
+      transition: opacity 0.3s, transform 0.3s;
+    }
   }
 </style>
 <script>
