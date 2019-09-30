@@ -13,6 +13,8 @@
   }
 </style>
 <script>
+import { mapActions } from 'vuex'
+import { NEW_PROJECT } from '@/store/modules/projects/types'
 import ProjectEditHeader from '@/components/Project/Edit/Header.vue'
 import ProjectEditBody from '@/components/Project/Edit/Body.vue'
 
@@ -20,6 +22,14 @@ export default {
   components: {
     ProjectEditHeader,
     ProjectEditBody,
+  },
+  mounted() {
+    this.NEW_PROJECT()
+  },
+  methods: {
+    ...mapActions('projects', {
+      NEW_PROJECT,
+    }),
   },
 }
 </script>

@@ -23,7 +23,7 @@
 
 <script>
 import 'aframe'
-// import Object2Canvas from '@/utils/Object2Canvas'
+import Object2Canvas from '@/utils/Object2Canvas'
 
 export default {
   name: 'VrScene',
@@ -44,11 +44,11 @@ export default {
   },
   async mounted() {
     this.show = true
-    // await this.$nextTick()
-    // const object2Canvas = new Object2Canvas(this.node)
-    // await object2Canvas.init()
-    // this.src = await object2Canvas.toDataURL('image/png')
-    // this.size = await object2Canvas.aframeSize()
+    await this.$nextTick()
+    const object2Canvas = new Object2Canvas(this.node)
+    await object2Canvas.init()
+    this.src = await object2Canvas.toDataURL('image/png')
+    this.size = await object2Canvas.aframeSize()
   },
   metaInfo() {
     return {

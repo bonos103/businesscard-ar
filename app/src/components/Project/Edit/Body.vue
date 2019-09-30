@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(:class="$style.wrap")
+  div(:class="$style.wrap", v-if="project")
     div(:class="$style.canvas", ref="canvas", @click="handlePoint")
       div(:class="$style.canvasInner")
         div(:class="$style.card")
@@ -7,13 +7,14 @@
         div(:class="$style.tool")
           edit-tool
         component(
-          v-for="(item, index) in items",
+          v-for="(item, index) in project.items",
           :key="index",
           is="ItemText",
           :item="item",
-          :active="activeItem.includes(item)",
+          :active="item.id === selectItemId",
           @activate="activateItem($event, item)",
           @deactivate="deactivateItem($event, item)",
+          @change="handleChange",
         )
 
 </template>
@@ -56,6 +57,8 @@
   }
 </style>
 <script>
+import { mapState, mapActions } from 'vuex'
+import { SELECT_ITEM_ID, SET_DATA } from '@/store/modules/projects/types'
 import EditTool from '@/components/Project/Edit/Tool.vue'
 import ItemText from '@/components/Project/Edit/ItemText.vue'
 
@@ -67,31 +70,22 @@ export default {
   data() {
     return {
       activeItem: [],
-      items: [
-        {
-          type: 'text',
-          value: 'hogehoge',
-          scaleX: 1,
-          scaleY: 1,
-          scaleZ: 1,
-          rotationX: 0,
-          rotationY: 0,
-          rotationZ: 0,
-          x: 0,
-          y: 1,
-          z: 0,
-          font: 18,
-          color: '#000000',
-          width: 3,
-          height: 2,
-        },
-      ],
     }
+  },
+  computed: {
+    ...mapState('projects', {
+      project: 'project',
+      selectItemId: 'selectItemId',
+    }),
   },
   mounted() {
     this.init()
   },
   methods: {
+    ...mapActions('projects', {
+      SELECT_ITEM_ID,
+      SET_DATA,
+    }),
     init() {
       const h = window.innerHeight
       const w = window.innerWidth
@@ -102,9 +96,15 @@ export default {
     },
     activateItem(e, item) {
       this.activeItem = [item]
+      this.SELECT_ITEM_ID(item.id)
     },
     deactivateItem() {
       this.activeItem = []
+      this.SELECT_ITEM_ID()
+    },
+    handleChange(data) {
+      console.log(data)
+      this.SET_DATA(data)
     },
   },
 }
