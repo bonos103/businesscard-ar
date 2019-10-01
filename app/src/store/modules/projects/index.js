@@ -1,6 +1,7 @@
 // import _get from 'lodash/get'
 // import Cookie from 'universal-cookie'
 // import Axios from '@/utils/Axios'
+import _get from 'lodash/get'
 import { NEW_PROJECT, SELECT_ITEM_ID, SET_DATA } from './types'
 
 // const axios = new Axios()
@@ -81,6 +82,13 @@ export default {
   },
 
   getters: {
+    selectItem(state) {
+      const items = _get(state, 'project.items')
+      if (items && items.length) {
+        return items.find(i => i.id === state.selectItemId)
+      }
+      return undefined
+    },
     doubleCount(state) {
       return state.count * 2
     },

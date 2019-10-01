@@ -11,11 +11,25 @@
           minus-icon
           div(:class="$style.zoomLabel") 100%
           plus-icon
-    div(:class="$style.toolHeader")
+    div(:class="$style.toolHeader", v-if="item")
       div(:class="$style.headerRight")
         div(:class="$style.toolHeaderItem")
           label サイズ
-          div(:class="$style.toolSize") 14
+          div(:class="$style.toolSize")
+            | {{item.fontSize}}
+            div(:class="$style.toolSizeSelect")
+              div(:class="$style.toolSizeSelectItem", @click="changeSize(10)", :active="item.fontSize === 10") 10
+              div(:class="$style.toolSizeSelectItem", @click="changeSize(11)", :active="item.fontSize === 11") 11
+              div(:class="$style.toolSizeSelectItem", @click="changeSize(12)", :active="item.fontSize === 12") 12
+              div(:class="$style.toolSizeSelectItem", @click="changeSize(14)", :active="item.fontSize === 14") 14
+              div(:class="$style.toolSizeSelectItem", @click="changeSize(16)", :active="item.fontSize === 16") 16
+              div(:class="$style.toolSizeSelectItem", @click="changeSize(18)", :active="item.fontSize === 18") 18
+              div(:class="$style.toolSizeSelectItem", @click="changeSize(20)", :active="item.fontSize === 20") 20
+              div(:class="$style.toolSizeSelectItem", @click="changeSize(24)", :active="item.fontSize === 24") 24
+              div(:class="$style.toolSizeSelectItem", @click="changeSize(28)", :active="item.fontSize === 28") 28
+              div(:class="$style.toolSizeSelectItem", @click="changeSize(32)", :active="item.fontSize === 32") 32
+              div(:class="$style.toolSizeSelectItem", @click="changeSize(40)", :active="item.fontSize === 40") 40
+
         div(:class="$style.toolHeaderItem")
           label カラー
           div(:class="$style.toolColor")
@@ -93,11 +107,41 @@
     }
   }
   .toolSize {
+    position: relative;
     font-size: 1.8rem;
     font-weight: bold;
     color: var(--black);
     cursor: pointer;
   }
+  .toolSizeSelect {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    background-color: color-mod(#fff a(90%));
+    border-radius: 6px;
+    transform: translate(-50%, 20px);
+    overflow: hidden;
+    &::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: 0;
+      width: 100%;
+      height: 20px;
+    }
+  }
+  .toolSizeSelectItem {
+    font-size: 1.4rem;
+    font-weight: normal;
+    padding: 0.5em 1em;
+    &:hover {
+      background-color: var(--gray-lighter);
+    }
+    &[active] {
+      background-color: var(--gray-lighter);
+    }
+  }
+
   .toolColor {
     width: 28px;
     height: 28px;
@@ -108,6 +152,8 @@
   }
 </style>
 <script>
+import { mapActions, mapGetters } from 'vuex'
+import { SET_DATA } from '@/store/modules/projects/types'
 import LogoSimpleIcon from '@/components/Icon/LogoSimpleIcon.vue'
 import MinusIcon from '@/components/Icon/MinusIcon.vue'
 import PlusIcon from '@/components/Icon/PlusIcon.vue'
@@ -117,6 +163,19 @@ export default {
     LogoSimpleIcon,
     MinusIcon,
     PlusIcon,
+  },
+  computed: {
+    ...mapGetters('projects', {
+      item: 'selectItem',
+    }),
+  },
+  methods: {
+    ...mapActions('projects', {
+      SET_DATA,
+    }),
+    changeSize(value) {
+      this.SET_DATA({ fontSize: value })
+    },
   },
 }
 </script>
