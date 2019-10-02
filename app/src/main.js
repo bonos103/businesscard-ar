@@ -2,6 +2,7 @@ import {
   Button,
   Col,
   Layout,
+  Dropdown,
   Icon,
   Input,
   Modal,
@@ -23,6 +24,7 @@ Vue.config.productionTip = false
 
 Vue.use(Button)
 Vue.use(Col)
+Vue.use(Dropdown)
 Vue.use(Icon)
 Vue.use(Input)
 Vue.use(Layout)
