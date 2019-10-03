@@ -11,13 +11,16 @@ const listener = {
         },
       })
     },
+    $listenRemove() {
+      if (this.$eventRemovers) {
+        this.$eventRemovers.forEach((eventRemover) => {
+          eventRemover.remove()
+        })
+      }
+    },
   },
   destroyed() {
-    if (this.$eventRemovers) {
-      this.$eventRemovers.forEach((eventRemover) => {
-        eventRemover.remove()
-      })
-    }
+    this.$listenRemove()
   },
 }
 export default listener

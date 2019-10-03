@@ -8,18 +8,18 @@
       spellcheck="false"
     )
     span(v-if="active")
-      div(:class="$style.moveKnob", position="top")
-      div(:class="$style.moveKnob", position="right")
-      div(:class="$style.moveKnob", position="bottom")
-      div(:class="$style.moveKnob", position="left")
-      div(:class="$style.knob", position="top-left")
-      div(:class="$style.knob", position="top-center")
-      div(:class="$style.knob", position="top-right")
-      div(:class="$style.knob", position="center-left")
-      div(:class="$style.knob", position="center-right")
-      div(:class="$style.knob", position="bottom-left")
-      div(:class="$style.knob", position="bottom-center")
-      div(:class="$style.knob", position="bottom-right")
+      knob-move(position="top")
+      knob-move(position="right")
+      knob-move(position="bottom")
+      knob-move(position="left")
+      knob-size(position="top-left", @change="handleKnobSize")
+      knob-size(position="top-center")
+      knob-size(position="top-right")
+      knob-size(position="center-left")
+      knob-size(position="center-right")
+      knob-size(position="bottom-left")
+      knob-size(position="bottom-center")
+      knob-size(position="bottom-right")
 </template>
 <style module>
   .item {
@@ -37,83 +37,7 @@
       border: 1px solid var(--cyan);
     }
   }
-  .knob {
-    position: absolute;
-    width: 9px;
-    height: 9px;
-    background-color: #fff;
-    border: 1px solid var(--cyan);
-    border-radius: 2px;
-    &[position='top-left'] {
-      top: -5px;
-      left: -5px;
-      cursor: nwse-resize;
-    }
-    &[position='top-center'] {
-      top: -5px;
-      left: calc(50% - 5px);
-      cursor: row-resize;
-    }
-    &[position='top-right'] {
-      top: -5px;
-      right: -5px;
-      cursor: nesw-resize;
-    }
-    &[position='center-left'] {
-      top: calc(50% - 5px);
-      left: -5px;
-      cursor: col-resize;
-    }
-    &[position='center-right'] {
-      top: calc(50% - 5px);
-      right: -5px;
-      cursor: col-resize;
-    }
-    &[position='bottom-left'] {
-      bottom: -5px;
-      left: -5px;
-      cursor: nesw-resize;
-    }
-    &[position='bottom-center'] {
-      bottom: -5px;
-      left: calc(50% - 5px);
-      cursor: row-resize;
-    }
-    &[position='bottom-right'] {
-      bottom: -5px;
-      right: -5px;
-      cursor: nwse-resize;
-    }
-  }
-  .moveKnob {
-    position: absolute;
-    background-color: transparent;
-    cursor: move;
-    &[position="top"],
-    &[position="bottom"] {
-      left: 0;
-      width: 100%;
-      height: 9px;
-    }
-    &[position="right"],
-    &[position="left"] {
-      top: 0;
-      width: 9px;
-      height: 100%;
-    }
-    &[position="top"] {
-      top: -5px;
-    }
-    &[position="bottom"] {
-      bottom: -5px;
-    }
-    &[position="right"] {
-      right: -5px;
-    }
-    &[position="left"] {
-      left: -5px;
-    }
-  }
+
   textarea.textarea {
     width: 100%;
     height: 100%;
@@ -132,12 +56,18 @@
 </style>
 <script>
 import EventListener from '@/utils/mixins/EventListener'
+import KnobMove from '@/components/Project/Edit/KnobMove.vue'
+import KnobSize from '@/components/Project/Edit/KnobSize.vue'
 
 export default {
   mixins: [EventListener],
   props: {
     active: { type: Boolean, default: true },
     item: { type: Object },
+  },
+  components: {
+    KnobMove,
+    KnobSize,
   },
   computed: {
     boxStyle() {
@@ -168,6 +98,9 @@ export default {
   methods: {
     handleChangeValue(e) {
       this.$emit('change', { value: e.target.value || '' })
+    },
+    handleKnobSize(data) {
+      console.log(data)
     },
   },
 }
