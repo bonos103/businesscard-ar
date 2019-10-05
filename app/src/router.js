@@ -71,16 +71,16 @@ const router = new Router({
 })
 
 router.beforeEach(async (to, from, next) => {
-  await store.dispatch(`users/${USER_CHECK}`).catch(() => {
+  const result = await store.dispatch(`users/${USER_CHECK}`).catch(() => {
     if (to.matched.some(record => record.meta.requiredAuth)) {
       return next({
-        path: '/sigin',
+        path: '/signin',
         query: { redirect: to.fullPath },
       })
     }
     return next()
   })
-  if (to.matched.some(record => record.meta.guestOnly)) {
+  if (result && to.matched.some(record => record.meta.guestOnly)) {
     return next({ path: '/project' })
   }
   return next()
