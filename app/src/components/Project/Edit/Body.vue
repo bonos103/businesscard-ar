@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(:class="$style.wrap", v-if="project")
+  div(:class="$style.wrap", v-if="project", ref="body", id="editBody")
     div(:class="$style.canvas", ref="canvas", @click="handlePoint")
       div(:class="$style.canvasInner")
         div(:class="$style.card")

@@ -56,7 +56,6 @@ export default {
     },
     [SET_DATA]({ state, commit }, data) {
       const index = state.project.items.findIndex(i => i.id === state.selectItemId)
-      console.log(state.selectItemId)
       if (index > -1) {
         const items = [...[], ...state.project.items]
         items[index] = { ...items[index], ...data }
