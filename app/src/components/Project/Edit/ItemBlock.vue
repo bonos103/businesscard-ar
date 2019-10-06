@@ -5,10 +5,10 @@
       :handleChangeValue="handleChangeValue",
     )
     span(v-if="active")
-      knob-move(position="top")
-      knob-move(position="right")
-      knob-move(position="bottom")
-      knob-move(position="left")
+      knob-move(position="top", @change="handleKnobMove")
+      knob-move(position="right", @change="handleKnobMove")
+      knob-move(position="bottom", @change="handleKnobMove")
+      knob-move(position="left", @change="handleKnobMove")
       knob-size(position="top-left", @change="handleKnobSize")
       knob-size(position="top-center", @change="handleKnobSize")
       knob-size(position="top-right", @change="handleKnobSize")
@@ -104,6 +104,10 @@ export default {
     },
     handleKnobSize(data) {
       const result = this.controller.resize(data)
+      this.SET_DATA(result)
+    },
+    handleKnobMove(data) {
+      const result = this.controller.move(data)
       this.SET_DATA(result)
     },
   },

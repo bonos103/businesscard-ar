@@ -1,5 +1,10 @@
 <template lang="pug">
-  div(:class="$style.knob", :position="position")
+  div(
+    :class="$style.knob",
+    :position="position",
+    @touchstart.prevent="handleStart",
+    @mousedown.prevent="handleStart",
+  )
 </template>
 <style module>
   .knob {
@@ -33,9 +38,28 @@
   }
 </style>
 <script>
+import TouchEvent from '@/utils/TouchEvent'
+
 export default {
   props: {
     position: { type: String },
+  },
+  data() {
+    return {
+      touchEvent: undefined,
+    }
+  },
+  methods: {
+    handleStart(e) {
+      this.active = true
+      this.touchEvent = new TouchEvent()
+      this.touchEvent.start(e)
+      this.touchEvent.onmousemove = this.handleMove
+    },
+    handleMove() {
+      const { x, y } = this.touchEvent.diff
+      this.$emit('change', { dx: x, dy: y, move: true })
+    },
   },
 }
 </script>

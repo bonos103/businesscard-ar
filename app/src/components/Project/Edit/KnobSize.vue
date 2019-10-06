@@ -57,25 +57,19 @@
   }
 </style>
 <script>
-import EventListener from '@/utils/mixins/EventListener'
 import TouchEvent from '@/utils/TouchEvent'
 
 export default {
-  mixins: [EventListener],
   props: {
     position: { type: String },
   },
   data() {
     return {
-      active: false,
       touchEvent: undefined,
-      dx: 0,
-      dy: 0,
     }
   },
   methods: {
     handleStart(e) {
-      this.active = true
       this.touchEvent = new TouchEvent()
       this.touchEvent.start(e)
       this.touchEvent.onmousemove = this.handleMove

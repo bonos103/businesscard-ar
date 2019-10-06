@@ -86,6 +86,29 @@ export default class ItemBlockController {
     return result
   }
 
+  move(data) {
+    const { dx, dy } = data
+    let {
+      x,
+      y,
+    } = this.convertBrowserSize()
+
+    x += dx
+    y -= dy
+    const result = this.convertArSize({
+      x,
+      y,
+    })
+    this.item = Object.assign(this.item, {
+      x: result.x,
+      y: result.y,
+    })
+    return {
+      x: result.x,
+      y: result.y,
+    }
+  }
+
   convertBrowserSize() {
     return {
       width: this.constructor.ar2PxUnit(this.item.width),
