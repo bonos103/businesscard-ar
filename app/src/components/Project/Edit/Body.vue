@@ -1,6 +1,6 @@
 <template lang="pug">
   div(:class="$style.wrap", v-if="project", ref="body", id="editBody")
-    div(:class="$style.canvas", ref="canvas", @click="handlePoint")
+    div(:class="$style.canvas", ref="canvas")
       div(:class="$style.canvasInner")
         div(:class="$style.card")
           img(src="@/assets/images/project/qr.png")
@@ -11,7 +11,7 @@
           :key="index",
           is="ItemText",
           :item="item",
-          :active="item.id === selectItemId",
+          :active="item.eid === selectItemEid",
           @activate="activateItem($event, item)",
           @deactivate="deactivateItem($event, item)",
           @change="handleChange",
@@ -58,7 +58,7 @@
 </style>
 <script>
 import { mapState, mapActions } from 'vuex'
-import { SELECT_ITEM_ID, SET_DATA } from '@/store/modules/projects/types'
+import { SELECT_ITEM_EID, SET_DATA } from '@/store/modules/projects/types'
 import EditTool from '@/components/Project/Edit/Tool.vue'
 import ItemText from '@/components/Project/Edit/ItemText.vue'
 
@@ -75,7 +75,7 @@ export default {
   computed: {
     ...mapState('projects', {
       project: 'project',
-      selectItemId: 'selectItemId',
+      selectItemEid: 'selectItemEid',
     }),
   },
   mounted() {
@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     ...mapActions('projects', {
-      SELECT_ITEM_ID,
+      SELECT_ITEM_EID,
       SET_DATA,
     }),
     init() {
@@ -91,16 +91,13 @@ export default {
       const w = window.innerWidth
       this.$refs.canvas.scrollTo(10000 - (w / 2), 10000 - (h / 2))
     },
-    handlePoint(e) {
-      console.log(e)
-    },
     activateItem(e, item) {
       this.activeItem = [item]
-      this.SELECT_ITEM_ID(item.id)
+      this.SELECT_ITEM_EID(item.id)
     },
     deactivateItem() {
       this.activeItem = []
-      this.SELECT_ITEM_ID()
+      this.SELECT_ITEM_EID()
     },
     handleChange(data) {
       console.log(data)

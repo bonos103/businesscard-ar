@@ -4,7 +4,8 @@ export const NEW_PROJECT = 'NEW_PROJECT'
 export const POST_PROJECT = 'POST_PROJECT'
 export const PUT_PROJECT = 'PUT_PROJECT'
 
-export const SELECT_ITEM_ID = 'SELECT_ITEM_ID'
+export const ADD_ITEM = 'ADD_ITEM'
+export const SELECT_ITEM_EID = 'SELECT_ITEM_EID'
 export const SET_DATA = 'SET_DATA'
 
 export default 'types'

@@ -1,22 +1,21 @@
 <template lang="pug">
-  div(:class="$style.item", :style="boxStyle", :active="active", ref="item")
+  div(
+    :class="$style.item",
+    :style="boxStyle",
+    :active="active",
+    ref="item",
+    @click.stop="activateItem",
+  )
     slot(
       :textStyle="textStyle",
       :handleChangeValue="handleChangeValue",
     )
-    span(v-if="active")
-      knob-move(position="top", @change="handleKnobMove")
-      knob-move(position="right", @change="handleKnobMove")
-      knob-move(position="bottom", @change="handleKnobMove")
-      knob-move(position="left", @change="handleKnobMove")
-      knob-size(position="top-left", @change="handleKnobSize")
-      knob-size(position="top-center", @change="handleKnobSize")
-      knob-size(position="top-right", @change="handleKnobSize")
-      knob-size(position="center-left", @change="handleKnobSize")
-      knob-size(position="center-right", @change="handleKnobSize")
-      knob-size(position="bottom-left", @change="handleKnobSize")
-      knob-size(position="bottom-center", @change="handleKnobSize")
-      knob-size(position="bottom-right", @change="handleKnobSize")
+    item-knob(
+      v-if="active",
+      @deactivate="deactivateItem",
+      @changeKnobSize="handleKnobSize",
+      @changeKnobMove="handleKnobMove",
+    )
 </template>
 <style module>
   .item {
@@ -37,21 +36,17 @@
 </style>
 <script>
 import { mapActions } from 'vuex'
-import { SELECT_ITEM_ID, SET_DATA } from '@/store/modules/projects/types'
-import EventListener from '@/utils/mixins/EventListener'
+import { SELECT_ITEM_EID, SET_DATA } from '@/store/modules/projects/types'
 import ItemBlockController from '@/utils/ItemBlockController'
-import KnobMove from '@/components/Project/Edit/KnobMove.vue'
-import KnobSize from '@/components/Project/Edit/KnobSize.vue'
+import ItemKnob from '@/components/Project/Edit/ItemKnob.vue'
 
 export default {
-  mixins: [EventListener],
   props: {
     active: { type: Boolean, default: true },
     item: { type: Object },
   },
   components: {
-    KnobMove,
-    KnobSize,
+    ItemKnob,
   },
   data() {
     return {
@@ -75,29 +70,20 @@ export default {
     },
   },
   mounted() {
-    const self = this
     this.controller.item = this.item
-    const $target = document.querySelector('#editBody') || window
-    this.$listen($target, 'click', (e) => {
-      if (self.$el.contains(e.target)) {
-        self.activateItem()
-      } else {
-        self.deactivateItem()
-      }
-    })
   },
   methods: {
     ...mapActions('projects', {
-      SELECT_ITEM_ID,
+      SELECT_ITEM_EID,
       SET_DATA,
     }),
     activateItem() {
       this.activeItem = [this.item]
-      this.SELECT_ITEM_ID(this.item.id)
+      this.SELECT_ITEM_EID(this.item.eid)
     },
     deactivateItem() {
       this.activeItem = []
-      this.SELECT_ITEM_ID()
+      this.SELECT_ITEM_EID()
     },
     handleChangeValue(e) {
       this.$emit('change', { value: e.target.value || '' })

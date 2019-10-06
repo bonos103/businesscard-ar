@@ -1,6 +1,6 @@
 <template lang="pug">
   div(:class="$style.block")
-    div(:class="$style.item")
+    div(:class="$style.item", @click="addItemText")
       text-icon
     div(:class="$style.item")
       photo-icon
@@ -30,6 +30,8 @@
   }
 </style>
 <script>
+import { mapActions } from 'vuex'
+import { ADD_ITEM } from '@/store/modules/projects/types'
 import PhotoIcon from '@/components/Icon/PhotoIcon.vue'
 import TextIcon from '@/components/Icon/TextIcon.vue'
 
@@ -37,6 +39,14 @@ export default {
   components: {
     PhotoIcon,
     TextIcon,
+  },
+  methods: {
+    ...mapActions('projects', {
+      ADD_ITEM,
+    }),
+    addItemText() {
+      this.ADD_ITEM('text')
+    },
   },
 }
 </script>
