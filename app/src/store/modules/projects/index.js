@@ -102,7 +102,7 @@ export default {
     selectItem(state) {
       const items = _get(state, 'project.items')
       if (items && items.length) {
-        return items.find(i => i.id === state.selectItemEid)
+        return items.find(i => i.eid === state.selectItemEid)
       }
       return undefined
     },
