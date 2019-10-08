@@ -2,8 +2,13 @@
   div(:class="$style.block")
     div(:class="$style.item", @click="addItemText")
       text-icon
-    div(:class="$style.item")
-      photo-icon
+    div(:class="$style.item", @click.stop="socialExpand = true")
+      social-icon
+      tool-social(
+        :class="$style.socialList",
+        @close="socialExpand = false",
+        v-if="socialExpand",
+      )
 </template>
 <style module>
   .block {
@@ -14,6 +19,7 @@
     padding: 2px;
   }
   .item {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -28,24 +34,37 @@
       margin-top: 2px;
     }
   }
+  .socialList {
+    position: absolute;
+    top: 7px;
+    left: 100%;
+    margin-left: 10px;
+  }
 </style>
 <script>
 import { mapActions } from 'vuex'
 import { ADD_ITEM } from '@/store/modules/projects/types'
-import PhotoIcon from '@/components/Icon/PhotoIcon.vue'
+import SocialIcon from '@/components/Icon/SocialIcon.vue'
 import TextIcon from '@/components/Icon/TextIcon.vue'
+import ToolSocial from '@/components/Project/Edit/ToolSocial.vue'
 
 export default {
   components: {
-    PhotoIcon,
+    SocialIcon,
     TextIcon,
+    ToolSocial,
+  },
+  data() {
+    return {
+      socialExpand: false,
+    }
   },
   methods: {
     ...mapActions('projects', {
       ADD_ITEM,
     }),
     addItemText() {
-      this.ADD_ITEM('text')
+      this.ADD_ITEM({ type: 'text' })
     },
   },
 }

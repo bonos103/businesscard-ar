@@ -2,7 +2,15 @@
 // import Cookie from 'universal-cookie'
 // import Axios from '@/utils/Axios'
 import _get from 'lodash/get'
-import { NEW_PROJECT, ADD_ITEM, SELECT_ITEM_EID, SET_DATA } from './types'
+import twitterIcon from '@/assets/images/project/sns/twitter.png'
+import facebookIcon from '@/assets/images/project/sns/facebook.png'
+import instagramIcon from '@/assets/images/project/sns/instagram.png'
+import {
+  NEW_PROJECT,
+  ADD_ITEM,
+  SELECT_ITEM_EID,
+  SET_DATA,
+} from './types'
 
 // const axios = new Axios()
 
@@ -30,6 +38,53 @@ const defaultItemText = {
   width: 3,
   height: 2,
 }
+const defaultItemSocial = {
+  twitter: {
+    type: 'social',
+    image: twitterIcon,
+    scaleX: 1,
+    scaleY: 1,
+    scaleZ: 1,
+    rotationX: 0,
+    rotationY: 0,
+    rotationZ: 0,
+    x: 0,
+    y: -1,
+    z: 0,
+    width: 0.5,
+    height: 0.5,
+  },
+  facebook: {
+    type: 'social',
+    image: facebookIcon,
+    scaleX: 1,
+    scaleY: 1,
+    scaleZ: 1,
+    rotationX: 0,
+    rotationY: 0,
+    rotationZ: 0,
+    x: 0,
+    y: -1,
+    z: 0,
+    width: 0.5,
+    height: 0.5,
+  },
+  instagram: {
+    type: 'social',
+    image: instagramIcon,
+    scaleX: 1,
+    scaleY: 1,
+    scaleZ: 1,
+    rotationX: 0,
+    rotationY: 0,
+    rotationZ: 0,
+    x: 0,
+    y: -1,
+    z: 0,
+    width: 0.5,
+    height: 0.5,
+  },
+}
 
 const firstItems = []
 addItem(firstItems, defaultItemText)
@@ -56,9 +111,12 @@ export default {
       }
       commit(NEW_PROJECT, project)
     },
-    [ADD_ITEM]({ commit }, type) {
+    [ADD_ITEM]({ commit }, { type, value }) {
       if (type === 'text') {
         const item = Object.assign({}, defaultItemText)
+        commit(ADD_ITEM, item)
+      } else if (type === 'social') {
+        const item = Object.assign({}, defaultItemSocial[value])
         commit(ADD_ITEM, item)
       }
     },
