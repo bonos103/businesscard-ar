@@ -73,11 +73,15 @@ export default {
       this.touchEvent = new TouchEvent()
       this.touchEvent.start(e)
       this.touchEvent.onmousemove = this.handleMove
+      this.touchEvent.onmouseup = this.handleEnd
     },
     handleMove() {
       // console.log(e, 'move')
       const { x, y } = this.touchEvent.diff
       this.$emit('change', { dx: x, dy: y, position: this.position })
+    },
+    handleEnd() {
+      this.$emit('end')
     },
   },
 }

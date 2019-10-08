@@ -7,7 +7,7 @@
         :defaultValue="item.value",
         :class="$style.textarea",
         @change="handleChangeValue",
-        spellcheck="false"
+        :spell-check="false"
       )
 </template>
 <style module>

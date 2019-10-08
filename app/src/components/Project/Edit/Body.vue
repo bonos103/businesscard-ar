@@ -9,7 +9,7 @@
         component(
           v-for="(item, index) in project.items",
           :key="index",
-          is="ItemText",
+          :is="item.type | itemComponent",
           :item="item",
           :active="item.eid === selectItemEid",
           @activate="activateItem($event, item)",
@@ -60,11 +60,13 @@
 import { mapState, mapActions } from 'vuex'
 import { SELECT_ITEM_EID, SET_DATA } from '@/store/modules/projects/types'
 import EditTool from '@/components/Project/Edit/Tool.vue'
+import ItemSocial from '@/components/Project/Edit/ItemSocial.vue'
 import ItemText from '@/components/Project/Edit/ItemText.vue'
 
 export default {
   components: {
     EditTool,
+    ItemSocial,
     ItemText,
   },
   data() {
@@ -77,6 +79,14 @@ export default {
       project: 'project',
       selectItemEid: 'selectItemEid',
     }),
+  },
+  filters: {
+    itemComponent(type) {
+      if (type === 'social') {
+        return 'ItemSocial'
+      }
+      return 'ItemText'
+    },
   },
   mounted() {
     this.init()

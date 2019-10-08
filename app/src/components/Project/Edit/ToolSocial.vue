@@ -1,8 +1,20 @@
 <template lang="pug">
   div(:class="$style.list")
-    img(src="@/assets/images/project/sns/twitter.png", :class="$style.item", @click="handleClick('twitter')")
-    img(src="@/assets/images/project/sns/facebook.png", :class="$style.item", @click="handleClick('facebook')")
-    img(src="@/assets/images/project/sns/instagram.png", :class="$style.item", @click="handleClick('instagram')")
+    img(
+      src="@/assets/images/project/sns/twitter.png",
+      :class="$style.item",
+      @click="handleClick('twitter')",
+    )
+    img(
+      src="@/assets/images/project/sns/facebook.png",
+      :class="$style.item",
+      @click="handleClick('facebook')",
+    )
+    img(
+      src="@/assets/images/project/sns/instagram.png",
+      :class="$style.item",
+      @click="handleClick('instagram')",
+    )
 </template>
 <style module>
   .list {

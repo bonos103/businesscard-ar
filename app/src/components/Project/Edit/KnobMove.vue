@@ -35,6 +35,12 @@
     &[position="left"] {
       left: -5px;
     }
+    &[position="whole"] {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
   }
 </style>
 <script>
@@ -55,10 +61,14 @@ export default {
       this.touchEvent = new TouchEvent()
       this.touchEvent.start(e)
       this.touchEvent.onmousemove = this.handleMove
+      this.touchEvent.onmouseup = this.handleEnd
     },
     handleMove() {
       const { x, y } = this.touchEvent.diff
       this.$emit('change', { dx: x, dy: y, move: true })
+    },
+    handleEnd() {
+      this.$emit('end')
     },
   },
 }

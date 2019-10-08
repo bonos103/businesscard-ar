@@ -12,6 +12,7 @@
     )
     item-knob(
       v-if="active",
+      :option="knobOption",
       @deactivate="deactivateItem",
       @changeKnobSize="handleKnobSize",
       @changeKnobMove="handleKnobMove",
@@ -66,6 +67,18 @@ export default {
       return {
         fontSize: `${this.item.fontSize}px`,
         color: this.item.color,
+      }
+    },
+    knobOption() {
+      if (this.item.type === 'social') {
+        return {
+          fixedRatio: true,
+          wholeMove: true,
+        }
+      }
+      return {
+        fixedRatio: false,
+        wholeMove: false,
       }
     },
   },
