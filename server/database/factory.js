@@ -23,3 +23,7 @@ Factory.blueprint('App/Models/Ar', (faker, i, data) => ({
   title: data.title || faker.sentence({ word: 5 }),
   content: data.content || faker.paragraph(),
 }))
+
+Factory.blueprint('App/Models/Project', (faker, i, data) => ({
+  title: data.title || faker.sentence({ word: 20}),
+}))

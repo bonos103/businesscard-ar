@@ -26,5 +26,7 @@ Route.group(() => {
     [['user.store'], ['User/StoreUser']],
   ]))
 
-  Route.resource('project', 'ProjectController').apiOnly()
+  Route.resource('project', 'ProjectController').apiOnly().middleware(['auth']).validator(new Map([
+    [['project.store'], ['Project/StoreProject']],
+  ]))
 }).prefix('api/v1').namespace('Api/v1')
