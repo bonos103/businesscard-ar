@@ -25,4 +25,6 @@ Route.group(() => {
   Route.resource('user', 'UserController').apiOnly().validator(new Map([
     [['user.store'], ['User/StoreUser']],
   ]))
+
+  Route.resource('project', 'ProjectController').apiOnly()
 }).prefix('api/v1').namespace('Api/v1')
