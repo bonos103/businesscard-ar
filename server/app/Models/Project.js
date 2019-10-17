@@ -7,6 +7,9 @@ class Project extends Model {
   user() {
     return this.belongsTo('App/Models/User')
   }
+  items() {
+    return this.hasMany('App/Models/Item')
+  }
 }
 
 module.exports = Project

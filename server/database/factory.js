@@ -27,3 +27,18 @@ Factory.blueprint('App/Models/Ar', (faker, i, data) => ({
 Factory.blueprint('App/Models/Project', (faker, i, data) => ({
   title: data.title || faker.sentence({ word: 20}),
 }))
+
+Factory.blueprint('App/Models/Item', (faker, i, data) => ({
+  type: data.type || 'text',
+  value: data.value || faker.sentence({ word: 5 }),
+  scale_x: data.scale_x || 1,
+  scale_y: data.scale_y || 1,
+  scale_z: data.scale_z || 1,
+  x: data.x || 0,
+  y: data.y || 0,
+  z: data.z || 0,
+  width: data.width || 3,
+  height: data.height || 4,
+  font_size: data.font_size || 18,
+  color: data.color || '#000000',
+}))
