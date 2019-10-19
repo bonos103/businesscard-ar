@@ -4,6 +4,7 @@ const { test, trait } = use('Test/Suite')('Create Project With Items')
 
 const Factory = use('Factory')
 
+const ItemFactory = Factory.model('App/Models/Item')
 const ProjectFactory = Factory.model('App/Models/Project')
 const UserFactory = Factory.model('App/Models/User')
 
@@ -11,15 +12,16 @@ trait('DatabaseTransactions')
 trait('Test/ApiClient')
 trait('Auth/Client')
 
-test('can create project with items', async ({ client }) => {
+test('can create project with items', async ({ assert, client }) => {
   const user = await UserFactory.create()
 
   const { title } = await ProjectFactory.make()
+  const item = await ItemFactory.make()
 
   const data = {
     title,
     items: [
-      { value: 'hoge' },
+      item,
     ],
   }
 
@@ -29,12 +31,15 @@ test('can create project with items', async ({ client }) => {
   .send(data)
   .end()
 
+  // console.dir(response.error)
+  // console.dir(response.body)
+
   response.assertStatus(201)
   response.assertJSONSubset({
     title,
     user_id: user.id,
     items: [
-      { value: 'hoge' },
+      item.toJSON(),
     ],
   })
 })
