@@ -99,7 +99,8 @@ export default {
       this.SELECT_ITEM_EID()
     },
     handleChangeValue(e) {
-      this.$emit('change', { value: e.target.value || '' })
+      console.log(e)
+      this.$emit('change:value', { value: e.target.value || '' })
     },
     handleKnobSize(data) {
       const result = this.controller.resize(data)

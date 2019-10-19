@@ -1,5 +1,5 @@
 <template lang="pug">
-  item-block(:item="item", :active="active")
+  item-block(:item="item", :active="active", @change:value="handleChange")
     template(v-slot="{ textStyle, handleChangeValue }")
       a-textarea(
         :active="active",
@@ -36,6 +36,11 @@ export default {
   },
   components: {
     ItemBlock,
+  },
+  methods: {
+    handleChange(data) {
+      this.$emit('change', data)
+    },
   },
 }
 </script>
