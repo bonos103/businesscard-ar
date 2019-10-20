@@ -1,18 +1,19 @@
 // import _get from 'lodash/get'
 // import Cookie from 'universal-cookie'
-// import Axios from '@/utils/Axios'
 import _get from 'lodash/get'
+import Axios from '@/utils/Axios'
 import twitterIcon from '@/assets/images/project/sns/twitter.png'
 import facebookIcon from '@/assets/images/project/sns/facebook.png'
 import instagramIcon from '@/assets/images/project/sns/instagram.png'
 import {
   NEW_PROJECT,
+  POST_PROJECT,
   ADD_ITEM,
   SELECT_ITEM_EID,
   SET_DATA,
 } from './types'
 
-// const axios = new Axios()
+const axios = new Axios()
 
 function addItem(items, item) {
   item.eid = items.length
@@ -24,16 +25,13 @@ const defaultItemText = {
   id: 2,
   type: 'text',
   value: 'hogehoge',
-  scaleX: 1,
-  scaleY: 1,
-  scaleZ: 1,
-  rotationX: 0,
-  rotationY: 0,
-  rotationZ: 0,
+  scale_x: 1,
+  scale_y: 1,
+  scale_z: 1,
   x: 0,
   y: 1,
   z: 0,
-  fontSize: 18,
+  font_size: 18,
   color: '#FF6F61',
   width: 3,
   height: 2,
@@ -42,12 +40,9 @@ const defaultItemSocial = {
   twitter: {
     type: 'social',
     image: twitterIcon,
-    scaleX: 1,
-    scaleY: 1,
-    scaleZ: 1,
-    rotationX: 0,
-    rotationY: 0,
-    rotationZ: 0,
+    scale_x: 1,
+    scale_y: 1,
+    scale_z: 1,
     x: -0.75,
     y: -1,
     z: 0,
@@ -57,12 +52,9 @@ const defaultItemSocial = {
   facebook: {
     type: 'social',
     image: facebookIcon,
-    scaleX: 1,
-    scaleY: 1,
-    scaleZ: 1,
-    rotationX: 0,
-    rotationY: 0,
-    rotationZ: 0,
+    scale_x: 1,
+    scale_y: 1,
+    scale_z: 1,
     x: 0,
     y: -1,
     z: 0,
@@ -72,12 +64,9 @@ const defaultItemSocial = {
   instagram: {
     type: 'social',
     image: instagramIcon,
-    scaleX: 1,
-    scaleY: 1,
-    scaleZ: 1,
-    rotationX: 0,
-    rotationY: 0,
-    rotationZ: 0,
+    scale_x: 1,
+    scale_y: 1,
+    scale_z: 1,
     x: 0.75,
     y: -1,
     z: 0,
@@ -110,6 +99,12 @@ export default {
         items: [...firstItems],
       }
       commit(NEW_PROJECT, project)
+    },
+    async [POST_PROJECT]({ commit, state }) {
+      const data = Object.assign({}, state.project)
+      data.items.forEach(item => delete item.eid)
+      const result = await axios.post('/project', data)
+      console.log(result)
     },
     [ADD_ITEM]({ commit }, { type, value }) {
       if (type === 'text') {

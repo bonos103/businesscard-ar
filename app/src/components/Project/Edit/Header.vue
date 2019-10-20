@@ -11,6 +11,7 @@
           minus-icon
           div(:class="$style.zoomLabel") 100%
           plus-icon
+        button(:class="$style.button", @click="handleSave") 保存
     div(:class="$style.toolHeader", v-if="item")
       div(:class="$style.headerRight")
         div(:class="$style.toolHeaderItem")
@@ -113,6 +114,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    height: 100%;
   }
   .logo {
     color: var(--black);
@@ -143,6 +145,19 @@
     margin-left: 0.5em;
     margin-right: 0.5em;
     cursor: default;
+  }
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: #fff;
+    height: 100%;
+    background-color: var(--black);
+    border: 1px solid var(--black);
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-left: 10px;
   }
   .toolHeader {
     height: 60px;
@@ -205,7 +220,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import SketchPicker from 'vue-color/src/components/Sketch.vue'
-import { SET_DATA } from '@/store/modules/projects/types'
+import { SET_DATA, POST_PROJECT } from '@/store/modules/projects/types'
 import LogoSimpleIcon from '@/components/Icon/LogoSimpleIcon.vue'
 import MinusIcon from '@/components/Icon/MinusIcon.vue'
 import PlusIcon from '@/components/Icon/PlusIcon.vue'
@@ -231,13 +246,17 @@ export default {
   },
   methods: {
     ...mapActions('projects', {
+      POST_PROJECT,
       SET_DATA,
     }),
     changeSize(value) {
-      this.SET_DATA({ fontSize: value })
+      this.SET_DATA({ font_size: value })
     },
     changeColor(colors) {
       this.SET_DATA({ color: colors.hex })
+    },
+    handleSave() {
+      this.POST_PROJECT()
     },
   },
 }

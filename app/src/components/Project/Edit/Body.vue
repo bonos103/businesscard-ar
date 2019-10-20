@@ -110,7 +110,6 @@ export default {
       this.SELECT_ITEM_EID()
     },
     handleChange(data) {
-      console.log(data)
       this.SET_DATA(data)
     },
   },
