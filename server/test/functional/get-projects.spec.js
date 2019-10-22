@@ -22,6 +22,6 @@ test('can get projects of user', async ({ client }) => {
   .loginVia(user, 'jwt')
   .end()
 
-  response.assertStatus(201)
+  response.assertStatus(200)
   response.assertJSONSubset([project1.toJSON()])
 })

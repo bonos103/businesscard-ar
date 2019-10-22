@@ -7,8 +7,13 @@ class Project extends Model {
   user() {
     return this.belongsTo('App/Models/User')
   }
+
   items() {
     return this.hasMany('App/Models/Item')
+  }
+
+  static scopeWithItems(query) {
+    return query.with('items')
   }
 }
 
