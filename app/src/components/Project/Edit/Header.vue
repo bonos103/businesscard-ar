@@ -3,7 +3,8 @@
     div(:class="$style.header")
       div(:class="$style.headerLeft")
         h1(:class="$style.logo")
-          logo-simple-icon
+          router-link(:to="{ name: 'Project' }")
+            logo-simple-icon
         div(:class="$style.title")
           a-input(type="text", placeholder="プロジェクト名" value="はじめてのAR名刺")
       div(:class="$style.headerRight")

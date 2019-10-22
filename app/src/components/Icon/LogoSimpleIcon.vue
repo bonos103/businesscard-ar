@@ -19,6 +19,7 @@ export default {
   .icon {
     & svg {
       display: block;
+      fill: var(--black);
     }
   }
 </style>
