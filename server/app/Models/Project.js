@@ -15,6 +15,10 @@ class Project extends Model {
   static scopeWithItems(query) {
     return query.with('items')
   }
+
+  static scopeFindById(query, id) {
+    return query.where('id', id)
+  }
 }
 
 module.exports = Project

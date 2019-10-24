@@ -26,7 +26,7 @@ test('can get project only owner', async ({ client }) => {
 
   response.assertStatus(200)
   response.assertJSONSubset({
-    ...project1.toJSON(),
+    ...project.toJSON(),
     items: [
       item.toJSON(),
     ],

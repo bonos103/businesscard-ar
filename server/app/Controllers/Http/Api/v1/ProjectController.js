@@ -27,6 +27,12 @@ class ProjectController {
       ...project.toJSON(),
     })
   }
+
+  async show({ response, params }) {
+    const { id } = params
+    const project = await Project.query().findById(id).withItems().last()
+    return response.ok(project.toJSON())
+  }
 }
 
 module.exports = ProjectController
