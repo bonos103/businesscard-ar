@@ -33,9 +33,16 @@ class ProjectController {
     const user = await auth.getUser()
     const project = await Project.query().findById(id).withItems().last()
 
+    if (!project) {
+      return response.badRequest({
+        message: 'プロジェクトが見つかりませんでした。',
+        field: 'id',
+        validation: 'required',
+      })
+    }
     if (project.user_id !== user.id) {
       return response.unauthorized({
-        message: '閲覧権限がありません',
+        message: '閲覧権限がありません。',
         field: 'id',
         validation: 'auth',
       })

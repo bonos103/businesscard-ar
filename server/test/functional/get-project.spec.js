@@ -33,7 +33,6 @@ test('can get project only owner', async ({ client }) => {
   })
 })
 
-
 test('cannot get project from other user', async ({ client }) => {
   const user = await UserFactory.create()
   const otherUser = await UserFactory.create()
@@ -48,8 +47,24 @@ test('cannot get project from other user', async ({ client }) => {
 
   response.assertStatus(401)
   response.assertJSONSubset({
-    message: '閲覧権限がありません',
+    message: '閲覧権限がありません。',
     field: 'id',
     validation: 'auth',
+  })
+})
+
+test('failed get project if no project', async ({ client }) => {
+  const user = await UserFactory.create()
+
+  const response = await client
+  .get(`/api/v1/project/1`)
+  .loginVia(user, 'jwt')
+  .end()
+
+  response.assertStatus(400)
+  response.assertJSONSubset({
+    message: 'プロジェクトが見つかりませんでした。',
+    field: 'id',
+    validation: 'required',
   })
 })
