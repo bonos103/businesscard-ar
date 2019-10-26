@@ -28,9 +28,18 @@ class ProjectController {
     })
   }
 
-  async show({ response, params }) {
+  async show({ response, params, auth }) {
     const { id } = params
+    const user = await auth.getUser()
     const project = await Project.query().findById(id).withItems().last()
+
+    if (project.user_id !== user.id) {
+      return response.unauthorized({
+        message: '閲覧権限がありません',
+        field: 'id',
+        validation: 'auth',
+      })
+    }
     return response.ok(project.toJSON())
   }
 }
