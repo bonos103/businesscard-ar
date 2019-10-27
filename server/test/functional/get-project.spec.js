@@ -53,7 +53,7 @@ test('cannot get project from other user', async ({ client }) => {
   })
 })
 
-test('failed get project if no project', async ({ client }) => {
+test('cannot get project if no project', async ({ client }) => {
   const user = await UserFactory.create()
 
   const response = await client
@@ -67,4 +67,12 @@ test('failed get project if no project', async ({ client }) => {
     field: 'id',
     validation: 'required',
   })
+})
+
+test('cannot get project if unsigned', async ({ client }) => {
+  const response = await client
+  .get(`/api/v1/project/1`)
+  .end()
+
+  response.assertStatus(401)
 })
