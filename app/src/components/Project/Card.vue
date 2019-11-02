@@ -2,7 +2,7 @@
   div(:class="$style.card")
     div(:class="$style.image")
       img(src="@/assets/images/project/sample-card.png")
-    div(:class="$style.title") はじめてのAR名刺
+    div(:class="$style.title") {{project.title}}
 </template>
 <style module>
   .card {
@@ -31,3 +31,13 @@
     color: var(--black);
   }
 </style>
+<script>
+export default {
+  props: {
+    project: {
+      type: Object,
+      required: true,
+    },
+  },
+}
+</script>

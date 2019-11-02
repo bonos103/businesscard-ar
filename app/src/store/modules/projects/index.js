@@ -6,6 +6,7 @@ import twitterIcon from '@/assets/images/project/sns/twitter.png'
 import facebookIcon from '@/assets/images/project/sns/facebook.png'
 import instagramIcon from '@/assets/images/project/sns/instagram.png'
 import {
+  GET_PROJECTS,
   NEW_PROJECT,
   POST_PROJECT,
   ADD_ITEM,
@@ -93,6 +94,12 @@ export default {
   },
 
   actions: {
+    async [GET_PROJECTS]({ commit }) {
+      const result = await axios.get('/project')
+      if (result.data) {
+        commit(GET_PROJECTS, result.data)
+      }
+    },
     [NEW_PROJECT]({ commit }) {
       const project = {
         title: 'はじめてのAR名刺',
@@ -132,6 +139,9 @@ export default {
   },
 
   mutations: {
+    [GET_PROJECTS](state, projects) {
+      state.projects = projects
+    },
     [NEW_PROJECT](state, project) {
       state.project = Object.assign({}, project)
     },
