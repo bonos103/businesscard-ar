@@ -47,8 +47,10 @@ services:
       MYSQL_PASSWORD: adonis
     volumes:
       - ./data/mysql:/var/lib/mysql
-    expose:
-      - 3306
+    # expose:
+    #   - 3306
+    ports:
+      - 0.0.0.0:3316:3306
     logging:
       driver: "json-file"
       options:
