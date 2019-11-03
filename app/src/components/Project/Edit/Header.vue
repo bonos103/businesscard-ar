@@ -256,8 +256,14 @@ export default {
     changeColor(colors) {
       this.SET_DATA({ color: colors.hex })
     },
-    handleSave() {
-      this.POST_PROJECT()
+    async handleSave() {
+      if (this.$route.name === 'ProjectNew') {
+        const result = await this.POST_PROJECT()
+        const { id } = result.data
+        this.$router.push({ name: 'ProjectEdit', params: { id } })
+      } else {
+        this.PUT_PROJECT()
+      }
     },
   },
 }

@@ -7,6 +7,7 @@ import Layout from '@/views/Layout.vue'
 import LayoutHome from '@/views/LayoutHome.vue'
 import Project from '@/views/Project/Index.vue'
 import ProjectNew from '@/views/Project/New.vue'
+import ProjectEdit from '@/views/Project/Edit.vue'
 
 Vue.use(Router)
 
@@ -37,6 +38,12 @@ const router = new Router({
       path: '/project/new',
       name: 'ProjectNew',
       component: ProjectNew,
+      meta: { requiredAuth: true },
+    },
+    {
+      path: '/project/:id/edit',
+      name: 'ProjectEdit',
+      component: ProjectEdit,
       meta: { requiredAuth: true },
     },
     {

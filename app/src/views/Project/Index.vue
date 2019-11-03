@@ -3,7 +3,7 @@
     div(:class="$style.list")
       div(:class="$style.listInner")
         div(:class="$style.item", v-for="project in projects", :key="project.id")
-          router-link(:to="{ name: 'ProjectEdit', id: project.id }")
+          router-link(:to="{ name: 'ProjectEdit', params: { id: project.id } }", v-if="project.id")
             project-card(:project="project")
         div(:class="$style.item")
           router-link(:to="{ name: 'ProjectNew' }")

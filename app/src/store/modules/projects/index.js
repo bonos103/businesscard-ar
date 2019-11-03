@@ -7,6 +7,7 @@ import facebookIcon from '@/assets/images/project/sns/facebook.png'
 import instagramIcon from '@/assets/images/project/sns/instagram.png'
 import {
   GET_PROJECTS,
+  GET_PROJECT,
   NEW_PROJECT,
   POST_PROJECT,
   ADD_ITEM,
@@ -21,9 +22,14 @@ function addItem(items, item) {
   items.push(Object.assign({}, item))
   return items
 }
+function setEid(items) {
+  return items.map((item, index) => {
+    item.eid = index
+    return item
+  })
+}
 
 const defaultItemText = {
-  id: 2,
   type: 'text',
   value: 'hogehoge',
   scale_x: 1,
@@ -100,6 +106,15 @@ export default {
         commit(GET_PROJECTS, result.data)
       }
     },
+    async [GET_PROJECT]({ commit }, id) {
+      const result = await axios.get(`/project/${id}`)
+      if (result.data) {
+        const project = result.data
+        const items = setEid(project.items || [])
+        project.items = setEid(items)
+        commit(GET_PROJECT, project)
+      }
+    },
     [NEW_PROJECT]({ commit }) {
       const project = {
         title: 'はじめてのAR名刺',
@@ -111,7 +126,7 @@ export default {
       const data = Object.assign({}, state.project)
       data.items.forEach(item => delete item.eid)
       const result = await axios.post('/project', data)
-      console.log(result)
+      return result
     },
     [ADD_ITEM]({ commit }, { type, value }) {
       if (type === 'text') {
@@ -141,6 +156,9 @@ export default {
   mutations: {
     [GET_PROJECTS](state, projects) {
       state.projects = projects
+    },
+    [GET_PROJECT](state, project) {
+      state.project = { ...project }
     },
     [NEW_PROJECT](state, project) {
       state.project = Object.assign({}, project)
