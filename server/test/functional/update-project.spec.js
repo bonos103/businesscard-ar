@@ -1,0 +1,44 @@
+'use strict'
+
+const { test, trait } = use('Test/Suite')('CreateProject')
+const Factory = use('Factory')
+
+const ItemFactory = Factory.model('App/Models/Item')
+const ProjectFactory = Factory.model('App/Models/Project')
+const UserFactory = Factory.model('App/Models/User')
+
+trait('DatabaseTransactions')
+trait('Test/ApiClient')
+trait('Auth/Client')
+
+test('update title and items', async ({ client }) => {
+  const user = await UserFactory.create()
+  const project = await ProjectFactory.create()
+  const item = await ItemFactory.create()
+
+  await project.user().associate(user)
+  await item.project().associate(project)
+
+  const data = {
+    ...project.toJSON(),
+    title: 'hoge',
+    items: [{
+      ...item.toJSON(),
+      value: 'change value',
+    }],
+  }
+
+  const response = await client
+  .put(`/api/v1/project/${project.id}`)
+  .send(data)
+  .loginVia(user, 'jwt')
+  .end()
+  response.assertStatus(200)
+  response.assertJSONSubset({
+    title: 'hoge',
+    items: [{
+      ...item.toJSON(),
+      value: 'change value',
+    }]
+  })
+})
