@@ -95,7 +95,6 @@ class ProjectController {
 
     projectItems.rows = projectItems.rows.filter((row) => removeItems.findIndex((el) => el.id === row.id) === -1)
     createdItems.forEach((row) => projectItems.addRow(row))
-    console.log(project.toJSON())
     return  response.ok(project.toJSON())
   }
 }

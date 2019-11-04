@@ -63,7 +63,6 @@ test('add new item', async ({ client }) => {
   .loginVia(user, 'jwt')
   .end()
 
-  console.log(response.error)
   response.assertStatus(200)
   response.assertJSONSubset({
     items: [{
@@ -91,7 +90,46 @@ test('delete item', async ({ assert, client }) => {
   .loginVia(user, 'jwt')
   .end()
 
-  console.log(response.error)
   response.assertStatus(200)
   assert.equal(response.body.items.length, 0)
+})
+
+test('mixed process', async ({ assert, client }) => {
+  const user = await UserFactory.create()
+  const project = await ProjectFactory.create()
+  const updateItem = await ItemFactory.create()
+  const removeItem = await ItemFactory.create()
+  const addItem = await ItemFactory.make()
+
+  await project.user().associate(user)
+  await updateItem.project().associate(project)
+  await removeItem.project().associate(project)
+
+  const data = {
+    ...project.toJSON(),
+    items: [
+      {
+        ...updateItem.toJSON(),
+        value: 'change value',
+      },
+      { ...addItem.toJSON() },
+    ],
+  }
+
+  const response = await client
+  .put(`/api/v1/project/${project.id}`)
+  .send(data)
+  .loginVia(user, 'jwt')
+  .end()
+
+  response.assertStatus(200)
+  response.assertJSONSubset({
+    items: [
+      {
+        ...updateItem.toJSON(),
+        value: 'change value',
+      },
+      { ...addItem.toJSON() },
+    ],
+  })
 })
