@@ -75,28 +75,25 @@ class ProjectController {
     }
 
     project.merge({ title })
-    // project.items.map((item) => {
-    //   const updateData = items.find((el) => el.id === item.id)
-    //   return item.merge(updateData)
-    // })
     await project.save()
+
     // TODO itemsのsave
     // removeカラムを抽出して削除、
-    const removeItems = _differenceBy(projectItems, items, 'id')
-    // console.log(removeItems)
-    // id持ちはsave
+    const removeItems = _differenceBy(projectItems.rows, items, 'id')
     // idなしはcretae
     const createItems = items.filter((item) => !item.id)
-    console.log(createItems)
-    // console.log(projectItems)
+    // id持ちはsave
     const updateItems = items.filter((item) => item.id).map((item) => {
-      const itm = projectItems.rows.find((el) => el.id == item.id)
+      const itm = projectItems.rows.find((row) => row.id == item.id)
       itm.merge(item)
       return itm
     })
+
+    await project.items().whereIn('id', removeItems.map((item) => item.id)).delete()
     const createdItems = await project.items().createMany(createItems)
     await Promise.all(updateItems.map((item) => item.save()))
 
+    projectItems.rows = projectItems.rows.filter((row) => removeItems.findIndex((el) => el.id === row.id) === -1)
     createdItems.forEach((row) => projectItems.addRow(row))
     console.log(project.toJSON())
     return  response.ok(project.toJSON())

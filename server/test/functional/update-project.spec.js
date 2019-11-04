@@ -68,6 +68,30 @@ test('add new item', async ({ client }) => {
   response.assertJSONSubset({
     items: [{
       ...item.toJSON(),
-    }]
+    }],
   })
+})
+
+test('delete item', async ({ assert, client }) => {
+  const user = await UserFactory.create()
+  const project = await ProjectFactory.create()
+  const item = await ItemFactory.create()
+
+  await project.user().associate(user)
+  await item.project().associate(project)
+
+  const data = {
+    ...project.toJSON(),
+    items: [],
+  }
+
+  const response = await client
+  .put(`/api/v1/project/${project.id}`)
+  .send(data)
+  .loginVia(user, 'jwt')
+  .end()
+
+  console.log(response.error)
+  response.assertStatus(200)
+  assert.equal(response.body.items.length, 0)
 })
