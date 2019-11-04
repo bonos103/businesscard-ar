@@ -87,17 +87,17 @@ class ProjectController {
     // id持ちはsave
     // idなしはcretae
     const createItems = items.filter((item) => !item.id)
-    // console.log(createItems)
+    console.log(createItems)
     // console.log(projectItems)
     const updateItems = items.filter((item) => item.id).map((item) => {
       const itm = projectItems.rows.find((el) => el.id == item.id)
       itm.merge(item)
       return itm
     })
-    // console.log(updateItems)
-    // await project.items().createMany(createItems)
+    const createdItems = await project.items().createMany(createItems)
     await Promise.all(updateItems.map((item) => item.save()))
 
+    createdItems.forEach((row) => projectItems.addRow(row))
     console.log(project.toJSON())
     return  response.ok(project.toJSON())
   }
