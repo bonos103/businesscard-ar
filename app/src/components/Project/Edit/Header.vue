@@ -221,7 +221,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import SketchPicker from 'vue-color/src/components/Sketch.vue'
-import { SET_DATA, POST_PROJECT } from '@/store/modules/projects/types'
+import { POST_PROJECT, PUT_PROJECT, SET_DATA } from '@/store/modules/projects/types'
 import LogoSimpleIcon from '@/components/Icon/LogoSimpleIcon.vue'
 import MinusIcon from '@/components/Icon/MinusIcon.vue'
 import PlusIcon from '@/components/Icon/PlusIcon.vue'
@@ -248,6 +248,7 @@ export default {
   methods: {
     ...mapActions('projects', {
       POST_PROJECT,
+      PUT_PROJECT,
       SET_DATA,
     }),
     changeSize(value) {
@@ -262,7 +263,8 @@ export default {
         const { id } = result.data
         this.$router.push({ name: 'ProjectEdit', params: { id } })
       } else {
-        this.PUT_PROJECT()
+        const result = await this.PUT_PROJECT()
+        console.log(result)
       }
     },
   },

@@ -10,6 +10,7 @@ import {
   GET_PROJECT,
   NEW_PROJECT,
   POST_PROJECT,
+  PUT_PROJECT,
   ADD_ITEM,
   SELECT_ITEM_EID,
   SET_DATA,
@@ -126,6 +127,12 @@ export default {
       const data = Object.assign({}, state.project)
       data.items.forEach(item => delete item.eid)
       const result = await axios.post('/project', data)
+      return result
+    },
+    async [PUT_PROJECT]({ commit, state }) {
+      const data = { ...state.project }
+      data.items.forEach(item => delete item.eid)
+      const result = await axios.put(`/project/${data.id}`, data)
       return result
     },
     [ADD_ITEM]({ commit }, { type, value }) {
