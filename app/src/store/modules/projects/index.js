@@ -14,6 +14,7 @@ import {
   ADD_ITEM,
   SELECT_ITEM_EID,
   SET_DATA,
+  SET_TITLE,
 } from './types'
 
 const axios = new Axios()
@@ -123,13 +124,13 @@ export default {
       }
       commit(NEW_PROJECT, project)
     },
-    async [POST_PROJECT]({ commit, state }) {
+    async [POST_PROJECT]({ state }) {
       const data = Object.assign({}, state.project)
       data.items.forEach(item => delete item.eid)
       const result = await axios.post('/project', data)
       return result
     },
-    async [PUT_PROJECT]({ commit, state }) {
+    async [PUT_PROJECT]({ state }) {
       const data = { ...state.project }
       data.items.forEach(item => delete item.eid)
       const result = await axios.put(`/project/${data.id}`, data)
@@ -158,6 +159,9 @@ export default {
         commit(SET_DATA, items)
       }
     },
+    [SET_TITLE]({ commit }, value) {
+      commit(SET_TITLE, value)
+    },
   },
 
   mutations: {
@@ -179,6 +183,9 @@ export default {
     },
     [SET_DATA](state, items) {
       state.project = { ...state.project, items }
+    },
+    [SET_TITLE](state, value) {
+      state.project.title = value
     },
     increment(state) {
       // `state` はモジュールのローカルステート

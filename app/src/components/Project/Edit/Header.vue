@@ -6,7 +6,7 @@
           router-link(:to="{ name: 'Project' }")
             logo-simple-icon
         div(:class="$style.title")
-          a-input(type="text", placeholder="プロジェクト名" value="はじめてのAR名刺")
+          a-input(type="text", placeholder="プロジェクト名" :value="title", @input="changeTitle")
       div(:class="$style.headerRight")
         div(:class="$style.item")
           minus-icon
@@ -219,9 +219,15 @@
   }
 </style>
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
+import { notification } from 'ant-design-vue'
 import SketchPicker from 'vue-color/src/components/Sketch.vue'
-import { POST_PROJECT, PUT_PROJECT, SET_DATA } from '@/store/modules/projects/types'
+import {
+  POST_PROJECT,
+  PUT_PROJECT,
+  SET_DATA,
+  SET_TITLE,
+} from '@/store/modules/projects/types'
 import LogoSimpleIcon from '@/components/Icon/LogoSimpleIcon.vue'
 import MinusIcon from '@/components/Icon/MinusIcon.vue'
 import PlusIcon from '@/components/Icon/PlusIcon.vue'
@@ -234,6 +240,9 @@ export default {
     SketchPicker,
   },
   computed: {
+    ...mapState('projects', {
+      title: state => state.project.title,
+    }),
     ...mapGetters('projects', {
       item: 'selectItem',
     }),
@@ -250,7 +259,11 @@ export default {
       POST_PROJECT,
       PUT_PROJECT,
       SET_DATA,
+      SET_TITLE,
     }),
+    changeTitle(e) {
+      this.SET_TITLE(e.target.value)
+    },
     changeSize(value) {
       this.SET_DATA({ font_size: value })
     },
@@ -259,12 +272,24 @@ export default {
     },
     async handleSave() {
       if (this.$route.name === 'ProjectNew') {
-        const result = await this.POST_PROJECT()
+        const result = await this.POST_PROJECT().catch(() => {
+          notification.error({ message: '作成できませんでした。' })
+        })
+        if (!result) {
+          return
+        }
+        notification.success({ message: '新規作成しました。' })
         const { id } = result.data
         this.$router.push({ name: 'ProjectEdit', params: { id } })
       } else {
-        const result = await this.PUT_PROJECT()
+        const result = await this.PUT_PROJECT().catch(() => {
+          notification.error({ message: '保存できませんでした。' })
+        })
+        if (!result) {
+          return
+        }
         console.log(result)
+        notification.success({ message: '保存しました。' })
       }
     },
   },
