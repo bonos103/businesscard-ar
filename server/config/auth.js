@@ -73,6 +73,7 @@ module.exports = {
     password: 'password',
     options: {
       secret: Env.get('APP_KEY'),
+      notBefore: 300,
     },
   },
 
