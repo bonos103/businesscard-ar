@@ -8,7 +8,11 @@ const axios = new Axios()
 const saveToken = (token) => {
   if (token) {
     const cookies = new Cookie()
-    cookies.set('token', token)
+    cookies.set('token', token, {
+      secure: true,
+      httpOnly: true,
+    })
+  }
   }
 }
 
