@@ -1,21 +1,10 @@
 import _get from 'lodash/get'
-import Cookie from 'universal-cookie'
 import Axios from '@/utils/Axios'
+import TokenController from '@/utils/TokenController'
 import { USER_CHECK, USER_LOGIN, USER_REGISTER } from './types'
 
 const axios = new Axios()
-const tokenNotBefore = 5 // トークンの有効期限
-
-const saveToken = (token) => {
-  if (token) {
-    const cookies = new Cookie()
-    cookies.set('token', token, {
-      secure: true,
-      // httpOnly: true,
-      maxAge: tokenNotBefore,
-    })
-  }
-}
+const tokenController = new TokenController()
 
 export default {
   namespaced: true,
@@ -29,12 +18,12 @@ export default {
     },
     async [USER_REGISTER](context, data) {
       const result = await axios.post('/user', data)
-      saveToken(_get(result, 'data.token'))
+      tokenController.save(_get(result, 'data.token'))
       return result
     },
     async [USER_LOGIN](context, data) {
       const result = await axios.post('/user/login', data)
-      saveToken(_get(result, 'data.token'))
+      tokenController.save(_get(result, 'data.token'))
       return result
     },
   },
