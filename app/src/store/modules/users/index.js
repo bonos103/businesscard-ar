@@ -4,15 +4,16 @@ import Axios from '@/utils/Axios'
 import { USER_CHECK, USER_LOGIN, USER_REGISTER } from './types'
 
 const axios = new Axios()
+const tokenNotBefore = 5 // トークンの有効期限
 
 const saveToken = (token) => {
   if (token) {
     const cookies = new Cookie()
     cookies.set('token', token, {
       secure: true,
-      httpOnly: true,
+      // httpOnly: true,
+      maxAge: tokenNotBefore,
     })
-  }
   }
 }
 
