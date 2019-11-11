@@ -9,11 +9,16 @@ class Axios {
     this.client = axios.create({
       baseURL: this.url,
     })
-    this.client.interceptors.request.use((config) => {
+    this.client.interceptors.request.use(async (config) => {
       const cookies = new Cookie()
       const token = cookies.get('token')
+      const refreshToken = window.localStorage.getItem('refresh_token')
       if (token) {
         config.headers.Authorization = `Bearer ${token}`
+      }
+      if (refreshToken) {
+        const result = await this.client.post('/user/refresh', { refreshToken })
+        console.log(result)
       }
       return config
     }, error => Promise.reject(error))
