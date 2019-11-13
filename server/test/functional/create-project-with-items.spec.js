@@ -12,7 +12,7 @@ trait('DatabaseTransactions')
 trait('Test/ApiClient')
 trait('Auth/Client')
 
-test('can create project with items', async ({ assert, client }) => {
+test('can create project with items', async ({ client }) => {
   const user = await UserFactory.create()
 
   const { title } = await ProjectFactory.make()
@@ -26,10 +26,10 @@ test('can create project with items', async ({ assert, client }) => {
   }
 
   const response = await client
-  .post('/api/v1/project')
-  .loginVia(user, 'jwt')
-  .send(data)
-  .end()
+    .post('/api/v1/project')
+    .loginVia(user, 'jwt')
+    .send(data)
+    .end()
 
   // console.dir(response.error)
   // console.dir(response.body)

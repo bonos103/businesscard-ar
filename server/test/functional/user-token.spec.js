@@ -10,7 +10,7 @@ const UserFactory = Factory.model('App/Models/User')
 trait('DatabaseTransactions')
 trait('Test/ApiClient')
 
-test('token check API', async ({ assert, client }) => {
+test('token check API', async ({ client }) => {
   const user = await UserFactory.create()
   const auth = new Auth({}, Config)
   const { token } = await auth.withRefreshToken().generate(user)

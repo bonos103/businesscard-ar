@@ -20,9 +20,9 @@ test('can get project only owner', async ({ client }) => {
   await item.project().associate(project)
 
   const response = await client
-  .get(`/api/v1/project/${project.id}`)
-  .loginVia(user, 'jwt')
-  .end()
+    .get(`/api/v1/project/${project.id}`)
+    .loginVia(user, 'jwt')
+    .end()
 
   response.assertStatus(200)
   response.assertJSONSubset({
@@ -41,9 +41,9 @@ test('cannot get project from other user', async ({ client }) => {
   await project.user().associate(user)
 
   const response = await client
-  .get(`/api/v1/project/${project.id}`)
-  .loginVia(otherUser, 'jwt')
-  .end()
+    .get(`/api/v1/project/${project.id}`)
+    .loginVia(otherUser, 'jwt')
+    .end()
 
   response.assertStatus(401)
   response.assertJSONSubset({
@@ -57,9 +57,9 @@ test('cannot get project if no project', async ({ client }) => {
   const user = await UserFactory.create()
 
   const response = await client
-  .get(`/api/v1/project/1`)
-  .loginVia(user, 'jwt')
-  .end()
+    .get('/api/v1/project/1')
+    .loginVia(user, 'jwt')
+    .end()
 
   response.assertStatus(400)
   response.assertJSONSubset({
@@ -71,8 +71,8 @@ test('cannot get project if no project', async ({ client }) => {
 
 test('cannot get project if unsigned', async ({ client }) => {
   const response = await client
-  .get(`/api/v1/project/1`)
-  .end()
+    .get('/api/v1/project/1')
+    .end()
 
   response.assertStatus(401)
 })

@@ -29,17 +29,17 @@ test('update title and items', async ({ client }) => {
   }
 
   const response = await client
-  .put(`/api/v1/project/${project.id}`)
-  .send(data)
-  .loginVia(user, 'jwt')
-  .end()
+    .put(`/api/v1/project/${project.id}`)
+    .send(data)
+    .loginVia(user, 'jwt')
+    .end()
   response.assertStatus(200)
   response.assertJSONSubset({
     title: 'hoge',
     items: [{
       ...item.toJSON(),
       value: 'change value',
-    }]
+    }],
   })
 })
 
@@ -58,10 +58,10 @@ test('add new item', async ({ client }) => {
   }
 
   const response = await client
-  .put(`/api/v1/project/${project.id}`)
-  .send(data)
-  .loginVia(user, 'jwt')
-  .end()
+    .put(`/api/v1/project/${project.id}`)
+    .send(data)
+    .loginVia(user, 'jwt')
+    .end()
 
   response.assertStatus(200)
   response.assertJSONSubset({
@@ -85,16 +85,16 @@ test('delete item', async ({ assert, client }) => {
   }
 
   const response = await client
-  .put(`/api/v1/project/${project.id}`)
-  .send(data)
-  .loginVia(user, 'jwt')
-  .end()
+    .put(`/api/v1/project/${project.id}`)
+    .send(data)
+    .loginVia(user, 'jwt')
+    .end()
 
   response.assertStatus(200)
   assert.equal(response.body.items.length, 0)
 })
 
-test('mixed process', async ({ assert, client }) => {
+test('mixed process', async ({ client }) => {
   const user = await UserFactory.create()
   const project = await ProjectFactory.create()
   const updateItem = await ItemFactory.create()
@@ -117,10 +117,10 @@ test('mixed process', async ({ assert, client }) => {
   }
 
   const response = await client
-  .put(`/api/v1/project/${project.id}`)
-  .send(data)
-  .loginVia(user, 'jwt')
-  .end()
+    .put(`/api/v1/project/${project.id}`)
+    .send(data)
+    .loginVia(user, 'jwt')
+    .end()
 
   response.assertStatus(200)
   response.assertJSONSubset({

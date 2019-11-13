@@ -20,10 +20,10 @@ test('can create project if valid data', async ({ client }) => {
   }
 
   const response = await client
-  .post('/api/v1/project')
-  .loginVia(user, 'jwt')
-  .send(data)
-  .end()
+    .post('/api/v1/project')
+    .loginVia(user, 'jwt')
+    .send(data)
+    .end()
 
   response.assertStatus(201)
   response.assertJSONSubset({
@@ -32,7 +32,7 @@ test('can create project if valid data', async ({ client }) => {
   })
 })
 
-test('cannot create project if not authenticated', async({ client }) => {
+test('cannot create project if not authenticated', async ({ client }) => {
   const { title } = await ProjectFactory.make()
 
   const data = {
@@ -40,9 +40,9 @@ test('cannot create project if not authenticated', async({ client }) => {
   }
 
   const response = await client
-  .post('/api/v1/project')
-  .send(data)
-  .end()
+    .post('/api/v1/project')
+    .send(data)
+    .end()
 
   response.assertStatus(401)
 })
@@ -52,10 +52,10 @@ test('failed create project if no title', async ({ client }) => {
   const data = {}
 
   const response = await client
-  .post('/api/v1/project')
-  .loginVia(user, 'jwt')
-  .send(data)
-  .end()
+    .post('/api/v1/project')
+    .loginVia(user, 'jwt')
+    .send(data)
+    .end()
 
   response.assertStatus(400)
   response.assertJSONSubset([
@@ -63,7 +63,7 @@ test('failed create project if no title', async ({ client }) => {
       message: 'タイトルは必須です',
       field: 'title',
       validation: 'required',
-    }
+    },
   ])
 })
 
@@ -74,10 +74,10 @@ test('failed create project if title of over 255 characters', async ({ client })
   }
 
   const response = await client
-  .post('/api/v1/project')
-  .loginVia(user, 'jwt')
-  .send(data)
-  .end()
+    .post('/api/v1/project')
+    .loginVia(user, 'jwt')
+    .send(data)
+    .end()
 
   console.log(response)
 
@@ -87,6 +87,6 @@ test('failed create project if title of over 255 characters', async ({ client })
       message: '最大255文字までです',
       field: 'title',
       validation: 'max',
-    }
+    },
   ])
 })

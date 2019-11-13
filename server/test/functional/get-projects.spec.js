@@ -18,9 +18,9 @@ test('can get projects of user', async ({ client }) => {
   await user.projects().save(project1)
 
   const response = await client
-  .get('/api/v1/project')
-  .loginVia(user, 'jwt')
-  .end()
+    .get('/api/v1/project')
+    .loginVia(user, 'jwt')
+    .end()
 
   response.assertStatus(200)
   response.assertJSONSubset([project1.toJSON()])
