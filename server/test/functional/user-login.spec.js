@@ -22,6 +22,7 @@ test('success login if valid data', async ({ assert, client }) => {
     message: 'ログインしました',
   })
   assert.exists(response.body.token)
+  assert.exists(response.body.refreshToken)
 })
 
 test('failed login if invalid valid', async ({ client }) => {

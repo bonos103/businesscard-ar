@@ -13,7 +13,7 @@ class UserController {
 
   async store({ auth, request, response }) {
     const user = await User.create(request.only(['email', 'password']))
-    const token = await auth.generate(user)
+    const jwt = await auth.withRefreshToken().generate(user)
     const loginURL = new URL('/login', Env.get('URL'))
     await Mail.send('emails.user.signup', { loginURL: loginURL.href }, (message) => {
       message
@@ -24,7 +24,8 @@ class UserController {
     return response.created({
       message: '会員登録完了しました',
       user,
-      token: token.token,
+      token: jwt.token,
+      refreshToken: jwt.refreshToken,
     })
   }
 
@@ -32,11 +33,12 @@ class UserController {
     const { code } = request.only(['code'])
     const { email, password } = JSON.parse(Encryption.decrypt(code))
     const user = await User.create({ email, password })
-    const token = await auth.generate(user)
+    const jwt = await auth.withRefreshToken().generate(user)
     return response.created({
       message: '登録完了しました',
       user,
-      token: token.token,
+      token: jwt.token,
+      refreshToken: jwt.refreshToken,
     })
   }
 
@@ -62,10 +64,11 @@ class UserController {
   async login({ auth, request, response }) {
     const { email, password } = request.only(['email', 'password'])
     try {
-      const token = await auth.attempt(email, password)
+      const jwt = await auth.withRefreshToken().attempt(email, password)
       return response.ok({
         message: 'ログインしました',
-        token: token.token,
+        token: jwt.token,
+        refreshToken: jwt.refreshToken,
       })
     } catch (err) {
       Logger.error(err)

@@ -107,4 +107,5 @@ test('メール認証：認証コードが正しい場合は、ユーザー作�
   })
   assert.exists(response.body.user)
   assert.exists(response.body.token)
+  assert.exists(response.body.refreshToken)
 })

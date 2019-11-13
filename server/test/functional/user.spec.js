@@ -23,6 +23,7 @@ test('can create user if valid data', async ({ assert, client }) => {
   })
   assert.exists(response.body.user)
   assert.exists(response.body.token)
+  assert.exists(response.body.refreshToken)
 
   const recentEmail = Mail.pullRecent()
   assert.equal(recentEmail.message.to[0].address, email)
