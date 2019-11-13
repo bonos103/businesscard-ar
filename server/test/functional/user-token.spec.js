@@ -23,13 +23,15 @@ test('token check API', async ({ assert, client }) => {
 test('refresh token API', async ({ assert, client }) => {
   const user = await UserFactory.create()
   const auth = new Auth({}, Config)
-  const { token, refreshToken } = await auth.withRefreshToken().generate(user)
+  const { refreshToken } = await auth.withRefreshToken().generate(user)
   const data = { refreshToken }
-  console.log(token)
+
   const response = await client.post('/api/v1/user/refresh').send(data).end()
-  console.log(response)
 
   response.assertStatus(200)
   assert.exists(response.body.token)
   assert.exists(response.body.refreshToken)
+
+  const response2 = await client.post('/api/v1/user/refresh').send(data).end()
+  response2.assertStatus(401)
 })

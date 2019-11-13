@@ -45,6 +45,20 @@ class UserController {
     return response.accepted(auth.current && auth.current.user)
   }
 
+  async refresh({ auth, request, response }) {
+    const { refreshToken } = request.only(['refreshToken'])
+    const jwt = await auth
+      .newRefreshToken()
+      .generateForRefreshToken(refreshToken)
+
+    // 古いrefreshTokenを無効にする
+    await auth
+      .authenticator('jwt')
+      .revokeTokens([refreshToken], true)
+
+    return response.ok(jwt)
+  }
+
   async login({ auth, request, response }) {
     const { email, password } = request.only(['email', 'password'])
     try {
