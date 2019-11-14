@@ -73,7 +73,7 @@ module.exports = {
     password: 'password',
     options: {
       secret: Env.get('APP_KEY'),
-      expiresIn: 10,
+      expiresIn: 600, // tokenの有効期限(s)
     },
   },
 

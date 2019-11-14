@@ -3,7 +3,7 @@ import Cookies from 'universal-cookie'
 export default class {
   constructor() {
     this.Cookies = Cookies
-    this.maxAge = 5 // トークンの有効期限
+    this.maxAge = 540 // トークンの有効期限(s)
   }
 
   save(token, refreshToken) {
