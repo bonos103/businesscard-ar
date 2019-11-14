@@ -18,12 +18,12 @@ export default {
     },
     async [USER_REGISTER](context, data) {
       const result = await axios.post('/user', data)
-      tokenController.save(_get(result, 'data.token'))
+      tokenController.save(_get(result, 'data.token'), _get(result, 'data.refreshToken'))
       return result
     },
     async [USER_LOGIN](context, data) {
       const result = await axios.post('/user/login', data)
-      tokenController.save(_get(result, 'data.token'))
+      tokenController.save(_get(result, 'data.token'), _get(result, 'data.refreshToken'))
       return result
     },
   },

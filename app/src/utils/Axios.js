@@ -1,7 +1,10 @@
+import _get from 'lodash/get'
 import axios from 'axios'
 import Cookie from 'universal-cookie'
+import TokenController from '@/utils/TokenController'
 
 const API_URL = process.env.VUE_APP_API_URL
+const tokenController = new TokenController()
 
 class Axios {
   constructor(url) {
@@ -12,16 +15,29 @@ class Axios {
     this.client.interceptors.request.use(async (config) => {
       const cookies = new Cookie()
       const token = cookies.get('token')
-      const refreshToken = window.localStorage.getItem('refresh_token')
       if (token) {
         config.headers.Authorization = `Bearer ${token}`
       }
-      if (refreshToken) {
-        const result = await this.client.post('/user/refresh', { refreshToken })
-        console.log(result)
-      }
       return config
     }, error => Promise.reject(error))
+    this.client.interceptors.response.use(config => config, async (error) => {
+      const originalRequest = error.config
+      // refreshTokenの再発行が失敗したとき（認証期間が切れたとき）
+      if (error.response.status === 401 && originalRequest.url.includes('/user/refresh')) {
+        return Promise.reject(error)
+      }
+      // 認証失敗かつ再リクエストでないとき
+      if (error.response.status === 401 && !originalRequest.retry) {
+        const refreshToken = window.localStorage.getItem('refresh_token')
+        originalRequest.retry = true
+        if (refreshToken) {
+          const result = await this.client.post('/user/refresh', { refreshToken })
+          tokenController.save(_get(result, 'data.token'), _get(result, 'data.refreshToken'))
+          return this.client(originalRequest)
+        }
+      }
+      return Promise.reject(error)
+    })
   }
 
   async get(url, config = {}) {

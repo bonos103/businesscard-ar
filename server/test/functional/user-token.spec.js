@@ -33,5 +33,6 @@ test('refresh token API', async ({ assert, client }) => {
   assert.exists(response.body.refreshToken)
 
   const response2 = await client.post('/api/v1/user/refresh').send(data).end()
+  console.log(response2)
   response2.assertStatus(401)
 })
