@@ -79,6 +79,16 @@ class UserController {
       })
     }
   }
+
+  async logout({ auth, response }) {
+    const user = await auth.getUser();
+    await auth
+      .authenticator('jwt')
+      .revokeTokensForUser(user)
+    return response.ok({
+      message: 'ログアウトしました。',
+    })
+  }
 }
 
 module.exports = UserController
