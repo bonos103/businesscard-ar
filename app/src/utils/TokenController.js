@@ -25,4 +25,10 @@ export default class {
     const token = cookies.get('token')
     return !!token
   }
+
+  logout() {
+    const cookies = new this.Cookies()
+    cookies.remove('token')
+    localStorage.removeItem('refresh_token')
+  }
 }

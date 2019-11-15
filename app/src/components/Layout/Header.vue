@@ -4,21 +4,16 @@
       logo-simple-icon
     div(:class="$style.menu")
       div(:class="$style.buttonGroup")
-        div(
-          :class="$style.userMenu",
-          @mouseenter.prevent="toggleMenu(true)",
-          @mouseleave.prevent="toggleMenu(false)",
-          @touchend.prevent="toggleMenu()",
-        )
-          user-circle-icon
-          transition(name="menu")
-            div(v-if="isMenu", :class="$style.userMenuBox")
-              div(:class="$style.userMenuHeader")
-                div(:class="$style.userMenuUser") tennisnowboarderyou@gmail.com
-              div(:class="$style.userMenuBody")
-                div
-                  div(:class="$style.userMenuItem") アカウント
-                  div(:class="$style.userMenuItem") ログアウト
+        a-dropdown(v-model="isMenu")
+          div(:class="$style.userMenu")
+            user-circle-icon
+          div(:class="$style.userMenuBox", slot="overlay")
+            div(:class="$style.userMenuHeader")
+              div(:class="$style.userMenuUser") tennisnowboarderyou@gmail.com
+            div(:class="$style.userMenuBody")
+              div
+                div(:class="$style.userMenuItem") アカウント
+                div(:class="$style.userMenuItem", @click="logout()") ログアウト
 </template>
 <style module>
   .header {
@@ -48,22 +43,12 @@
     font-size: 3.6rem;
   }
   .userMenuBox {
-    position: absolute;
-    top: 100%;
-    right: 0;
+    position: relative;
     width: 240px;
     background-color: #fff;
     border: 1px solid var(--gray-lighter);
     border-radius: 10px;
     box-shadow: 0 0 10px color-mod(var(--black) a(10%));
-    &::before {
-      position: absolute;
-      content: '';
-      top: -20px;
-      left: 0;
-      width: 100%;
-      height: 20px;
-    }
   }
   .userMenuHeader {
     font-size: 1.2rem;
@@ -81,19 +66,11 @@
     font-size: 1.4rem;
     padding: 0.3em 0;
   }
-  :global {
-    & .menu-enter,
-    & .menu-leave-to {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    & .menu-enter-active,
-    & .menu-leave-active {
-      transition: opacity 0.3s, transform 0.3s;
-    }
-  }
 </style>
 <script>
+import { mapActions } from 'vuex'
+import { notification } from 'ant-design-vue'
+import { USER_LOGOUT } from '@/store/modules/users/types'
 import LogoSimpleIcon from '@/components/Icon/LogoSimpleIcon.vue'
 import UserCircleIcon from '@/components/Icon/UserCircleIcon.vue'
 
@@ -108,12 +85,23 @@ export default {
     }
   },
   methods: {
+    ...mapActions('users', {
+      USER_LOGOUT,
+    }),
     toggleMenu(bool) {
       if (bool) {
         this.isMenu = bool
         return
       }
       this.isMenu = !this.isMenu
+    },
+    async logout() {
+      const result = await this.USER_LOGOUT()
+      if (result) {
+        notification.success({ message: result.data.message })
+        this.toggleMenu(false)
+        this.$router.push({ name: 'Signin' })
+      }
     },
   },
 }

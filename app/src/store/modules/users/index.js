@@ -1,7 +1,12 @@
 import _get from 'lodash/get'
 import Axios from '@/utils/Axios'
 import TokenController from '@/utils/TokenController'
-import { USER_CHECK, USER_LOGIN, USER_REGISTER } from './types'
+import {
+  USER_CHECK,
+  USER_LOGIN,
+  USER_LOGOUT,
+  USER_REGISTER,
+} from './types'
 
 const axios = new Axios()
 const tokenController = new TokenController()
@@ -24,6 +29,12 @@ export default {
     async [USER_LOGIN](context, data) {
       const result = await axios.post('/user/login', data)
       tokenController.save(_get(result, 'data.token'), _get(result, 'data.refreshToken'))
+      return result
+    },
+    async [USER_LOGOUT](data) {
+      const { refreshToken } = data
+      const result = await axios.post('/user/logout', { refreshToken })
+      tokenController.logout()
       return result
     },
   },
