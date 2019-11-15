@@ -1,6 +1,6 @@
 <template lang="pug">
   validation-provider(
-    :name="name",
+    :name="label || name",
     :rules="rules",
     :vid="vid",
     v-slot="{ errors, touched, dirty }",
@@ -8,6 +8,7 @@
   )
     span(:class="{'has-error': touched && dirty && errors.length }")
       a-input(
+        :name="name",
         :placeholder="placeholder",
         :type="type",
         v-model="innerValue",
@@ -38,6 +39,7 @@ export default {
     ValidationProvider,
   },
   props: {
+    label: { type: String },
     name: { type: String },
     placeholder: { type: String, default: '' },
     rules: { type: String },

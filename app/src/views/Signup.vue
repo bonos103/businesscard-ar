@@ -14,7 +14,8 @@
         form-control
           label(:class="$style.label") E-mail
           text-field(
-            name="E-mail",
+            label="E-mail",
+            name="email",
             rules="required|email",
             v-model="email",
             placeholder="input your email address.",
@@ -23,7 +24,8 @@
         form-control
           label(:class="$style.label") Password
           text-field(
-            name="Password",
+            label="Password",
+            name="password",
             rules="required|alpha_dash|min:6",
             vid="password",
             v-model="password",
@@ -33,7 +35,8 @@
         form-control
           label(:class="$style.label") Confirm Password
           text-field(
-            name="Password",
+            label="Password",
+            name="password",
             rules="required|confirmed:password",
             v-model="passwordConfirm",
             type="password",
