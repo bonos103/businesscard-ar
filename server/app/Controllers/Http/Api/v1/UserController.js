@@ -89,6 +89,82 @@ class UserController {
       message: 'ログアウトしました。',
     })
   }
+
+  async loginFacebook({ ally }) {
+    await ally.driver('facebook').redirect()
+  }
+
+  async loginFacebookCallback({ ally, auth, view }) {
+    try {
+      const fbUser = await ally.driver('facebook').getUser()
+
+      // user details to be saved
+      const userDetails = {
+        email: fbUser.getEmail(),
+        source: 'facebook',
+      }
+      Logger.info(userDetails)
+
+      // search for existing user
+      const whereClause = {
+        email: fbUser.getEmail(),
+        source: 'facebook',
+      }
+
+      const user = await User.findOrCreate(whereClause, userDetails)
+
+      const jwtToken = await auth.withRefreshToken().generate(user)
+      view.share({
+        jwtToken,
+      })
+
+      return view.render('user.social-callback')
+    } catch (error) {
+      Logger.error(error)
+      return 'Unable to authenticate. Try again later'
+    }
+  }
+
+  async loginTwitter({ ally }) {
+    try {
+      await ally.driver('twitter').redirect()
+    } catch(e) {
+      Logger.error(e)
+    }
+  }
+
+  async loginTwitterCallback({ ally, auth, view }) {
+    try {
+      const fbUser = await ally.driver('twitter').getUser()
+
+      // user details to be saved
+      const userDetails = {
+        email: fbUser.getEmail(),
+        source: 'twitter',
+      }
+      Logger.info(JSON.stringify(userDetails))
+
+      // search for existing user
+      const whereClause = {
+        email: fbUser.getEmail(),
+        source: 'twitter',
+      }
+      // Logger.info(JSON.stringify(jwtToken))
+
+      const user = await User.findOrCreate(whereClause, userDetails)
+      const jwtToken = await auth.withRefreshToken().generate(user)
+      Logger.info(JSON.stringify(jwtToken))
+
+      view.share({
+        jwtToken,
+      })
+
+      return view.render('user.social-callback')
+    } catch (error) {
+      Logger.error(error)
+      return 'Unable to authenticate. Try again later'
+    }
+  }
 }
 
 module.exports = UserController

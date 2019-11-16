@@ -23,6 +23,10 @@ Route.group(() => {
   Route.post('user/refresh', 'UserController.refresh')
   Route.post('user/auth', 'UserController.auth').validator('User/AuthUser')
   Route.post('user/login', 'UserController.login').middleware(['guest'])
+  Route.get('user/login/facebook', 'UserController.loginFacebook').middleware(['guest'])
+  Route.get('user/login/facebook/callback', 'UserController.loginFacebookCallback').middleware(['guest'])
+  Route.get('user/login/twitter', 'UserController.loginTwitter').middleware(['guest'])
+  Route.get('user/login/twitter/callback', 'UserController.loginTwitterCallback').middleware(['guest'])
   Route.post('user/logout', 'UserController.logout')
   Route.resource('user', 'UserController').apiOnly().validator(new Map([
     [['user.store'], ['User/StoreUser']],
