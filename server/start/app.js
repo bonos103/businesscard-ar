@@ -13,6 +13,7 @@
 const providers = [
   '@adonisjs/framework/providers/AppProvider',
   '@adonisjs/framework/providers/ViewProvider',
+  '@adonisjs/ally/providers/AllyProvider',
   '@adonisjs/auth/providers/AuthProvider',
   '@adonisjs/antl/providers/AntlProvider',
   '@adonisjs/bodyparser/providers/BodyParserProvider',
