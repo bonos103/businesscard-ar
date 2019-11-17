@@ -91,7 +91,11 @@ class UserController {
   }
 
   async loginFacebook({ ally }) {
-    await ally.driver('facebook').redirect()
+    try {
+      await ally.driver('facebook').redirect()
+    } catch(e) {
+      Logger.error(e)
+    }
   }
 
   async loginFacebookCallback({ ally, auth, view }) {
@@ -103,7 +107,6 @@ class UserController {
         email: fbUser.getEmail(),
         source: 'facebook',
       }
-      Logger.info(userDetails)
 
       // search for existing user
       const whereClause = {
@@ -116,6 +119,7 @@ class UserController {
       const jwtToken = await auth.withRefreshToken().generate(user)
       view.share({
         jwtToken,
+        targetOrigin: Env.get('URL'),
       })
 
       return view.render('user.social-callback')
@@ -157,6 +161,7 @@ class UserController {
 
       view.share({
         jwtToken,
+        targetOrigin: Env.get('URL'),
       })
 
       return view.render('user.social-callback')

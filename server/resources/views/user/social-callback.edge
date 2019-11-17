@@ -10,7 +10,7 @@
   Authenticated successfully.
 
   <script type="text/javascript">
-    window.opener.authenticateCallback({{{toJSON(jwtToken)}}});
+    window.opener.postMessage({{{toJSON(jwtToken)}}}, '{{targetOrigin}}')
     window.close();
   </script>
 </body>
