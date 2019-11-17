@@ -7,41 +7,43 @@
       div(:class="$style.social")
         div(:class="$style.socialList")
           div(:class="$style.socialItem")
-            img(src="@/assets/images/icons/facebook.png", @click="handleSocial('facebook')")
+            a-button(type="primary", shape="round", size="large", @click="handleSocial('facebook')", :class="$style.facebook") Facebookログイン
+            //- img(src="@/assets/images/icons/facebook.png")
           div(:class="$style.socialItem")
-            img(src="@/assets/images/icons/twitter.png", @click="handleSocial('twitter')")
+            a-button(type="primary", shape="round", size="large", @click="handleSocial('twitter')", :class="$style.twitter") Twitterログイン
+            //- img(src="@/assets/images/icons/twitter.png", @click="handleSocial('twitter')")
 
-      div(:class="$style.divider")
+      //- div(:class="$style.divider")
 
-      validation-observer(
-        tag="form",
-        ref="observer",
-        @submit.prevent="handleSubmit",
-        :class="$style.form",
-        novalidate,
-      )
-        form-control
-          label(:class="$style.label") E-mail
-          text-field(
-            label="E-mail",
-            name="email",
-            rules="required|email",
-            v-model="email",
-            placeholder="input your email address.",
-            type="email",
-          )
-        form-control
-          label(:class="$style.label") Password
-          text-field(
-            label="Password",
-            name="password",
-            rules="required|alpha_dash|min:6",
-            v-model="password",
-            placeholder="半角英数 6文字以上",
-            type="password",
-          )
-        div(:class="$style.buttonBlock")
-          a-button(htmlType="submit", size="large", ghost) ログイン
+      //- validation-observer(
+      //-   tag="form",
+      //-   ref="observer",
+      //-   @submit.prevent="handleSubmit",
+      //-   :class="$style.form",
+      //-   novalidate,
+      //- )
+      //-   form-control
+      //-     label(:class="$style.label") E-mail
+      //-     text-field(
+      //-       label="E-mail",
+      //-       name="email",
+      //-       rules="required|email",
+      //-       v-model="email",
+      //-       placeholder="input your email address.",
+      //-       type="email",
+      //-     )
+      //-   form-control
+      //-     label(:class="$style.label") Password
+      //-     text-field(
+      //-       label="Password",
+      //-       name="password",
+      //-       rules="required|alpha_dash|min:6",
+      //-       v-model="password",
+      //-       placeholder="半角英数 6文字以上",
+      //-       type="password",
+      //-     )
+      //-   div(:class="$style.buttonBlock")
+      //-     a-button(htmlType="submit", size="large", ghost) ログイン
 </template>
 <style module>
   .wrapper {
@@ -85,6 +87,22 @@
     & img {
       width: 40px;
       height: 40px;
+    }
+  }
+  .facebook {
+    background-color: #1877F2;
+    border-color: #1877F2;
+    &:hover {
+      background-color: color-mod(#1877F2 lightness(+10%));
+      border-color: color-mod(#1877F2 lightness(+10%));
+    }
+  }
+  .twitter {
+    background-color: #1DA1F2;
+    border-color: #1DA1F2;
+    &:hover {
+      background-color: color-mod(#1DA1F2 lightness(+10%));
+      border-color: color-mod(#1DA1F2 lightness(+10%));
     }
   }
   .divider {
