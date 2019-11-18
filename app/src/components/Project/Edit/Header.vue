@@ -14,7 +14,7 @@
           plus-icon
         button(:class="$style.button", @click="handleSave") 保存
     div(:class="$style.toolHeader", v-if="item")
-      div(:class="$style.headerRight")
+      div(:class="$style.headerRight", v-if="item.type === 'text'")
         div(:class="$style.toolHeaderItem")
           label サイズ
           a-dropdown(v-model="visibleToolSize")
