@@ -6,7 +6,7 @@
           router-link(:to="{ name: 'Project' }")
             logo-simple-icon
         div(:class="$style.title")
-          a-input(type="text", placeholder="プロジェクト名" :value="title", @input="changeTitle")
+          a-input(type="text", placeholder="プロジェクト名", :value="title", @input="changeTitle")
       div(:class="$style.headerRight")
         div(:class="$style.item")
           minus-icon
