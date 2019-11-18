@@ -48,7 +48,7 @@ const defaultItemText = {
 const defaultItemSocial = {
   twitter: {
     type: 'social',
-    value: '',
+    value: 'https://twitter.com/',
     image: twitterIcon,
     scale_x: 1,
     scale_y: 1,
@@ -61,7 +61,7 @@ const defaultItemSocial = {
   },
   facebook: {
     type: 'social',
-    value: '',
+    value: 'https://www.facebook.com/',
     image: facebookIcon,
     scale_x: 1,
     scale_y: 1,
@@ -74,7 +74,7 @@ const defaultItemSocial = {
   },
   instagram: {
     type: 'social',
-    value: '',
+    value: 'https://www.instagram.com/',
     image: instagramIcon,
     scale_x: 1,
     scale_y: 1,
