@@ -19,62 +19,62 @@
           label サイズ
           a-dropdown(v-model="visibleToolSize")
             div(:class="$style.toolSize")
-              | {{item.fontSize}}
+              | {{item.font_size}}
             div(:class="$style.toolSizeSelect", slot="overlay")
               div(
                 :class="$style.toolSizeSelectItem",
                 @click="changeSize(10)",
-                :active="item.fontSize === 10"
+                :active="item.font_size === 10"
               ) 10
               div(
                 :class="$style.toolSizeSelectItem",
                 @click="changeSize(11)",
-                :active="item.fontSize === 11"
+                :active="item.font_size === 11"
               ) 11
               div(
                 :class="$style.toolSizeSelectItem",
                 @click="changeSize(12)",
-                :active="item.fontSize === 12"
+                :active="item.font_size === 12"
               ) 12
               div(
                 :class="$style.toolSizeSelectItem",
                 @click="changeSize(14)",
-                :active="item.fontSize === 14"
+                :active="item.font_size === 14"
               ) 14
               div(
                 :class="$style.toolSizeSelectItem",
                 @click="changeSize(16)",
-                :active="item.fontSize === 16"
+                :active="item.font_size === 16"
               ) 16
               div(
                 :class="$style.toolSizeSelectItem",
                 @click="changeSize(18)",
-                :active="item.fontSize === 18"
+                :active="item.font_size === 18"
               ) 18
               div(
                 :class="$style.toolSizeSelectItem",
                 @click="changeSize(20)",
-                :active="item.fontSize === 20"
+                :active="item.font_size === 20"
               ) 20
               div(
                 :class="$style.toolSizeSelectItem",
                 @click="changeSize(24)",
-                :active="item.fontSize === 24",
+                :active="item.font_size === 24",
                 ) 24
               div(
                 :class="$style.toolSizeSelectItem",
                 @click="changeSize(28)",
-                :active="item.fontSize === 28",
+                :active="item.font_size === 28",
               ) 28
               div(
                 :class="$style.toolSizeSelectItem",
                 @click="changeSize(32)",
-                :active="item.fontSize === 32",
+                :active="item.font_size === 32",
               ) 32
               div(
                 :class="$style.toolSizeSelectItem",
                 @click="changeSize(40)",
-                :active="item.fontSize === 40",
+                :active="item.font_size === 40",
               ) 40
 
         div(:class="$style.toolHeaderItem")
@@ -265,7 +265,7 @@ export default {
       this.SET_TITLE(e.target.value)
     },
     changeSize(value) {
-      this.SET_DATA({ font_size: value })
+      this.SET_DATA({ fontSize: value })
     },
     changeColor(colors) {
       this.SET_DATA({ color: colors.hex })
