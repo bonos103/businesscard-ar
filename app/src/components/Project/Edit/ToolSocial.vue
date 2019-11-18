@@ -49,8 +49,8 @@ export default {
       }
     },
     handleClick(value) {
-      console.log(value)
       this.ADD_ITEM({ type: 'social', value })
+      this.$emit('close')
     },
   },
 }
