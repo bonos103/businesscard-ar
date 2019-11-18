@@ -3,17 +3,17 @@
     img(
       src="@/assets/images/project/sns/twitter.png",
       :class="$style.item",
-      @click="handleClick('twitter')",
+      @click.prevent.stop="handleClick('twitter')",
     )
     img(
       src="@/assets/images/project/sns/facebook.png",
       :class="$style.item",
-      @click="handleClick('facebook')",
+      @click.prevent.stop="handleClick('facebook')",
     )
     img(
       src="@/assets/images/project/sns/instagram.png",
       :class="$style.item",
-      @click="handleClick('instagram')",
+      @click.prevent.stop="handleClick('instagram')",
     )
 </template>
 <style module>
