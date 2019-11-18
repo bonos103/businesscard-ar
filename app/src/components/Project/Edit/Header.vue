@@ -90,7 +90,13 @@
       div(:class="$style.headerRight", v-if="item.type === 'social'")
         div(:class="$style.toolHeaderItem")
           label リンク
-          a-input(type="text", placeholder="ユーザーID", :value="item.value", @input="changeValue", style="width: 280px;")
+          a-input(
+            type="text",
+            placeholder="ユーザーID",
+            :value="item.value",
+            @input="changeValue",
+            style="width: 280px;",
+          )
 </template>
 <style module>
   .wrap {
@@ -277,7 +283,7 @@ export default {
       this.SET_DATA({ color: colors.hex })
     },
     changeValue(e) {
-      if (/^https\:\/\/(www\.instagram\.com|www\.facebook\.com|twitter\.com)\//.test(e.target.value || '')) {
+      if (/^https:\/\/(www\.instagram\.com|www\.facebook\.com|twitter\.com)\//.test(e.target.value || '')) {
         this.SET_DATA({ value: e.target.value })
       }
     },
