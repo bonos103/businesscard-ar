@@ -33,7 +33,7 @@ function setEid(items) {
 
 const defaultItemText = {
   type: 'text',
-  value: 'hogehoge',
+  value: '自由に文章が入力できます。\n左下から、テキストの追加もしくは、ソーシャルボタンの設置ができます。',
   scale_x: 1,
   scale_y: 1,
   scale_z: 1,
@@ -41,13 +41,14 @@ const defaultItemText = {
   y: 1,
   z: 0,
   font_size: 18,
-  color: '#FF6F61',
+  color: '#000',
   width: 3,
   height: 2,
 }
 const defaultItemSocial = {
   twitter: {
     type: 'social',
+    value: '',
     image: twitterIcon,
     scale_x: 1,
     scale_y: 1,
@@ -60,6 +61,7 @@ const defaultItemSocial = {
   },
   facebook: {
     type: 'social',
+    value: '',
     image: facebookIcon,
     scale_x: 1,
     scale_y: 1,
@@ -72,6 +74,7 @@ const defaultItemSocial = {
   },
   instagram: {
     type: 'social',
+    value: '',
     image: instagramIcon,
     scale_x: 1,
     scale_y: 1,
