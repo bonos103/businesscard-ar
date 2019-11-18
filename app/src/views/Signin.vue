@@ -7,10 +7,22 @@
       div(:class="$style.social")
         div(:class="$style.socialList")
           div(:class="$style.socialItem")
-            a-button(type="primary", shape="round", size="large", @click="handleSocial('facebook')", :class="$style.facebook") Facebookログイン
+            a-button(
+              type="primary",
+              shape="round",
+              size="large",
+              @click="handleSocial('facebook')",
+              :class="$style.facebook",
+            ) Facebookログイン
             //- img(src="@/assets/images/icons/facebook.png")
           div(:class="$style.socialItem")
-            a-button(type="primary", shape="round", size="large", @click="handleSocial('twitter')", :class="$style.twitter") Twitterログイン
+            a-button(
+              type="primary",
+              shape="round",
+              size="large",
+              @click="handleSocial('twitter')",
+              :class="$style.twitter",
+            ) Twitterログイン
             //- img(src="@/assets/images/icons/twitter.png", @click="handleSocial('twitter')")
 
       //- div(:class="$style.divider")
