@@ -28,7 +28,10 @@ import Object2Canvas from '@/utils/Object2Canvas'
 export default {
   name: 'VrScene',
   props: {
-    node: { type: HTMLDivElement, required: true },
+    // node: [
+    //   { type: HTMLDivElement, required: true },
+    // ],
+    objects: { type: Array },
   },
   data() {
     return {
@@ -45,10 +48,17 @@ export default {
   async mounted() {
     this.show = true
     await this.$nextTick()
-    const object2Canvas = new Object2Canvas(this.node)
-    await object2Canvas.init()
-    this.src = await object2Canvas.toDataURL('image/png')
-    this.size = await object2Canvas.aframeSize()
+    const promise = async (node) => {
+      const object2Canvas = new Object2Canvas(node)
+      await object2Canvas.init()
+      this.src = await object2Canvas.toDataURL('image/png')
+      this.size = await object2Canvas.aframeSize()
+    }
+    await Promise.all(this.objects.map(({ node }) => promise(node)))
+    // const object2Canvas = new Object2Canvas(this.node)
+    // await object2Canvas.init()
+    // this.src = await object2Canvas.toDataURL('image/png')
+    // this.size = await object2Canvas.aframeSize()
   },
   metaInfo() {
     return {

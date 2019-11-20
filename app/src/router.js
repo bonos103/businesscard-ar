@@ -47,6 +47,12 @@ const router = new Router({
       meta: { requiredAuth: true },
     },
     {
+      path: '/project/:id/preview',
+      name: 'ProjectPreview',
+      component: () => import(/* webpackChunkName: "Vr" */ './views/Project/Preview.vue'),
+      meta: { requiredAuth: true },
+    },
+    {
       path: '/signin',
       name: 'Signin',
       component: () => import(/* webpackChunkName: "Auth" */'./views/Signin.vue'),
