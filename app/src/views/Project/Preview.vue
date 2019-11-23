@@ -1,6 +1,6 @@
 <template lang="pug">
   div(:class="$style.wrapper")
-    Object(ref="material", :text="item.value", v-for="item in items", :key="item.eid")
+    Object(ref="material", :item="item", v-for="item in items", :key="item.eid")
 </template>
 <style module>
   .wrapper {
@@ -15,10 +15,12 @@
 </style>
 <script>
 import Vue from 'vue'
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
+import { GET_PROJECT } from '@/store/modules/projects/types'
 import VrScene from '@/components/Vr/VrScene2.vue'
 import Object from '@/components/Vr/Object.vue'
 import router from '@/router'
+import Object2Canvas from '@/utils/Object2Canvas'
 
 export default {
   name: 'ProjectPreview',
@@ -27,11 +29,11 @@ export default {
   },
   computed: {
     ...mapState('projects', {
-      projects: 'projects',
+      project: 'project',
     }),
     items() {
-      if (this.projects && this.projects[0] && this.projects[0].items) {
-        return this.projects[0].items
+      if (this.project && this.project.items) {
+        return this.project.items
       }
       return []
     },
@@ -42,16 +44,23 @@ export default {
       text: null,
     }
   },
-  mounted() {
+  async mounted() {
+    const { id } = this.$route.params
+    await this.GET_PROJECT(id)
     if (this.$route.query.text) {
       this.text = this.$route.query.text
     }
     const el = document.body.appendChild(document.createElement('div'))
-    console.log('hoge')
-    const objects = this.items.map((item, index) => ({
-      ...item,
-      node: this.$refs.material[index].$el,
-    }))
+    const promise = async (item, index) => {
+      const object2Canvas = new Object2Canvas(this.$refs.material[index].$el)
+      await object2Canvas.init()
+      const src = await object2Canvas.toDataURL('image/png')
+      return {
+        ...item,
+        src,
+      }
+    }
+    const objects = await Promise.all(this.items.map(promise))
     console.log(objects)
     new Vue({
       router,
@@ -63,6 +72,11 @@ export default {
     }).$mount(el)
   },
   beforeMount() {
+  },
+  methods: {
+    ...mapActions('projects', {
+      GET_PROJECT,
+    }),
   },
   metaInfo() {
     return {

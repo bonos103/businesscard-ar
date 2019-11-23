@@ -2,14 +2,19 @@
   <a-scene
    vr-mode-ui="enabled: false;"
    embedded
-   background="color:  #24CAFF" >
+   background="color: #24CAFF" >
     <a-assets>
       <img src="@/assets/images/project/qr.png" id="businesscard" />
     </a-assets>
-    <a-image :src="src"
-      :position="`${size.width} ${size.height} 0`"
+    <a-image
+      v-for="object in objects"
+      :key="object.id"
+      :src="object.src"
+      :position="`${object.x} ${object.y} ${object.z}`"
       rotation="0 0 0"
-      :width="size.width" :height="size.height" id="object"></a-image>
+      :width="object.width"
+      :height="object.height"
+      id="object"></a-image>
     <a-image
       src="#businesscard"
       width="1" height="1"
@@ -23,7 +28,7 @@
 
 <script>
 import 'aframe'
-import Object2Canvas from '@/utils/Object2Canvas'
+// import Object2Canvas from '@/utils/Object2Canvas'
 
 export default {
   name: 'VrScene',
@@ -48,13 +53,14 @@ export default {
   async mounted() {
     this.show = true
     await this.$nextTick()
-    const promise = async (node) => {
-      const object2Canvas = new Object2Canvas(node)
-      await object2Canvas.init()
-      this.src = await object2Canvas.toDataURL('image/png')
-      this.size = await object2Canvas.aframeSize()
-    }
-    await Promise.all(this.objects.map(({ node }) => promise(node)))
+    // const promise = async (node) => {
+    //   const object2Canvas = new Object2Canvas(node)
+    //   await object2Canvas.init()
+    //   this.src = await object2Canvas.toDataURL('image/png')
+    //   this.size = await object2Canvas.aframeSize()
+    // }
+    // await Promise.all(this.objects.map(({ node }) => promise(node)))
+
     // const object2Canvas = new Object2Canvas(this.node)
     // await object2Canvas.init()
     // this.src = await object2Canvas.toDataURL('image/png')

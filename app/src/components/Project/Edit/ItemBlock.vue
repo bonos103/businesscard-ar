@@ -65,8 +65,9 @@ export default {
     },
     textStyle() {
       return {
-        fontSize: `${this.item.fontSize}px`,
+        fontSize: `${this.item.font_size}px`,
         color: this.item.color,
+        padding: 0,
       }
     },
     knobOption() {

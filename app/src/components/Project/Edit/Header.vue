@@ -277,7 +277,7 @@ export default {
       this.SET_TITLE(e.target.value)
     },
     changeSize(value) {
-      this.SET_DATA({ fontSize: value })
+      this.SET_DATA({ font_size: value })
     },
     changeColor(colors) {
       this.SET_DATA({ color: colors.hex })
