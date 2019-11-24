@@ -9,7 +9,7 @@
     position: fixed;
     left: 0;
     top: 0;
-    z-index: -1;
+    z-index: -10000;
     overflow: hidden;
   }
 </style>
@@ -17,7 +17,8 @@
 import Vue from 'vue'
 import { mapActions, mapState } from 'vuex'
 import { GET_PROJECT } from '@/store/modules/projects/types'
-import VrScene from '@/components/Vr/VrScene2.vue'
+import ArScene from '@/components/Vr/ArScene.vue'
+// import ArScene from '@/components/Vr/VrScene2.vue'
 import Object from '@/components/Vr/Object.vue'
 import router from '@/router'
 import Object2Canvas from '@/utils/Object2Canvas'
@@ -64,7 +65,7 @@ export default {
     console.log(objects)
     new Vue({
       router,
-      render: h => h(VrScene, {
+      render: h => h(ArScene, {
         props: {
           objects,
         },
