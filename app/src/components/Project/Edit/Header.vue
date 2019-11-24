@@ -9,6 +9,9 @@
           a-input(type="text", placeholder="プロジェクト名", :value="title", @input="changeTitle")
       div(:class="$style.headerRight")
         div(:class="$style.item")
+          div(@click="isPreviewModal = true") プレビュー
+          preview-modal(v-model="isPreviewModal", :id="$route.params.id", v-if="isPreviewModal")
+        //- div(:class="$style.item")
           minus-icon
           div(:class="$style.zoomLabel") 100%
           plus-icon
@@ -243,12 +246,14 @@ import {
 import LogoSimpleIcon from '@/components/Icon/LogoSimpleIcon.vue'
 import MinusIcon from '@/components/Icon/MinusIcon.vue'
 import PlusIcon from '@/components/Icon/PlusIcon.vue'
+import PreviewModal from '@/components/QrCode/PreviewModal.vue'
 
 export default {
   components: {
     LogoSimpleIcon,
     MinusIcon,
     PlusIcon,
+    PreviewModal,
     SketchPicker,
   },
   computed: {
@@ -262,6 +267,7 @@ export default {
   data() {
     return {
       colors: '#000000',
+      isPreviewModal: false,
       visibleToolSize: false,
       visibleToolColor: false,
     }
