@@ -1,6 +1,7 @@
 // import _get from 'lodash/get'
 // import Cookie from 'universal-cookie'
 import _get from 'lodash/get'
+import _cloneDeep from 'lodash/cloneDeep'
 import Axios from '@/utils/Axios'
 import twitterIcon from '@/assets/images/project/sns/twitter.png'
 import facebookIcon from '@/assets/images/project/sns/facebook.png'
@@ -134,7 +135,13 @@ export default {
       return result
     },
     async [PUT_PROJECT]({ state }) {
-      const data = { ...state.project }
+      // const data = Object.assign({}, state.project)
+      // const data = { ...state.project }
+      const data = _cloneDeep(state.project)
+      // const data = {
+      //   ...state.project,
+      //   items: [...state.project.items],
+      // }
       data.items.forEach(item => delete item.eid)
       const result = await axios.put(`/project/${data.id}`, data)
       return result
