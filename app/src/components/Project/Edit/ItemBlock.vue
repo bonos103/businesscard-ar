@@ -57,7 +57,7 @@ export default {
   computed: {
     boxStyle() {
       return {
-        top: `${this.item.y * 100 * -1}px`,
+        top: `${this.item.z * 100}px`,
         left: `${this.item.x * 100}px`,
         width: `${this.item.width * 100}px`,
         height: `${this.item.height * 100}px`,

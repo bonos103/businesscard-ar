@@ -11,6 +11,14 @@ export default class ItemBlockController {
     return this._item
   }
 
+
+  /**
+   * @param {object} data
+   * @param {number} data.dx window基準のX軸の変化量
+   * @param {number} data.dy window基準のY軸の変化量。→ AR基準だとZ
+   * @param {string} data.position 動かしているknobの位置
+   * @returns {object} AR基準のX, Z, Width, Height
+   */
   resize(data) {
     const { dx = 0, dy = 0, position } = data
     if (!position) {
@@ -20,7 +28,7 @@ export default class ItemBlockController {
       width,
       height,
       x,
-      y,
+      z,
     } = this.convertBrowserSize()
 
     switch (position) {
@@ -28,19 +36,19 @@ export default class ItemBlockController {
         width -= dx
         height -= dy
         x += dx / 2
-        y += dy / 2 * -1
+        z += dy / 2
         break
       }
       case 'top-center': {
         height -= dy
-        y += dy / 2 * -1
+        z += dy / 2
         break
       }
       case 'top-right': {
         width += dx
         height -= dy
         x += dx / 2
-        y += dy / 2 * -1
+        z += dy / 2
         break
       }
       case 'center-right': {
@@ -52,19 +60,19 @@ export default class ItemBlockController {
         width += dx
         height += dy
         x += dx / 2
-        y += dy / 2 * -1
+        z += dy / 2
         break
       }
       case 'bottom-center': {
         height += dy
-        y += dy / 2 * -1
+        z += dy / 2
         break
       }
       case 'bottom-left': {
         width -= dx
         height += dy
         x += dx / 2
-        y += dy / 2 * -1
+        z += dy / 2
         break
       }
       case 'center-left': {
@@ -80,32 +88,38 @@ export default class ItemBlockController {
       width,
       height,
       x,
-      y,
+      z,
     })
     this.item = Object.assign(this.item, result)
     return result
   }
 
+  /**
+   * @param {object} data
+   * @param {number} data.dx window基準のX軸の変化量
+   * @param {number} data.dy window基準のY軸の変化量。→ AR基準だとZ
+   * @returns {object} AR基準のX,Z
+   */
   move(data) {
     const { dx, dy } = data
     let {
       x,
-      y,
+      z,
     } = this.convertBrowserSize()
 
     x += dx
-    y -= dy
+    z += dy
     const result = this.convertArSize({
       x,
-      y,
+      z,
     })
     this.item = Object.assign(this.item, {
       x: result.x,
-      y: result.y,
+      z: result.z,
     })
     return {
       x: result.x,
-      y: result.y,
+      z: result.z,
     }
   }
 
@@ -115,6 +129,7 @@ export default class ItemBlockController {
       height: this.constructor.ar2PxUnit(this.item.height),
       x: this.constructor.ar2PxUnit(this.item.x),
       y: this.constructor.ar2PxUnit(this.item.y),
+      z: this.constructor.ar2PxUnit(this.item.z),
     }
   }
 
@@ -124,6 +139,7 @@ export default class ItemBlockController {
       height: this.constructor.px2ArUnit(data.height),
       x: this.constructor.px2ArUnit(data.x),
       y: this.constructor.px2ArUnit(data.y),
+      z: this.constructor.px2ArUnit(data.z),
     }
   }
 
