@@ -29,7 +29,7 @@
         v-for="object in objects"
         :key="object.id"
         :src="object.src"
-        :position="`${object.x} ${object.z} ${object.y * -1}`"
+        :position="`${object.x} ${object.y} ${object.z}`"
         rotation="-90 0 0"
         :width="object.width"
         :height="object.height"
