@@ -142,7 +142,10 @@ export default {
       //   ...state.project,
       //   items: [...state.project.items],
       // }
-      data.items.forEach(item => delete item.eid)
+      data.items.forEach(item => {
+        delete item.eid
+        delete item.image
+      })
       const result = await axios.put(`/project/${data.id}`, data)
       return result
     },
