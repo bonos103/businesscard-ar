@@ -55,8 +55,8 @@ const defaultItemSocial = {
     scale_y: 1,
     scale_z: 1,
     x: -0.75,
-    y: -1,
-    z: 0,
+    y: 0,
+    z: -1,
     width: 0.5,
     height: 0.5,
   },
@@ -68,8 +68,8 @@ const defaultItemSocial = {
     scale_y: 1,
     scale_z: 1,
     x: 0,
-    y: -1,
-    z: 0,
+    y: 0,
+    z: -1,
     width: 0.5,
     height: 0.5,
   },
@@ -81,8 +81,8 @@ const defaultItemSocial = {
     scale_y: 1,
     scale_z: 1,
     x: 0.75,
-    y: -1,
-    z: 0,
+    y: 0,
+    z: -1,
     width: 0.5,
     height: 0.5,
   },
@@ -142,7 +142,7 @@ export default {
       //   ...state.project,
       //   items: [...state.project.items],
       // }
-      data.items.forEach(item => {
+      data.items.forEach((item) => {
         delete item.eid
         delete item.image
       })
