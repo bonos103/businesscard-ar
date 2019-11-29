@@ -22,6 +22,7 @@ import ArScene from '@/components/Vr/ArScene.vue'
 import Object from '@/components/Vr/Object.vue'
 import router from '@/router'
 import Object2Canvas from '@/utils/Object2Canvas'
+import SocialIcon from '@/utils/SocialIcon'
 
 export default {
   name: 'ProjectPreview',
@@ -53,9 +54,10 @@ export default {
     }
     const el = document.body.appendChild(document.createElement('div'))
     const promise = async (item, index) => {
-      const object2Canvas = new Object2Canvas(this.$refs.material[index].$el)
-      await object2Canvas.init()
-      const src = await object2Canvas.toDataURL('image/png')
+      // const object2Canvas = new Object2Canvas(this.$refs.material[index].$el)
+      // await object2Canvas.init()
+      // const src = await object2Canvas.toDataURL('image/png')
+      const src = await this.getItemSrc(item, index)
       return {
         ...item,
         src,
@@ -78,6 +80,18 @@ export default {
     ...mapActions('projects', {
       GET_PROJECT,
     }),
+    async getItemSrc(item, index) {
+      if (item.type === 'text') {
+        const object2Canvas = new Object2Canvas(this.$refs.material[index].$el)
+        await object2Canvas.init()
+        const src = await object2Canvas.toDataURL('image/png')
+        return src
+      }
+      if (item.type === 'social') {
+        return (new SocialIcon(item.value)).src
+      }
+      return ''
+    },
   },
   metaInfo() {
     return {

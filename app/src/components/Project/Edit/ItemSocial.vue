@@ -11,9 +11,7 @@
 </style>
 <script>
 import ItemBlock from '@/components/Project/Edit/ItemBlock.vue'
-import twitterIcon from '@/assets/images/project/sns/twitter.png'
-import facebookIcon from '@/assets/images/project/sns/facebook.png'
-import instagramIcon from '@/assets/images/project/sns/instagram.png'
+import SocialIcon from '@/utils/SocialIcon'
 
 export default {
   props: {
@@ -25,17 +23,7 @@ export default {
   },
   computed: {
     iconImage() {
-      const match = this.item.value.match(/twitter|facebook|instagram/)
-      if (match[0] === 'twitter') {
-        return twitterIcon
-      }
-      if (match[0] === 'facebook') {
-        return facebookIcon
-      }
-      if (match[0] === 'instagram') {
-        return instagramIcon
-      }
-      return ''
+      return (new SocialIcon(this.item.value)).src
     },
   },
 }
