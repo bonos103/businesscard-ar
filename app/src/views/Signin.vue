@@ -200,7 +200,11 @@ export default {
     },
     async handleSocial(source) {
       await this.USER_SOCIAL(source)
-      this.$router.push({ name: 'Project' })
+      if (this.$route.query.redirect) {
+        this.$router.push(this.$route.query.redirect)
+      } else {
+        this.$router.push({ name: 'Project' })
+      }
     },
   },
 }
