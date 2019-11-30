@@ -34,6 +34,8 @@
         :width="object.width"
         :height="object.height"
         id="object"
+        :link="getLink(object)"
+        cursor="fuse: false; rayOrigin: mouse;"
       ></a-image>
     </a-marker>
     <a-entity camera></a-entity>
@@ -72,6 +74,12 @@ export default {
       const markerPattern = new MarkerPattern(link.href)
       this.markerUrl = await markerPattern.markerSrc
     },
+    getLink(object) {
+      if (object.type === 'social') {
+        return `href: ${object.value}`
+      }
+      return ''
+    },
   },
   async mounted() {
     await this.createMarkerUrl()
@@ -81,6 +89,20 @@ export default {
 
     this.show = true
     await this.$nextTick()
+    AFRAME.registerComponent('markerhandler1', {
+      init() {
+        this.tick = AFRAME.utils.throttleTick(this.tick, 500, this)
+      },
+      tick(t, dt) {
+        if(document.querySelectorAll("video")[1] !== undefined && segundo == true) {
+          segundo = false;
+          var vv = document.querySelector('a-marker')
+          vv.setAttribute('raycaster',"objects: .clickable")
+          vv.setAttribute( 'cursor',"rayOrigin: mouse")
+          vv.setAttribute( 'cursor',"fuse: false")
+        }
+      },
+    })
     // const promise = async (node) => {
     //   const object2Canvas = new Object2Canvas(node)
     //   await object2Canvas.init()
