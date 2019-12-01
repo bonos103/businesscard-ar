@@ -19,9 +19,12 @@
       src="#businesscard"
       width="1" height="1"
       rotation="0 0 0"
-      position=" 0 0 0"></a-image>
+      position=" 0 0 0"
+      link="href: https://google.com"></a-image>
+    <a-entity link="href: index.html; title: My Homepage; image: #businesscard"></a-entity>
     <a-entity rotation="0 0 0" position="0 0 5" >
-      <a-camera id="camera" far=1000 fov=80 zoom=1.5 position="0 0 0"></a-camera>
+      <a-camera id="camera" far=1000 fov=80 zoom=1.5 position="0 0 0"
+        cursor="rayOrigin: mouse"></a-camera>
     </a-entity>
   </a-scene>
 </template>

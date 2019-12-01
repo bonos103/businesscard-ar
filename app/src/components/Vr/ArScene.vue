@@ -4,6 +4,9 @@
     arjs="debugUIEnabled:false; trackingMethod: best; sourceType: webcam;"
     v-if="show"
   >
+    <a-assets>
+      <img src="@/assets/images/project/qr.png" id="businesscard" />
+    </a-assets>
     <!-- <a-assets>
       <img src="@/assets/images/project/qr.png" id="businesscard" />
     </a-assets>
@@ -24,7 +27,14 @@
     <a-entity rotation="0 0 0" position="0 0 5" >
       <a-camera id="camera" far=1000 fov=80 zoom=1.5 position="0 0 0"></a-camera>
     </a-entity> -->
-    <a-marker type="pattern" :url="markerUrl" smooth="true">
+    <a-marker
+      type="pattern"
+      :url="markerUrl"
+      smooth="true"
+      emitevents="true"
+      markerhandler
+      cursor="fuse: false; rayOrigin: mouse;"
+    >
       <a-image
         v-for="object in objects"
         :key="object.id"
@@ -34,9 +44,17 @@
         :width="object.width"
         :height="object.height"
         id="object"
-        :link="getLink(object)"
-        cursor="fuse: false; rayOrigin: mouse;"
+        :data-link="getLink(object)"
+        class="link"
+        foo
       ></a-image>
+      <a-image
+      src="#businesscard"
+      width="1" height="1"
+      rotation="0 0 0"
+      position=" 0 0 0"
+      data-link="https://google.com"
+      class="link"></a-image>
     </a-marker>
     <a-entity camera></a-entity>
   </a-scene>
@@ -76,7 +94,7 @@ export default {
     },
     getLink(object) {
       if (object.type === 'social') {
-        return `href: ${object.value}`
+        return object.value
       }
       return ''
     },
@@ -84,25 +102,73 @@ export default {
   async mounted() {
     await this.createMarkerUrl()
 
-    const loadAframeAr = new LoadScript('https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.5/aframe/build/aframe-ar.js', 'aframe-ar-script').load()
+    const loadAframeAr = new LoadScript('https://raw.githack.com/jeromeetienne/AR.js/2.0.8/aframe/build/aframe-ar.js', 'aframe-ar-script').load()
     await Promise.all([loadAframeAr])
 
     this.show = true
     await this.$nextTick()
-    AFRAME.registerComponent('markerhandler1', {
+
+    let playing = false
+    window.AFRAME.registerComponent('markerhandler', {
+      // init() {
+      //   const links = document.querySelectorAll('.link')
+      //   links.forEach((link) => {
+      //     link.addEventListener('click', (event) => {
+      //       if (event.srcElement) {
+      //         const location = event.srcElement.dataset.link
+      //         console.log(location)
+      //         // window.location.href = link
+      //       }
+      //     })
+      //   })
+      // },
       init() {
-        this.tick = AFRAME.utils.throttleTick(this.tick, 500, this)
+        // Set up the tick throttling. Will check if marker is active every 500ms
+        this.tick = window.AFRAME.utils.throttleTick(this.tick, 2000, this)
       },
-      tick(t, dt) {
-        if(document.querySelectorAll("video")[1] !== undefined && segundo == true) {
-          segundo = false;
-          var vv = document.querySelector('a-marker')
-          vv.setAttribute('raycaster',"objects: .clickable")
-          vv.setAttribute( 'cursor',"rayOrigin: mouse")
-          vv.setAttribute( 'cursor',"fuse: false")
+
+      tick() {
+        if (document.querySelector('a-marker').object3D.visible === true && playing === false) {
+          // MARKER IS PRESENT
+          // alert("MARKER IS PRESENT")
+          document.querySelector('a-marker').setAttribute('raycaster', 'objects: .link')
+          const links = document.querySelectorAll('.link')
+          links.forEach((link) => {
+            link.addEventListener('click', (event) => {
+              if (event.srcElement) {
+                const location = event.srcElement.dataset.link
+                console.log(location)
+                // window.location.href = link
+              }
+            })
+          })
+          playing = true
+        } else {
+          // MARKER IS HIDDEN, do nothing (up to you)
         }
       },
     })
+    window.AFRAME.registerComponent('foo', {
+      events: {
+        click(evt) {
+          console.log('hoge', evt)
+        },
+      },
+    })
+    // AFRAME.registerComponent('markerhandler1', {
+    //   init() {
+    //     this.tick = AFRAME.utils.throttleTick(this.tick, 500, this)
+    //   },
+    //   tick(t, dt) {
+    //     if(document.querySelectorAll("video")[1] !== undefined && segundo == true) {
+    //       segundo = false;
+    //       var vv = document.querySelector('a-marker')
+    //       vv.setAttribute('raycaster',"objects: .clickable")
+    //       vv.setAttribute( 'cursor',"rayOrigin: mouse")
+    //       vv.setAttribute( 'cursor',"fuse: false")
+    //     }
+    //   },
+    // })
     // const promise = async (node) => {
     //   const object2Canvas = new Object2Canvas(node)
     //   await object2Canvas.init()
