@@ -1,7 +1,7 @@
 <template>
   <a-scene
     embedded
-    arjs="debugUIEnabled:false; trackingMethod: best; sourceType: webcam;"
+    :arjs="arjs"
     v-if="show"
   >
     <a-assets>
@@ -56,7 +56,8 @@
       data-link="https://google.com"
       class="link"></a-image>
     </a-marker>
-    <a-entity camera></a-entity>
+    <!-- <a-entity camera></a-entity> -->
+    <a-marker-camera></a-marker-camera>
   </a-scene>
 </template>
 
@@ -73,6 +74,11 @@ export default {
     //   { type: HTMLDivElement, required: true },
     // ],
     objects: { type: Array },
+  },
+  computed: {
+    arjs() {
+      return 'debugUIEnabled:false; trackingMethod: best; sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960;'
+    },
   },
   data() {
     return {
@@ -108,46 +114,73 @@ export default {
     this.show = true
     await this.$nextTick()
 
-    let playing = false
-    window.AFRAME.registerComponent('markerhandler', {
-      // init() {
-      //   const links = document.querySelectorAll('.link')
-      //   links.forEach((link) => {
-      //     link.addEventListener('click', (event) => {
-      //       if (event.srcElement) {
-      //         const location = event.srcElement.dataset.link
-      //         console.log(location)
-      //         // window.location.href = link
-      //       }
-      //     })
-      //   })
-      // },
-      init() {
-        // Set up the tick throttling. Will check if marker is active every 500ms
-        this.tick = window.AFRAME.utils.throttleTick(this.tick, 2000, this)
-      },
+    // window.AFRAME.registerComponent('markerhandler', {
+    //   dependencies: ['arjs', 'artoolkit'],
+    //   init() {
+    //     const arjsSystem = this.el.sceneEl.systems.arjs || this.el.sceneEl.systems.artoolkit
+    //     const self = this
+    //     self.isReady = false
 
-      tick() {
-        if (document.querySelector('a-marker').object3D.visible === true && playing === false) {
-          // MARKER IS PRESENT
-          // alert("MARKER IS PRESENT")
-          document.querySelector('a-marker').setAttribute('raycaster', 'objects: .link')
-          const links = document.querySelectorAll('.link')
-          links.forEach((link) => {
-            link.addEventListener('click', (event) => {
-              if (event.srcElement) {
-                const location = event.srcElement.dataset.link
-                console.log(location)
-                // window.location.href = link
-              }
-            })
-          })
-          playing = true
-        } else {
-          // MARKER IS HIDDEN, do nothing (up to you)
-        }
-      },
-    })
+    //     const timerId = setInterval(() => {
+    //       if (arjsSystem.isReady === false) {
+    //         return
+    //       }
+    //       clearInterval(timerId)
+
+    //       const arSession = arjsSystem._arSession // eslint-disable-line
+    //       const { renderer } = arSession.parameters
+    //       self._arHitTesting = new window.ARjs.HitTesting(arSession) // eslint-disable-line
+    //       const hitTesting = self._arHitTesting // eslint-disable-line
+    //       hitTesting.enabled = self.data.enabled
+
+    //       console.log(renderer.domElement)
+
+    //       self.isReady = true
+    //     }, 1000 / 60)
+    //   },
+    // })
+
+    // let playing = false
+    // window.AFRAME.registerComponent('markerhandler', {
+    //   // init() {
+    //   //   const links = document.querySelectorAll('.link')
+    //   //   links.forEach((link) => {
+    //   //     link.addEventListener('click', (event) => {
+    //   //       if (event.srcElement) {
+    //   //         const location = event.srcElement.dataset.link
+    //   //         console.log(location)
+    //   //         // window.location.href = link
+    //   //       }
+    //   //     })
+    //   //   })
+    //   // },
+    //   init() {
+    //     // Set up the tick throttling. Will check if marker is active every 500ms
+    //     this.tick = window.AFRAME.utils.throttleTick(this.tick, 2000, this)
+    //   },
+
+    //   tick() {
+    //     if (document.querySelector('a-marker').object3D.visible === true && playing === false) {
+    //       // MARKER IS PRESENT
+    //       // alert("MARKER IS PRESENT")
+    //       document.querySelector('a-marker').setAttribute('raycaster', 'objects: .link')
+    //       const links = document.querySelectorAll('.link')
+    //       links.forEach((link) => {
+    //         link.addEventListener('click', (event) => {
+    //           if (event.srcElement) {
+    //             const location = event.srcElement.dataset.link
+    //             console.log(location)
+    //             // window.location.href = link
+    //           }
+    //         })
+    //       })
+    //       playing = true
+    //     } else {
+    //       // MARKER IS HIDDEN, do nothing (up to you)
+    //     }
+    //   },
+    // })
+
     window.AFRAME.registerComponent('foo', {
       events: {
         click(evt) {
@@ -155,6 +188,7 @@ export default {
         },
       },
     })
+
     // AFRAME.registerComponent('markerhandler1', {
     //   init() {
     //     this.tick = AFRAME.utils.throttleTick(this.tick, 500, this)
