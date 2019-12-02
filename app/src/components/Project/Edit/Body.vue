@@ -1,11 +1,9 @@
 <template lang="pug">
-  div(:class="$style.wrap", v-if="project", ref="body", id="editBody")
-    div(:class="$style.canvas", ref="canvas")
+  div(:class="$style.wrap", v-if="project")
+    div(:class="$style.canvas", ref="canvas", id="editBody")
       div(:class="$style.canvasInner")
         div(:class="$style.card")
           img(src="@/assets/images/project/qr.png")
-        div(:class="$style.tool")
-          edit-tool
         component(
           v-for="(item, index) in project.items",
           :key="index",
@@ -16,7 +14,8 @@
           @deactivate="deactivateItem($event, item)",
           @change="handleChange",
         )
-
+    div(:class="$style.tool")
+      edit-tool
 </template>
 <style module>
   .canvas {
@@ -62,8 +61,10 @@ import { SELECT_ITEM_EID, SET_DATA } from '@/store/modules/projects/types'
 import EditTool from '@/components/Project/Edit/Tool.vue'
 import ItemSocial from '@/components/Project/Edit/ItemSocial.vue'
 import ItemText from '@/components/Project/Edit/ItemText.vue'
+import EventListener from '@/utils/mixins/EventListener'
 
 export default {
+  mixins: [EventListener],
   components: {
     EditTool,
     ItemSocial,
@@ -72,6 +73,9 @@ export default {
   data() {
     return {
       activeItem: [],
+      resizeTimer: null,
+      windowWidth: window.innerWidth,
+      windowHeight: window.innerHeight,
     }
   },
   computed: {
@@ -100,6 +104,7 @@ export default {
       const h = window.innerHeight
       const w = window.innerWidth
       this.$refs.canvas.scrollTo(10000 - (w / 2), 10000 - (h / 2))
+      this.$listen(window, 'resize', this.resizeEvent)
     },
     activateItem(e, item) {
       this.activeItem = [item]
@@ -111,6 +116,17 @@ export default {
     },
     handleChange(data) {
       this.SET_DATA(data)
+    },
+    resizeEvent() {
+      clearTimeout(this.resizeTimer)
+      this.resizeTimer = setTimeout(() => {
+        const $canvas = this.$refs.canvas
+        const dx = window.innerWidth - this.windowWidth
+        const dy = window.innerHeight - this.windowHeight
+        this.windowWidth = window.innerWidth
+        this.windowHeight = window.innerHeight
+        $canvas.scrollTo($canvas.scrollLeft - (dx / 2), $canvas.scrollTop - (dy / 2))
+      }, 1000 / 60)
     },
   },
 }
