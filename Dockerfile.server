@@ -3,6 +3,14 @@ FROM node:10-alpine
 WORKDIR /app
 
 RUN apk add openssl
+RUN apk add --no-cache \
+  chromium \
+  nss \
+  freetype \
+  freetype-dev \
+  harfbuzz \
+  ca-certificates \
+  ttf-freefont
 
 RUN yarn global add @adonisjs/cli
 

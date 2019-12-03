@@ -33,7 +33,8 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "mysql2": "^1.6.5",
-    "pem": "^1.14.2"
+    "pem": "^1.14.2",
+    "puppeteer": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "5",

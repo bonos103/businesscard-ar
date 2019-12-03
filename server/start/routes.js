@@ -35,4 +35,6 @@ Route.group(() => {
   Route.resource('project', 'ProjectController').apiOnly().middleware(['auth']).validator(new Map([
     [['project.store'], ['Project/StoreProject']],
   ]))
+
+  Route.get('puppeteer', 'PuppeteerController.index')
 }).prefix('api/v1').namespace('Api/v1')
