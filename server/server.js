@@ -19,21 +19,34 @@
 
 const { Ignitor } = require('@adonisjs/ignitor')
 const Ford = require('@adonisjs/fold')
+const fs = require('fs')
 const https = require('https')
-const pem = require('pem')
+const path = require('path')
+// const pem = require('pem')
 
-pem.createCertificate({ days: 1, selfSigned: true }, (error, keys) => {
-  if (error) {
-    return console.log(error)
-  }
+// Certificate
+const options = {
+  key: fs.readFileSync(path.join(__dirname, '../cert/localhost+2-key.pem')),
+  cert: fs.readFileSync(path.join(__dirname, '../cert/localhost+2.pem'))
+}
 
-  const options = {
-    key: keys.serviceKey,
-    cert: keys.certificate,
-  }
+new Ignitor(Ford)
+  .appRoot(__dirname)
+  .fireHttpServer(handler => https.createServer(options, handler))
+  .catch(console.error)
 
-  return new Ignitor(Ford)
-    .appRoot(__dirname)
-    .fireHttpServer(handler => https.createServer(options, handler))
-    .catch(console.error)
-})
+// pem.createCertificate({ days: 1, selfSigned: true }, (error, keys) => {
+//   if (error) {
+//     return console.log(error)
+//   }
+
+//   const options = {
+//     key: keys.serviceKey,
+//     cert: keys.certificate,
+//   }
+
+//   return new Ignitor(Ford)
+//     .appRoot(__dirname)
+//     .fireHttpServer(handler => https.createServer(options, handler))
+//     .catch(console.error)
+// })
