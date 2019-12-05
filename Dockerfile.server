@@ -1,7 +1,5 @@
 FROM node:10-alpine
 
-WORKDIR /app
-
 RUN apk add openssl
 RUN apk add --no-cache \
   chromium \
@@ -11,6 +9,19 @@ RUN apk add --no-cache \
   harfbuzz \
   ca-certificates \
   ttf-freefont
+
+# puppeteerのために日本語フォントをインストール
+RUN mkdir /noto
+ADD https://noto-website-2.storage.googleapis.com/pkgs/NotoSansCJKjp-hinted.zip /noto
+WORKDIR /noto
+RUN unzip NotoSansCJKjp-hinted.zip && \
+    mkdir -p /usr/share/fonts/noto && \
+    cp *.otf /usr/share/fonts/noto && \
+    chmod 644 -R /usr/share/fonts/noto/ && \
+    fc-cache -fv
+
+WORKDIR /app
+RUN rm -rf /noto
 
 RUN yarn global add @adonisjs/cli
 
