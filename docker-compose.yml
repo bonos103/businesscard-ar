@@ -8,6 +8,7 @@ services:
       - 8080:8080
     volumes:
       - ./app:/app
+      - ./cert:/cert
       - /app/node_modules
     # links:
     #   - server:api-server
@@ -26,9 +27,11 @@ services:
       - 3333:3333
     volumes:
       - ./server:/app
+      - ./cert:/cert
       - /app/node_modules
     links:
       - mysql:mysql
+      - app:app
     command: npm run dev
     logging:
       driver: "json-file"

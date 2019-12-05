@@ -1,7 +1,13 @@
+const fs = require('fs')
+const path = require('path')
+
 module.exports = {
   devServer: {
     host: '0.0.0.0',
-    https: true,
+    https: {
+      key: fs.readFileSync(path.join(__dirname, '../cert/localhost+2-key.pem')),
+      cert: fs.readFileSync(path.join(__dirname, '../cert/localhost+2.pem'))
+    },
     disableHostCheck: true,
     compress: true,
     stats: 'normal',
