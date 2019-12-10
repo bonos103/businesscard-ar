@@ -3,7 +3,7 @@ import axios from 'axios'
 import Cookie from 'universal-cookie'
 import TokenController from '@/utils/TokenController'
 
-const API_URL = process.env.VUE_APP_API_URL
+const API_URL = document.location.origin || process.env.VUE_APP_URL
 const tokenController = new TokenController()
 
 class Axios {

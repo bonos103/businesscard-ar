@@ -40,9 +40,9 @@ export default {
     },
     [USER_SOCIAL](context, source) {
       return new Promise((resolve) => {
-        window.open(`${process.env.VUE_APP_API_URL}/api/v1/user/login/${source}`, '_blank', 'width=800,height=600')
+        window.open(`${process.env.VUE_APP_URL}/api/v1/user/login/${source}`, '_blank', 'width=800,height=600')
         window.addEventListener('message', (e) => {
-          if (e.origin === process.env.VUE_APP_API_URL && _get(e, 'data.token')) {
+          if (e.origin === process.env.VUE_APP_URL && _get(e, 'data.token')) {
             console.log(e)
             tokenController.save(_get(e, 'data.token'), _get(e, 'data.refreshToken'))
             resolve(e)

@@ -13,6 +13,11 @@ module.exports = {
     stats: 'normal',
     clientLogLevel: 'debug',
     quiet: false,
+    proxy: {
+      '/api': {
+        target: process.env.VUE_APP_API_URL,
+      },
+    },
   },
   chainWebpack: (config) => {
     const svgRule = config.module.rule('svg')
