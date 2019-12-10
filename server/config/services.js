@@ -29,7 +29,7 @@ module.exports = {
     facebook: {
       clientId: Env.get('FB_CLIENT_ID'),
       clientSecret: Env.get('FB_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/api/v1/user/login/facebook/callback`
+      redirectUri: `${Env.get('URL')}/api/v1/user/login/facebook/callback`
     },
 
     /*
@@ -104,7 +104,7 @@ module.exports = {
     twitter: {
       clientId: Env.get('TW_CLIENT_ID'),
       clientSecret: Env.get('TW_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/api/v1/user/login/twitter/callback`
+      redirectUri: `${Env.get('URL')}/api/v1/user/login/twitter/callback`
     },
   }
 }
