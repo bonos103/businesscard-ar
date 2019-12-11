@@ -43,7 +43,7 @@ Factory.blueprint('App/Models/Item', (faker, i, data) => ({
   color: data.color || '#000000',
 }))
 
-Factory.blueprint('App/Models/Model', () => ({
+Factory.blueprint('App/Models/Media', () => ({
   name: 'name_1576073470120.png',
   dir: 'test',
   type: 'image/png',

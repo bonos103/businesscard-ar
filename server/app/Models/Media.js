@@ -1,12 +1,25 @@
 'use strict'
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
+const path = require('path')
+
 const Model = use('Model')
+const dest = 'upload'
 
 class Media extends Model {
-  static boot () {
+  static boot() {
     super.boot()
-    this.addTrait('Uploader')
+    this.addTrait('Uploader', {
+      dest,
+    })
+  }
+
+  static get computed() {
+    return ['path']
+  }
+
+  getPath({ name, dir }) {
+    return path.join('/', dest, dir, name)
   }
 }
 

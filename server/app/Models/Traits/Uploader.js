@@ -8,7 +8,7 @@ const Helpers = use('Helpers')
 class Uploader {
   register (Model, customOptions = {}) {
     const defaultOptions = {
-      dest: Helpers.resourcesPath('upload'),
+      dest: 'upload',
     }
     const options = Object.assign(defaultOptions, customOptions)
 
@@ -18,7 +18,7 @@ class Uploader {
         name: `${[nameObject.name, new Date().getTime()].join('_')}`,
         ext: nameObject.ext,
       })
-      const filePath = path.join(options.dest, dir, fileName)
+      const filePath = path.join(Helpers.resourcesPath(options.dest), dir, fileName)
 
       await Drive.put(filePath, file)
 
