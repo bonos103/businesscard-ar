@@ -42,3 +42,10 @@ Factory.blueprint('App/Models/Item', (faker, i, data) => ({
   font_size: data.font_size || 18,
   color: data.color || '#000000',
 }))
+
+Factory.blueprint('App/Models/Model', () => ({
+  name: 'name_1576073470120.png',
+  dir: 'test',
+  type: 'image/png',
+  size: 478243,
+}))
