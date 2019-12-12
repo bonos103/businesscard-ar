@@ -94,7 +94,7 @@ test('delete item', async ({ assert, client }) => {
   assert.equal(response.body.items.length, 0)
 })
 
-test('mixed process', async ({ client }) => {
+test('add, update and delete items', async ({ client }) => {
   const user = await UserFactory.create()
   const project = await ProjectFactory.create()
   const updateItem = await ItemFactory.create()
