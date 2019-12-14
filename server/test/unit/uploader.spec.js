@@ -4,6 +4,7 @@ const path = require('path')
 
 const { test, trait, after } = use('Test/Suite')('Uploader')
 const Drive = use('Drive')
+const Env = use('Env')
 const Factory = use('Factory')
 const Helpers = use('Helpers')
 const Media = use('App/Models/Media')
@@ -27,4 +28,9 @@ test('upload', async ({ assert }) => {
 test('get path', async ({ assert }) => {
   const media = await MediaFactory.make()
   assert.equal(media.toJSON().path, path.join('/upload', media.dir, media.name), 'unexpected path')
+})
+
+test('get fullPath', async ({ assert }) => {
+  const media = await MediaFactory.make()
+  assert.equal(media.toJSON().fullPath, `${Env.get('URL')}${path.join('/upload', media.dir, media.name)}`, 'unexpected fullPath')
 })

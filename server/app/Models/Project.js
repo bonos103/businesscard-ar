@@ -21,6 +21,10 @@ class Project extends Model {
     return this.hasMany('App/Models/Item')
   }
 
+  static scopeWithImage(query) {
+    return query.with('image')
+  }
+
   static scopeWithItems(query) {
     return query.with('items')
   }
