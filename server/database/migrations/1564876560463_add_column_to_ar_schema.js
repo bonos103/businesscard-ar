@@ -14,6 +14,7 @@ class AddColumnToArSchema extends Schema {
   down() {
     this.alter('ars', (table) => {
       // reverse alternations
+      table.dropForeign('user_id')
       table.dropColumn('user_id')
     })
   }

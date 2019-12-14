@@ -14,6 +14,7 @@ class AddColumnToProjectSchema extends Schema {
   down () {
     this.table('projects', (table) => {
       // reverse alternations
+      table.dropForeign('image_id')
       table.dropColumn('image_id')
     })
   }
