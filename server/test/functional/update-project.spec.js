@@ -1,7 +1,9 @@
 'use strict'
 
-const { test, trait } = use('Test/Suite')('CreateProject')
+const { test, trait, after } = use('Test/Suite')('CreateProject')
+const Drive = use('Drive')
 const Factory = use('Factory')
+const Helpers = use('Helpers')
 
 const ItemFactory = Factory.model('App/Models/Item')
 const ProjectFactory = Factory.model('App/Models/Project')
@@ -41,7 +43,7 @@ test('update title and items', async ({ client }) => {
       value: 'change value',
     }],
   })
-})
+}).timeout(6000)
 
 test('add new item', async ({ client }) => {
   const user = await UserFactory.create()
@@ -69,7 +71,7 @@ test('add new item', async ({ client }) => {
       ...item.toJSON(),
     }],
   })
-})
+}).timeout(6000)
 
 test('delete item', async ({ assert, client }) => {
   const user = await UserFactory.create()
@@ -92,7 +94,7 @@ test('delete item', async ({ assert, client }) => {
 
   response.assertStatus(200)
   assert.equal(response.body.items.length, 0)
-})
+}).timeout(6000)
 
 test('add, update and delete items', async ({ client }) => {
   const user = await UserFactory.create()
@@ -132,4 +134,37 @@ test('add, update and delete items', async ({ client }) => {
       { ...addItem.toJSON() },
     ],
   })
+}).timeout(6000)
+
+test('take screenshot when update project', async ({ assert, client }) => {
+  const user = await UserFactory.create()
+  const project = await ProjectFactory.create()
+  const item = await ItemFactory.make()
+
+  await project.user().associate(user)
+
+  const data = {
+    ...project.toJSON(),
+    items: [
+      {
+        ...item.toJSON(),
+      },
+    ],
+  }
+
+  const response = await client
+    .put(`/api/v1/project/${project.id}`)
+    .send(data)
+    .loginVia(user, 'jwt')
+    .end()
+
+  await project.reload()
+  const image = await project.image().fetch()
+
+  response.assertStatus(200)
+  assert.exists(image.toJSON().path, 'Image is not exist')
+}).timeout(6000)
+
+after(async () => {
+  await Drive.delete(Helpers.resourcesPath('upload/screen'))
 })

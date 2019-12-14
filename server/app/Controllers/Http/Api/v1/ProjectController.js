@@ -95,7 +95,10 @@ class ProjectController {
 
     projectItems.rows = projectItems.rows.filter((row) => removeItems.findIndex((el) => el.id === row.id) === -1)
     createdItems.forEach((row) => projectItems.addRow(row))
-    return  response.ok(project.toJSON())
+
+    await project.takeThumbnail({ auth })
+
+    return response.ok(project.toJSON())
   }
 }
 

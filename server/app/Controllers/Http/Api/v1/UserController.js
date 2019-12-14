@@ -43,7 +43,7 @@ class UserController {
   }
 
   check({ auth, response }) {
-    // Logger.info(auth.current)
+    // Logger.info(JSON.stringify(auth.current.user))
     return response.accepted(auth.current && auth.current.user)
   }
 

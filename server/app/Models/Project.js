@@ -4,8 +4,17 @@
 const Model = use('Model')
 
 class Project extends Model {
+  static boot() {
+    super.boot()
+    this.addTrait('ProjectImage')
+  }
+
   user() {
     return this.belongsTo('App/Models/User')
+  }
+
+  image() {
+    return this.belongsTo('App/Models/Media', 'image_id')
   }
 
   items() {
