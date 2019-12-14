@@ -57,7 +57,7 @@ test('cannot get project if no project', async ({ client }) => {
   const user = await UserFactory.create()
 
   const response = await client
-    .get('/api/v1/project/1')
+    .get('/api/v1/project/9999')
     .loginVia(user, 'jwt')
     .end()
 

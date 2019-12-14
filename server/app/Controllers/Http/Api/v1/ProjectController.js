@@ -16,7 +16,7 @@ class ProjectController {
   async store({ response, request, auth }) {
     const user = await auth.getUser()
 
-    const { title, items } = request.only(['title', 'items'])
+    const { title, items = [] } = request.only(['title', 'items'])
 
     const project = await Project.create({
       title,
