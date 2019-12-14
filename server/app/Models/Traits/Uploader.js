@@ -24,7 +24,7 @@ class Uploader {
         name: `${[nameObject.name, new Date().getTime()].join('_')}`,
         ext: nameObject.ext,
       })
-      const filePath = path.join(Helpers.resourcesPath(options.dest), dir, fileName)
+      const filePath = path.join(Helpers.publicPath(options.dest), dir, fileName)
 
       await Drive.put(filePath, file)
 

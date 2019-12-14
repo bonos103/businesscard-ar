@@ -22,7 +22,7 @@ test('upload', async ({ assert }) => {
     type: 'image/png',
     size: file.length,
   })
-  assert.equal(await Drive.exists(Helpers.resourcesPath(path.join('upload/test', media.dir, media.name))), true, 'Not exist in storage')
+  assert.equal(await Drive.exists(Helpers.publicPath(path.join('upload/test', media.dir, media.name))), true, 'Not exist in storage')
 })
 
 test('get path', async ({ assert }) => {

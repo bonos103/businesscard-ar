@@ -164,7 +164,3 @@ test('take screenshot when update project', async ({ assert, client }) => {
   response.assertStatus(200)
   assert.exists(image.toJSON().path, 'Image is not exist')
 }).timeout(6000)
-
-after(async () => {
-  await Drive.delete(Helpers.resourcesPath('upload/test'))
-})

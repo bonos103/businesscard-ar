@@ -62,6 +62,6 @@ module.exports = (cli, runner) => {
     */
     await ace.call('migration:reset', {}, { silent: true })
 
-    await Drive.delete(Helpers.resourcesPath('upload/test'))
+    await Drive.delete(Helpers.publicPath('upload/test'))
   })
 }
