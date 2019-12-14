@@ -48,8 +48,10 @@ services:
       MYSQL_DATABASE: adonis
       MYSQL_USER: adonis
       MYSQL_PASSWORD: adonis
+      MYSQL_TEST_DATABASE: adonis-test
     volumes:
       - ./data/mysql:/var/lib/mysql
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     # expose:
     #   - 3306
     ports:
