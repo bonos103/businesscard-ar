@@ -21,14 +21,10 @@ test('upload', async ({ assert }) => {
     type: 'image/png',
     size: file.length,
   })
-  assert.equal(await Drive.exists(Helpers.resourcesPath(path.join('upload', media.dir, media.name))), true, 'Not exist in storage')
+  assert.equal(await Drive.exists(Helpers.resourcesPath(path.join('upload/test', media.dir, media.name))), true, 'Not exist in storage')
 })
 
 test('get path', async ({ assert }) => {
   const media = await MediaFactory.make()
   assert.equal(media.toJSON().path, path.join('/upload', media.dir, media.name), 'unexpected path')
-})
-
-after(async () => {
-  await Drive.delete(Helpers.resourcesPath('upload/test'))
 })

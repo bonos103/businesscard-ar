@@ -13,6 +13,9 @@
 // Uncomment when want to run migrations
 const ace = require('@adonisjs/ace')
 
+const Drive = use('Drive')
+const Helpers = use('Helpers')
+
 module.exports = (cli, runner) => {
   runner.before(async () => {
     /*
@@ -58,5 +61,7 @@ module.exports = (cli, runner) => {
     |
     */
     await ace.call('migration:reset', {}, { silent: true })
+
+    await Drive.delete(Helpers.resourcesPath('upload/test'))
   })
 }

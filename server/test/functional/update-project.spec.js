@@ -166,5 +166,5 @@ test('take screenshot when update project', async ({ assert, client }) => {
 }).timeout(6000)
 
 after(async () => {
-  await Drive.delete(Helpers.resourcesPath('upload/screen'))
+  await Drive.delete(Helpers.resourcesPath('upload/test'))
 })
