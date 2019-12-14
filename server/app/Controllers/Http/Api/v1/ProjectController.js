@@ -7,7 +7,7 @@ const Project = use('App/Models/Project')
 class ProjectController {
   async index({ response, auth }) {
     const user = await auth.getUser()
-    const projects = await Project.query().where('user_id', user.id).fetch()
+    const projects = await Project.query().where('user_id', user.id).withImage().fetch()
     // withを使うとitemも結合できる
     // const projects = await Project.query().where('user_id', user.id).withItems().fetch()
     return response.ok(projects.toJSON())
@@ -24,6 +24,8 @@ class ProjectController {
     })
     await project.items().createMany(items)
     await project.load('items')
+
+    await project.takeThumbnail({ auth })
 
     return response.created({
       ...project.toJSON(),
