@@ -53,6 +53,11 @@ const router = new Router({
       meta: { requiredAuth: true },
     },
     {
+      path: '/ar/:uid',
+      name: 'ArShow',
+      component: () => import(/* webpackChunkName: "Vr" */ './views/Project/Preview.vue'),
+    },
+    {
       path: '/signin',
       name: 'Signin',
       component: () => import(/* webpackChunkName: "Auth" */'./views/Signin.vue'),

@@ -16,6 +16,8 @@
         )
     div(:class="$style.tool")
       edit-tool
+    div(:class="$style.download", @click="handleDownload")
+      download-icon
 </template>
 <style module>
   .canvas {
@@ -54,18 +56,38 @@
     left: 30px;
     bottom: 30px;
   }
+  .download {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: color-mod(#fff a(90%));
+    cursor: pointer;
+    & svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
 </style>
 <script>
 import { mapState, mapActions } from 'vuex'
 import { SELECT_ITEM_EID, SET_DATA } from '@/store/modules/projects/types'
+import DownloadIcon from '@/components/Icon/DownloadIcon.vue'
 import EditTool from '@/components/Project/Edit/Tool.vue'
 import ItemSocial from '@/components/Project/Edit/ItemSocial.vue'
 import ItemText from '@/components/Project/Edit/ItemText.vue'
 import EventListener from '@/utils/mixins/EventListener'
+import MarkerPattern from '@/utils/MarkerPattern'
 
 export default {
   mixins: [EventListener],
   components: {
+    DownloadIcon,
     EditTool,
     ItemSocial,
     ItemText,
@@ -76,6 +98,7 @@ export default {
       resizeTimer: null,
       windowWidth: window.innerWidth,
       windowHeight: window.innerHeight,
+      SITE_URL: process.env.VUE_APP_URL,
     }
   },
   computed: {
@@ -127,6 +150,25 @@ export default {
         this.windowHeight = window.innerHeight
         $canvas.scrollTo($canvas.scrollLeft - (dx / 2), $canvas.scrollTop - (dy / 2))
       }, 1000 / 60)
+    },
+    async handleDownload() {
+      const { uid } = this.project
+      if (!uid) {
+        return
+      }
+      const { href } = this.$router.resolve({ name: 'ArShow', params: { uid } })
+      const link = new URL(href, this.SITE_URL)
+      const markerPattern = new MarkerPattern(link.href)
+      const base64 = await markerPattern.markerImage
+      const binary = atob(base64.replace(/^.*,/, ''))
+      const buffer = new Uint8Array(binary.length)
+      for (let i = 0; i < binary.length; i += 1) {
+        buffer[i] = binary.charCodeAt(i)
+      }
+      const blob = new Blob([buffer.buffer], {
+        type: 'image/png',
+      })
+      window.open(URL.createObjectURL(blob))
     },
   },
 }
