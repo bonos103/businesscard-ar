@@ -1,5 +1,7 @@
 'use strict'
 
+const uid = require('short-uuid')
+
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
 
@@ -7,6 +9,12 @@ class Project extends Model {
   static boot() {
     super.boot()
     this.addTrait('ProjectImage')
+    this.addHook('beforeSave', async (project) => {
+      console.log(project.uid, !project.uid)
+      if (!project.uid) {
+        project.uid = uid.generate()
+      }
+    })
   }
 
   user() {
