@@ -1,7 +1,7 @@
 <template lang="pug">
   div(:class="$style.card")
     div(:class="$style.image")
-      img(src="@/assets/images/project/sample-card.png")
+      img(:src="project.image.fullPath")
     div(:class="$style.title") {{project.title}}
 </template>
 <style module>

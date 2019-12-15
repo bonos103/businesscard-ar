@@ -17,6 +17,9 @@ module.exports = {
       '/api': {
         target: process.env.VUE_APP_API_URL,
       },
+      '/upload': {
+        target: process.env.VUE_APP_API_URL,
+      },
     },
   },
   chainWebpack: (config) => {
