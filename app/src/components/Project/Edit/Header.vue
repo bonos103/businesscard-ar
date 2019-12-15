@@ -82,7 +82,7 @@
 
         div(:class="$style.toolHeaderItem")
           label カラー
-          a-dropdown(v-model="visibleToolColor")
+          a-dropdown(v-model="visibleToolColor", placement="bottomRight")
             div(:class="$style.toolColor", :style="{ backgroundColor: item.color }")
             sketch-picker(
               slot="overlay",
