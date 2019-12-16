@@ -1,12 +1,11 @@
 <template lang="pug">
   div(:class="$style.header")
     h1(:class="$style.title")
-      span 名刺作成ツール
-      br
-      | QRAR
+      span QRコード型WebAR作成ツール
+      logo-icon
     div(:class="$style.menu")
       div(:class="$style.buttonGroup")
-        router-link(to="/signup", :class="$style.button") 新規登録
+        //- router-link(to="/signup", :class="$style.button") 新規登録
         router-link(to="/signin", :class="$style.button") ログイン
 </template>
 <style module>
@@ -14,23 +13,20 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 60px;
   }
   .title {
-    color: #fff;
-    font-size: 2rem;
+    color: var(--black);
+    font-size: 3rem;
+    line-height: 1.3;
     margin-bottom: 0;
-    @media (--md) {
-      & br {
-        display: none;
-      }
+    & span {
+      display: block;
+      font-size: 1.2rem;
     }
     @media (--sm) {
-      font-size: 1.6rem;
-      line-height: 1.2;
-      letter-spacing: 8px;
       & span {
         font-size: 1rem;
-        letter-spacing: 0;
       }
     }
   }
@@ -40,7 +36,7 @@
     align-items: center;
   }
   .button {
-    color: #fff;
+    color: var(--black);
     font-size: 1.2rem;
     padding: 0 5px;
     @media (--md) {
@@ -48,3 +44,12 @@
     }
   }
 </style>
+<script>
+import LogoIcon from '@/components/Icon/LogoIcon.vue'
+
+export default {
+  components: {
+    LogoIcon,
+  },
+}
+</script>

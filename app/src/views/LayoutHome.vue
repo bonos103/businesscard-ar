@@ -1,8 +1,8 @@
 <template lang="pug">
   a-layout(:class="$style.layout")
-    a-layout-header(:class="$style.header")
+    div(:class="$style.header")
       home-header
-    a-layout-content(:class="$style.content")
+    div(:class="$style.content")
       router-view
     a-layout-footer
       home-footer
@@ -25,9 +25,14 @@ export default {
   .content {
     flex: 1 0 auto;
     display: flex;
+    background-color: #fff;
   }
   .header {
+    position: relative;
+    background-color: #fff;
     padding: 0 20px;
+    box-shadow: 0 -8px 10px 0 var(--black);
+    z-index: 1;
     @media (--md) {
       padding: 0 30px;
     }
