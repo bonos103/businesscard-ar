@@ -1,6 +1,6 @@
 <template lang="pug">
   div(:class="$style.wrapper")
-    div(:class="$style.creative")
+    //- div(:class="$style.creative")
       layout-content(:class="$style.main")
         text-heading Try it out
         div(:class="$style.textarea")
@@ -26,8 +26,19 @@
       div(v-if="isShow")
         div(:class="$style.vrObject")
           vr-object(:text="value")
+    div(:class="$style.eyecatch")
+      div
+        h1
+          | QRコードを設置するだけ。
+          br
+          | ARでちょっと楽しく。
+        a-button(
+          type="primary",
+          size="large",
+        ) オリジナルARを作成する(無料)
+
     div(:class="$style.section")
-      div(:class="$style.sectionTitle") 使い方
+      //- div(:class="$style.sectionTitle") 使い方
       div(:class="$style.step")
         div(:class="$style.stepItem")
           img(:class="$style.stepImage", src="@/assets/images/top/step1.png")
@@ -38,17 +49,27 @@
         div(:class="$style.stepItem")
           img(:class="$style.stepImage", src="@/assets/images/top/step3.png")
           div 体験する
-    div(:class="$style.registerButton")
+    //- div(:class="$style.registerButton")
       router-link(to="/signup")
         a-button(type="primary", size="large") オリジナルARを作成する(無料)
       br
       a-button(type="link", size="large") 登録済みの方
+    div(:class="$style.section")
+      div(:class="$style.sectionTitle") 試してみる？
+      div(:class="$style.try")
+        div(:class="$style.tryCode")
+        div(:class="$style.trySection")
+          div(:class="$style.tryLabel") スマホでQRコードを読み込んでください。
+          div(:class="$style.tryText")
+            | QRコードを読み込むとWebブラウザを開きます。
+            br
+            | ブラウザ上で起動したカメラをこちらのQRコードに向けてください。
 </template>
 <style module>
   .wrapper {
     width: 100%;
   }
-  .creative {
+  /* .creative {
     width: 100%;
     @media (--md) {
       display: flex;
@@ -114,6 +135,22 @@
       font-size: 2rem;
       height: 50px;
     }
+  } */
+  .eyecatch {
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    & h1 {
+      font-size: 4.6rem;
+      font-weight: bold;
+      text-align: center;
+      line-height: 1.75;
+      margin-bottom: 1.5em;
+    }
   }
 
   .section {
@@ -157,7 +194,8 @@
   }
   .stepImage {
     width: 100%;
-    max-width: 100px;
+    max-width: 180px;
+    padding: 0 10%;
     margin-bottom: 20px;
     @media (--md) {
       max-width: 170px;
@@ -165,6 +203,22 @@
   }
   .registerButton {
     text-align: center;
+  }
+
+  .try {
+    display: flex;
+    align-items: center;
+  }
+  .tryCode {
+    flex: 0 0 150px;
+    width: 150px;
+    & img {
+      width: 100%;
+    }
+  }
+  .trySection {
+    flex: 1 1 auto;
+    padding-left: 5%;
   }
 </style>
 <script>
