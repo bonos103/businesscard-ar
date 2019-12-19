@@ -89,13 +89,15 @@
     margin-bottom: 30px;
   }
   .socialList {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    text-align: center;
+    @media (--md) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
   .socialItem {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 15px;
     & img {
       width: 40px;
       height: 40px;
@@ -104,6 +106,7 @@
   .facebook {
     background-color: #1877F2;
     border-color: #1877F2;
+    width: 200px;
     &:hover {
       background-color: color-mod(#1877F2 lightness(+10%));
       border-color: color-mod(#1877F2 lightness(+10%));
@@ -112,6 +115,7 @@
   .twitter {
     background-color: #1DA1F2;
     border-color: #1DA1F2;
+    width: 200px;
     &:hover {
       background-color: color-mod(#1DA1F2 lightness(+10%));
       border-color: color-mod(#1DA1F2 lightness(+10%));
