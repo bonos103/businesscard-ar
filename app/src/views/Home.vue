@@ -194,18 +194,9 @@
   }
 </style>
 <script>
-import ArIcon from '@/components/Icon/ArIcon.vue'
-import LayoutContent from '@/components/Layout/Content.vue'
-import TextHeading from '@/components/Text/Heading.vue'
-import Object2Canvas from '@/utils/Object2Canvas'
 
 export default {
   name: 'home',
-  components: {
-    ArIcon,
-    LayoutContent,
-    TextHeading,
-  },
   metaInfo() {
     return {
       meta: [
