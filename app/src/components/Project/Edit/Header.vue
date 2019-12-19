@@ -15,7 +15,9 @@
           minus-icon
           div(:class="$style.zoomLabel") 100%
           plus-icon
-        button(:class="$style.button", @click="handleSave") 保存
+        button(:class="$style.button", @click="handleSave", :disabled="loading")
+          loading-icon(v-if="loading")
+          span(v-else) 保存
     div(:class="$style.toolHeader", v-if="item")
       div(:class="$style.headerRight", v-if="item.type === 'text'")
         div(:class="$style.toolHeaderItem")
@@ -167,12 +169,17 @@
     justify-content: center;
     font-size: 1.4rem;
     color: #fff;
+    width: 60px;
     height: 100%;
     background-color: var(--black);
     border: 1px solid var(--black);
     padding-left: 1em;
     padding-right: 1em;
     margin-left: 10px;
+    & svg {
+      stroke: #fff;
+      font-size: 1.5em;
+    }
   }
   .toolHeader {
     height: 60px;
@@ -243,6 +250,8 @@ import {
   SET_DATA,
   SET_TITLE,
 } from '@/store/modules/projects/types'
+// import LoadingIcon from '@/assets/images/icons/loading.svg?component'
+import LoadingIcon from '@/components/Icon/LoadingIcon.vue'
 import LogoSimpleIcon from '@/components/Icon/LogoSimpleIcon.vue'
 import MinusIcon from '@/components/Icon/MinusIcon.vue'
 import PlusIcon from '@/components/Icon/PlusIcon.vue'
@@ -250,6 +259,7 @@ import PreviewModal from '@/components/QrCode/PreviewModal.vue'
 
 export default {
   components: {
+    LoadingIcon,
     LogoSimpleIcon,
     MinusIcon,
     PlusIcon,
@@ -267,6 +277,7 @@ export default {
   data() {
     return {
       colors: '#000000',
+      loading: false,
       isPreviewModal: false,
       visibleToolSize: false,
       visibleToolColor: false,
@@ -294,6 +305,7 @@ export default {
       }
     },
     async handleSave() {
+      this.loading = true
       if (this.$route.name === 'ProjectNew') {
         const result = await this.POST_PROJECT().catch(() => {
           notification.error({ message: '作成できませんでした。' })
@@ -313,6 +325,7 @@ export default {
         }
         notification.success({ message: '保存しました。' })
       }
+      this.loading = false
     },
   },
 }
