@@ -1,162 +1,98 @@
 <template lang="pug">
   div(:class="$style.wrapper")
-    //- div(:class="$style.creative")
-      layout-content(:class="$style.main")
-        text-heading Try it out
-        div(:class="$style.textarea")
-          a-textarea(
-            v-model="value",
-          )
-        //- div
-          qr-code(:text="text")
-        div
-          a-button(
-            type="primary",
-            size="large",
-            :class="$style.confirmButton",
-            @click="isQrModal = true"
-          )
-            ar-icon(:custom-style="{ fontSize: '1.5em' }")
-            | ARで確認する
-        qr-code-confirm-modal(v-model="isQrModal", :text="value", v-if="isQrModal")
-          p hoge
-        //- img(:src="src" v-if="src")
-      div(:class="$style.vr")
-        iframe#iframe(width="100%", height="100%", :src="`https://localhost:8080/vr?text=.`", allowfullscreen="yes", allowvr="yes", scrolling="no", :class="$style.iframe")
-      div(v-if="isShow")
-        div(:class="$style.vrObject")
-          vr-object(:text="value")
     div(:class="$style.eyecatch")
       div
         h1
           | QRコードを設置するだけ。
           br
           | ARでちょっと楽しく。
-        a-button(
-          type="primary",
-          size="large",
-        ) オリジナルARを作成する(無料)
+        router-link(to="Signin")
+          a-button(
+            type="primary",
+            size="large",
+          ) オリジナルARを作成する(無料)
+
+    div(:class="$style.step")
+      div(:class="$style.stepItem")
+        img(:class="$style.stepImage", src="@/assets/images/top/step1.png")
+        div 読み込む
+      div(:class="$style.stepItem")
+        img(:class="$style.stepImage", src="@/assets/images/top/step2.png")
+        div かざす
+      div(:class="$style.stepItem")
+        img(:class="$style.stepImage", src="@/assets/images/top/step3.png")
+        div 体験する
 
     div(:class="$style.section")
-      //- div(:class="$style.sectionTitle") 使い方
-      div(:class="$style.step")
-        div(:class="$style.stepItem")
-          img(:class="$style.stepImage", src="@/assets/images/top/step1.png")
-          div 読み込む
-        div(:class="$style.stepItem")
-          img(:class="$style.stepImage", src="@/assets/images/top/step2.png")
-          div かざす
-        div(:class="$style.stepItem")
-          img(:class="$style.stepImage", src="@/assets/images/top/step3.png")
-          div 体験する
-    //- div(:class="$style.registerButton")
-      router-link(to="/signup")
-        a-button(type="primary", size="large") オリジナルARを作成する(無料)
-      br
-      a-button(type="link", size="large") 登録済みの方
-    div(:class="$style.section")
-      div(:class="$style.sectionTitle") 試してみる？
+      h2(:class="$style.sectionTitle") 試してみる？
       div(:class="$style.try")
         div(:class="$style.tryCode")
+          img(src="@/assets/images/top/qrcode.png")
         div(:class="$style.trySection")
           div(:class="$style.tryLabel") スマホでQRコードを読み込んでください。
           div(:class="$style.tryText")
             | QRコードを読み込むとWebブラウザを開きます。
             br
             | ブラウザ上で起動したカメラをこちらのQRコードに向けてください。
+
+    div(:class="$style.section")
+      h2(:class="$style.sectionTitle") QRARの特徴
+      div(:class="$style.feature")
+        div(:class="$style.featureSection")
+          h3(:class="$style.featureTitle") アプリ不要
+          div(:class="$style.featureDescription")
+            | QRARでは、AR読み込み専用のアプリは不要となっています。普段お使いのブラウザでARを表示することができますので、気軽に楽しんでいただけます。
+        div(:class="$style.featureSection")
+          h3(:class="$style.featureTitle") QRコードにかざすだけ
+          div(:class="$style.featureDescription")
+            | QRコードが、ARを認識するためのARマーカーとなっているので。QRコードを設置するだけで、ARの表示を実現させました。
+        div(:class="$style.featureSection")
+          h3(:class="$style.featureTitle") 作成後でもデータを更新可
+          div(:class="$style.featureDescription")
+            | 発行したQRコードに表示される内容は、リアルタイムに更新可能です。入力した内容が古くなる心配はありません。
+
+    div(:class="$style.signupSection")
+      router-link(to="Signin")
+        a-button(
+          type="primary",
+          size="large",
+        ) オリジナルARを作成する(無料)
 </template>
 <style module>
   .wrapper {
     width: 100%;
   }
-  /* .creative {
-    width: 100%;
-    @media (--md) {
-      display: flex;
-    }
-  }
-  .main {
-    flex: 1 1 66.66%;
-    display: flex;
-    flex-direction: column;
-    padding-top: 20px;
-    @media (--md) {
-      flex: 1 1 60%;
-    }
-    @media (--lg) {
-      flex: 1 1 50%;
-      padding: 30px 30px 0;
-    }
-  }
-  .textarea {
-    flex: 1 1 auto;
-    margin-bottom: 30px;
-    & textarea {
-      height: 100%;
-      min-height: 10em;
-    }
-  }
-  .vrObject {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: -1;
-    overflow: hidden;
-  }
-  .vr {
-    flex: 1 1 33.33%;
-    min-width: 320px;
-    @media (--md) {
-      flex: 1 1 40%;
-    }
-    @media (--lg) {
-      flex: 1 1 50%;
-    }
-  }
-  .iframe {
-    min-height: 60vw;
-    border: 0;
-    @media (--md) {
-      min-height: 30vw;
-    }
-    @media (--lg) {
-      min-height: 40vw;
-    }
-    @media (--sm) {
-      margin-top: 30px;
-    }
-  }
-  .confirmButton {
-    display: inline-flex;
-    align-items: center;
-    @media (--md) {
-      font-size: 2rem;
-      height: 50px;
-    }
-  } */
   .eyecatch {
-    height: 400px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding-top: 60px;
-    padding-bottom: 60px;
+    padding-top: 80px;
+    padding-bottom: 40px;
+    @media (--md) {
+      height: 400px;
+      padding-top: 60px;
+      padding-bottom: 60px;
+    }
     & h1 {
-      font-size: 4.6rem;
+      font-size: 7vw;
       font-weight: bold;
       text-align: center;
       line-height: 1.75;
       margin-bottom: 1.5em;
+      @media (--md) {
+        font-size: 4.6rem;
+      }
+      @media (--xs) {
+        font-size: 7.4vw;
+      }
     }
   }
 
   .section {
-    padding-top: 20px;
+    padding-top: 40px;
     @media (--md) {
-      padding-top: 40px;
+      padding-top: 80px;
     }
   }
   .sectionTitle {
@@ -174,7 +110,7 @@
     flex-wrap: wrap;
     width: 100%;
     max-width: 1200px;
-    padding-top: 10px;
+    padding-top: 30px;
     padding-bottom: 30px;
     margin-left: auto;
     margin-right: auto;
@@ -208,6 +144,10 @@
   .try {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    max-width: 672px;
+    padding: 0 16px;
+    margin: 0 auto;
   }
   .tryCode {
     flex: 0 0 150px;
@@ -217,17 +157,46 @@
     }
   }
   .trySection {
-    flex: 1 1 auto;
+    flex: 0 1 auto;
     padding-left: 5%;
+  }
+  .tryLabel {
+    font-size: 1.8rem;
+    margin-bottom: 0.8em;
+  }
+  .tryText {
+    font-size: 1.4rem;
+  }
+
+  .featureSection {
+    max-width: calc(var(--section-width) + 32px);
+    padding: 0 16px;
+    margin-left: auto;
+    margin-right: auto;
+    & + .featureSection {
+      margin-top: 40px;
+    }
+  }
+  .featureTitle {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1em;
+  }
+  .featureDescription {
+    font-size: 1.6rem;
+  }
+
+  .signupSection {
+    text-align: center;
+    padding-top: 60px;
+    padding-bottom: 80px;
   }
 </style>
 <script>
 import ArIcon from '@/components/Icon/ArIcon.vue'
 import LayoutContent from '@/components/Layout/Content.vue'
 import TextHeading from '@/components/Text/Heading.vue'
-import QrCode from '@/components/QrCode/index.vue'
-import QrCodeConfirmModal from '@/components/QrCode/ConfirmModal.vue'
-import VrObject from '@/components/Vr/Object.vue'
 import Object2Canvas from '@/utils/Object2Canvas'
 
 export default {
@@ -236,64 +205,6 @@ export default {
     ArIcon,
     LayoutContent,
     TextHeading,
-    QrCode,
-    QrCodeConfirmModal,
-    VrObject,
-  },
-  data() {
-    const defaultValue = 'ここに\nARで表示したい文字を\n入力してください。'
-    return {
-      src: null,
-      size: {
-        width: 0,
-        height: 0,
-      },
-      title: 'HOME',
-      text: defaultValue,
-      value: defaultValue,
-      timer: null,
-      isShow: false,
-      isQrModal: false,
-    }
-  },
-  mounted() {
-    this.isShow = true
-    this.$nextTick(() => {
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.reloadQRCode(this.value)
-        this.reloadObject()
-      }, 500)
-    })
-  },
-  watch: {
-    value(value) {
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.reloadQRCode(value)
-        this.reloadObject()
-      }, 500)
-    },
-  },
-  methods: {
-    async reloadQRCode(value) {
-      this.text = value
-    },
-    async reloadObject() {
-      const object2Canvas = new Object2Canvas(document.querySelector('#target1'))
-      await object2Canvas.init()
-      this.src = await object2Canvas.toDataURL('image/png')
-      this.size = await object2Canvas.aframeSize()
-      this.updateIframe()
-    },
-    updateIframe() {
-      const $iframe = document.querySelector('#iframe')
-      const $image = $iframe.contentDocument.querySelector('#object')
-      $image.setAttribute('src', this.src)
-      $image.setAttribute('width', this.size.width)
-      $image.setAttribute('height', this.size.height)
-      $image.setAttribute('position', `0 ${this.size.height / 2 + 0.5} 0`)
-    },
   },
   metaInfo() {
     return {
