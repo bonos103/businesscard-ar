@@ -31,7 +31,6 @@
   }
 </style>
 <script>
-import 'ant-design-vue/lib/form/style/css'
 import { ValidationProvider } from 'vee-validate'
 
 export default {
