@@ -109,7 +109,7 @@
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    max-width: 1200px;
+    max-width: 700px;
     padding-top: 30px;
     padding-bottom: 30px;
     margin-left: auto;
@@ -120,12 +120,25 @@
     }
   }
   .stepItem {
+    position: relative;
     flex: 1 1 33.33%;
     font-size: 1.6rem;
     font-weight: bold;
     text-align: center;
     @media (--md) {
       font-size: 2.4rem;
+    }
+    &:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 35%;
+      right: -7px;
+      width: 0;
+      height: 0;
+      border-left: 12px solid var(--black);
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      transform: translateY(-50%);
     }
   }
   .stepImage {
