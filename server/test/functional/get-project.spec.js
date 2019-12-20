@@ -33,26 +33,6 @@ test('can get project only owner', async ({ client }) => {
   })
 })
 
-test('cannot get project from other user', async ({ client }) => {
-  const user = await UserFactory.create()
-  const otherUser = await UserFactory.create()
-  const project = await ProjectFactory.create()
-
-  await project.user().associate(user)
-
-  const response = await client
-    .get(`/api/v1/project/${project.id}`)
-    .loginVia(otherUser, 'jwt')
-    .end()
-
-  response.assertStatus(401)
-  response.assertJSONSubset({
-    message: '閲覧権限がありません。',
-    field: 'id',
-    validation: 'auth',
-  })
-})
-
 test('cannot get project if no project', async ({ client }) => {
   const user = await UserFactory.create()
 
