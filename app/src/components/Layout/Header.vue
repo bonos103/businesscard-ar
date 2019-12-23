@@ -9,11 +9,11 @@
             user-circle-icon
           div(:class="$style.userMenuBox", slot="overlay")
             div(:class="$style.userMenuHeader")
-              div(:class="$style.userMenuUser") tennisnowboarderyou@gmail.com
+              div(:class="$style.userMenuUser") {{user.email}}
             div(:class="$style.userMenuBody")
               div
-                div(:class="$style.userMenuItem") アカウント
-                div(:class="$style.userMenuItem", @click="logout()") ログアウト
+                //- div(:class="$style.userMenuItem") アカウント
+                button(:class="$style.userMenuItem", @click="logout()") ログアウト
 </template>
 <style module>
   .header {
@@ -64,11 +64,13 @@
   }
   .userMenuItem {
     font-size: 1.4rem;
+    text-align-last: left;
+    width: 100%;
     padding: 0.3em 0;
   }
 </style>
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import { notification } from 'ant-design-vue'
 import { USER_LOGOUT } from '@/store/modules/users/types'
 import LogoSimpleIcon from '@/components/Icon/LogoSimpleIcon.vue'
@@ -83,6 +85,11 @@ export default {
     return {
       isMenu: false,
     }
+  },
+  computed: {
+    ...mapState('users', {
+      user: 'currentUser',
+    }),
   },
   methods: {
     ...mapActions('users', {

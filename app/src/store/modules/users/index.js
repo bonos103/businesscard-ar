@@ -15,11 +15,14 @@ const tokenController = new TokenController()
 export default {
   namespaced: true,
 
-  state: { count: 0 },
+  state: {
+    currentUser: undefined,
+  },
 
   actions: {
-    async [USER_CHECK]() {
+    async [USER_CHECK]({ commit }) {
       const result = await axios.get('/user/check')
+      commit(USER_CHECK, result.data)
       return result
     },
     async [USER_REGISTER](context, data) {
@@ -53,15 +56,10 @@ export default {
   },
 
   mutations: {
-    increment(state) {
-      // `state` はモジュールのローカルステート
-      state.count += 1
+    [USER_CHECK](state, user) {
+      state.currentUser = user
     },
   },
 
-  getters: {
-    doubleCount(state) {
-      return state.count * 2
-    },
-  },
+  getters: {},
 }
