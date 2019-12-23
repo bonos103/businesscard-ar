@@ -13,6 +13,9 @@ class Media extends Model {
     this.addTrait('Uploader', {
       dest,
     })
+    this.addHook('beforeDelete', async (media) => {
+      await media.deleteFile()
+    })
   }
 
   static get computed() {

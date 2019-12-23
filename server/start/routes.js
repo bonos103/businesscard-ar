@@ -28,7 +28,9 @@ Route.group(() => {
   Route.get('user/login/twitter', 'UserController.loginTwitter').middleware(['guest'])
   Route.get('user/login/twitter/callback', 'UserController.loginTwitterCallback').middleware(['guest'])
   Route.post('user/logout', 'UserController.logout')
-  Route.resource('user', 'UserController').apiOnly().validator(new Map([
+  Route.resource('user', 'UserController').apiOnly().middleware(new Map([
+    [['user.destroy'], ['auth']],
+  ])).validator(new Map([
     [['user.store'], ['User/StoreUser']],
   ]))
 

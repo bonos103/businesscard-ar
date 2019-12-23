@@ -170,6 +170,17 @@ class UserController {
       return 'Unable to authenticate. Try again later'
     }
   }
+
+  async destroy({ auth, response }) {
+    const user = await auth.getUser();
+    await auth
+      .authenticator('jwt')
+      .revokeTokensForUser(user)
+
+    const result = await user.quit()
+
+    return response.ok(result)
+  }
 }
 
 module.exports = UserController
