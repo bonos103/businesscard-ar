@@ -5,6 +5,7 @@ export const POST_PROJECT = 'POST_PROJECT'
 export const PUT_PROJECT = 'PUT_PROJECT'
 
 export const ADD_ITEM = 'ADD_ITEM'
+export const DELETE_ITEM = 'DELETE_ITEM'
 export const SELECT_ITEM_EID = 'SELECT_ITEM_EID'
 export const SET_DATA = 'SET_DATA'
 export const SET_TITLE = 'SET_TITLE'

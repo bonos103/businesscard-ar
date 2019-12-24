@@ -17,6 +17,10 @@
       @changeKnobSize="handleKnobSize",
       @changeKnobMove="handleKnobMove",
     )
+    item-menu(
+      v-if="active",
+      :class="$style.menu"
+    )
 </template>
 <style module>
   .item {
@@ -34,12 +38,19 @@
       border: 1px solid var(--cyan);
     }
   }
+  .menu {
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(0, -120%);
+  }
 </style>
 <script>
 import { mapActions } from 'vuex'
 import { SELECT_ITEM_EID, SET_DATA } from '@/store/modules/projects/types'
 import ItemBlockController from '@/utils/ItemBlockController'
 import ItemKnob from '@/components/Project/Edit/ItemKnob.vue'
+import ItemMenu from '@/components/Project/Edit/ItemMenu.vue'
 
 export default {
   props: {
@@ -48,6 +59,7 @@ export default {
   },
   components: {
     ItemKnob,
+    ItemMenu,
   },
   data() {
     return {

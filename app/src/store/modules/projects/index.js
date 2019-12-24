@@ -13,6 +13,7 @@ import {
   POST_PROJECT,
   PUT_PROJECT,
   ADD_ITEM,
+  DELETE_ITEM,
   SELECT_ITEM_EID,
   SET_DATA,
   SET_TITLE,
@@ -158,6 +159,12 @@ export default {
         commit(ADD_ITEM, item)
       }
     },
+    [DELETE_ITEM]({ state, commit }) {
+      console.log(state.selectItemEid)
+      if (typeof state.selectItemEid === 'number') {
+        commit(DELETE_ITEM, state.selectItemEid)
+      }
+    },
     [SELECT_ITEM_EID]({ state, commit }, eid) {
       if (state.project.items.findIndex(i => i.eid === eid) > -1) {
         return commit(SELECT_ITEM_EID, eid)
@@ -190,6 +197,10 @@ export default {
     [ADD_ITEM](state, item) {
       const items = addItem(state.project.items, item)
       state.project.items = items
+    },
+    [DELETE_ITEM](state, eid) {
+      state.project.items = state.project.items.filter(item => item.eid !== eid)
+      state.selectItemEid = undefined
     },
     [SELECT_ITEM_EID](state, eid) {
       state.selectItemEid = eid
