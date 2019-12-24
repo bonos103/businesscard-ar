@@ -1,5 +1,5 @@
 <template lang="pug">
-  a-modal(:visible="value", :footer="null", :width="560", @cancel="handleCancel")
+  a-modal(:visible="value", :footer="null", :width="width", @cancel="handleCancel")
     div(:class="$style.body")
       div(:class="$style.title", v-if="$slots.title || title")
         slot(name="title") {{title}}
@@ -45,6 +45,7 @@
 export default {
   props: {
     value: { type: Boolean, default: false },
+    width: { type: [String, Number], default: 460 },
     title: { type: String, default: '' },
     text: { type: String, default: '' },
   },

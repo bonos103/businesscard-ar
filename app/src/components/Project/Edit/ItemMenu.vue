@@ -46,9 +46,10 @@ export default {
     height: 30px;
     border-radius: 50%;
     cursor: pointer;
+    background-color: color-mod(#fff a(30%));
     transition: background-color 0.2s;
     &:hover {
-      background-color: color-mod(#fff a(50%));
+      background-color: color-mod(#fff a(80%));
     }
 
     & svg {
