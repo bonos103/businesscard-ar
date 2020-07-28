@@ -31,33 +31,23 @@
       type="pattern"
       :url="markerUrl"
       smooth="true"
-      emitevents="true"
-      markerhandler
-      cursor="fuse: false; rayOrigin: mouse;"
     >
       <a-image
         v-for="object in objects"
         :key="object.id"
         :src="object.src"
-        :position="`${object.x} ${object.y} ${object.z}`"
-        rotation="-90 0 0"
+        :position="`${object.x} ${-1 * object.z} ${object.y}`"
+        rotation="0 0 0"
+        scale="1 1 1"
         :width="object.width"
         :height="object.height"
         id="object"
         :data-link="getLink(object)"
         class="link"
-        foo
       ></a-image>
-      <a-image
-      src="#businesscard"
-      width="1" height="1"
-      rotation="0 0 0"
-      position=" 0 0 0"
-      data-link="https://google.com"
-      class="link"></a-image>
     </a-marker>
-    <!-- <a-entity camera></a-entity> -->
-    <a-marker-camera></a-marker-camera>
+    <a-entity camera></a-entity>
+    <!-- <a-marker-camera></a-marker-camera> -->
   </a-scene>
 </template>
 
@@ -106,9 +96,10 @@ export default {
     },
   },
   async mounted() {
+    console.log(this.objects)
     await this.createMarkerUrl()
 
-    const loadAframeAr = new LoadScript('https://raw.githack.com/jeromeetienne/AR.js/2.0.8/aframe/build/aframe-ar.js', 'aframe-ar-script').load()
+    const loadAframeAr = new LoadScript('https://raw.githack.com/AR-js-org/AR.js/3.0.0/aframe/build/aframe-ar.js', 'aframe-ar-script').load()
     await Promise.all([loadAframeAr])
 
     this.show = true
@@ -181,13 +172,13 @@ export default {
     //   },
     // })
 
-    window.AFRAME.registerComponent('foo', {
-      events: {
-        click(evt) {
-          console.log('hoge', evt)
-        },
-      },
-    })
+    // window.AFRAME.registerComponent('foo', {
+    //   events: {
+    //     click(evt) {
+    //       console.log('hoge', evt)
+    //     },
+    //   },
+    // })
 
     // AFRAME.registerComponent('markerhandler1', {
     //   init() {
