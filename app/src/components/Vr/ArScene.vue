@@ -2,6 +2,9 @@
   <a-scene
     embedded
     :arjs="arjs"
+    renderer="foveationLevel: 3;"
+    vr-mode-ui="enabled: false;"
+    stats
     v-if="show"
   >
     <a-assets>
