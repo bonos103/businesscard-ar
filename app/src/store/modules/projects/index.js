@@ -40,7 +40,7 @@ const defaultItemText = {
   scale_y: 1,
   scale_z: 1,
   x: 0,
-  y: 1,
+  y: 0,
   z: 0,
   font_size: 18,
   color: '#000',
