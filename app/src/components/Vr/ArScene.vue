@@ -33,16 +33,17 @@
       smooth="true"
     >
       <a-image
-        v-for="object in objects"
+        v-for="(object, index) in objects"
         :key="object.id"
         :src="object.src"
-        :position="`${object.x} ${-1 * object.z} ${object.y}`"
+        :position="`${object.x} ${-1 * object.z} ${object.y + (index * 0.05)}`"
         rotation="0 0 0"
         scale="1 1 1"
         :width="object.width"
         :height="object.height"
         id="object"
         :data-link="getLink(object)"
+        alpha-test="0.1"
         class="link"
       ></a-image>
     </a-marker>
