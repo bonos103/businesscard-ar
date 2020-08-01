@@ -7,6 +7,7 @@ class LoadScript {
 
   async load() {
     if (!document) {
+      console.log('failed loadPromise')
       return
     }
     const script = document.createElement('script')
@@ -28,9 +29,10 @@ class LoadScript {
         break
     }
     await this.loadPromise()
+    return
   }
 
-  async loadPromise() {
+  loadPromise() {
     return new Promise((resolve, reject) => {
       const $el = document.querySelector(`#${this.id}`)
       if (!$el) {
