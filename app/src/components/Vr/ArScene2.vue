@@ -71,9 +71,9 @@ export default {
     //   },
     // })
 
-    /*
+    /* ----------------------------------
      *  Init
-     */
+     ----------------------------------*/
     // init renderer
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -104,21 +104,21 @@ export default {
      */
     const arToolkitSource = new THREEx.ArToolkitSource({
       // to read from the webcam
-      sourceType: 'webcam',
+      // sourceType: 'webcam',
 
       // // to read from an image
       // sourceType : 'image',
-      // sourceUrl : THREEx.ArToolkitContext.baseURL + '../data/images/img.jpg',
+      // sourceUrl : `${THREEx.ArToolkitContext.baseURL}data/preview.png`,
 
       // to read from a video
-      // sourceType : 'video',
-      // sourceUrl : THREEx.ArToolkitContext.baseURL + '../data/videos/headtracking.mp4',
+      sourceType : 'video',
+      sourceUrl : `${THREEx.ArToolkitContext.baseURL}data/preview.mp4`,
     })
 
-    /*
+    /* ----------------------------------
      * initialize arToolkitContext
      * arToolkitContext（カメラパラメータ、マーカ検出設定）
-     */
+     ----------------------------------*/
     // create atToolkitContext
     const arToolkitContext = new THREEx.ArToolkitContext({
       debug: false, // デバッグ用キャンバス表示（デフォルトfalse）
@@ -147,9 +147,9 @@ export default {
       scene.visible = camera.visible
     })
 
-    /*
+    /* ----------------------------------
      * handle resize
-     */
+     ----------------------------------*/
     function onResize() {
       arToolkitSource.onResizeElement()
       arToolkitSource.copyElementSizeTo(renderer.domElement)
@@ -166,16 +166,17 @@ export default {
       }, 2000)
     })
 
-    /*
+    /* ----------------------------------
      * Create a ArMarkerControls
      * ArMarkerControls（マーカと、マーカ検出時の表示オブジェクト）
-     */
+     ----------------------------------*/
     // init controls for camera
     // マーカを登録
     // const markerControls = new THREEx.ArMarkerControls(arToolkitContext, camera, {
     new THREEx.ArMarkerControls(arToolkitContext, camera, {
       type: 'pattern',
-      patternUrl: `${THREEx.ArToolkitContext.baseURL}data/patt.hiro`,
+      // patternUrl: `${THREEx.ArToolkitContext.baseURL}data/patt.hiro`,
+      patternUrl: this.markerUrl,
       // patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji',
       // as we controls the camera, set changeMatrixMode: 'cameraTransformMatrix'
       changeMatrixMode: 'cameraTransformMatrix',
@@ -184,10 +185,10 @@ export default {
     scene.visible = false
 
 
-    /*
+    /* ----------------------------------
      *  add an object in the scene
      *  オブジェクトの登録
-     */
+     ----------------------------------*/
 
     // add a torus knot
     let geometry = new THREE.CubeGeometry(1, 1, 1)
@@ -211,9 +212,9 @@ export default {
       mesh.rotation.x += Math.PI * delta
     })
 
-    /*
+    /* ----------------------------------
      *  render the whole thing on the page
-     */
+    ----------------------------------*/
     // render the scene
     // 画面にレンダリング
     onRenderFcts.push(() => {
