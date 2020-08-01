@@ -1,4 +1,6 @@
-<template></template>
+<template>
+  <div></div>
+</template>
 <script>
 import * as THREE from 'three'
 import LoadScript from '@/utils/LoadScript'
@@ -79,11 +81,13 @@ export default {
       antialias: true,
       alpha: true,
     })
-    renderer.setClearColor(new THREE.Color('lightgrey'), 0)
-    renderer.setSize(640, 480)
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.domElement.style.position = 'absolute'
     renderer.domElement.style.top = '0px'
     renderer.domElement.style.left = '0px'
+    renderer.domElement.style.width = '100%'
+    renderer.domElement.style.height = '100%'
     document.body.appendChild(renderer.domElement)
 
     // array of functions for the rendering loop
@@ -104,15 +108,15 @@ export default {
      */
     const arToolkitSource = new THREEx.ArToolkitSource({
       // to read from the webcam
-      // sourceType: 'webcam',
+      sourceType: 'webcam',
 
       // // to read from an image
       // sourceType : 'image',
       // sourceUrl : `${THREEx.ArToolkitContext.baseURL}data/preview.png`,
 
       // to read from a video
-      sourceType : 'video',
-      sourceUrl : `${THREEx.ArToolkitContext.baseURL}data/preview.mp4`,
+      // sourceType : 'video',
+      // sourceUrl : `${THREEx.ArToolkitContext.baseURL}data/preview.mp4`,
     })
 
     /* ----------------------------------
@@ -199,18 +203,33 @@ export default {
     })
     // メッシュを生成
     let mesh = new THREE.Mesh(geometry, material)
-    mesh.position.y = geometry.parameters.height / 2
-    scene.add(mesh)
+    // mesh.position.y = geometry.parameters.height / 2
+    // scene.add(mesh)
 
-    geometry = new THREE.TorusKnotGeometry(0.3, 0.1, 64, 16)
-    material = new THREE.MeshNormalMaterial()
+    // geometry = new THREE.TorusKnotGeometry(0.3, 0.1, 64, 16)
+    // material = new THREE.MeshNormalMaterial()
+    // const torusKnot = new THREE.Mesh(geometry, material)
+    // torusKnot.position.y = 0.5
+    // scene.add(torusKnot)
+    // onRenderFcts.push((delta) => {
+    //   torusKnot.rotation.x += Math.PI * delta
+    // })
+
+    const texture = new THREE.TextureLoader().load(this.objects[0].src)
+    const { width, height, x, y, z } = this.objects[0]
+    texture.minFilter = THREE.LinearFilter
+    texture.anisotropy = 2
+    geometry = new THREE.PlaneGeometry(width, height)
+    material = new THREE.MeshBasicMaterial({ map: texture})
     mesh = new THREE.Mesh(geometry, material)
-    mesh.position.y = 0.5
-    scene.add(mesh)
+    mesh.position.y = 0
+    mesh.position.z = z
+    mesh.position.x = x
+    mesh.rotation.x = -1 * Math.PI / 2
+    // mesh.scale.x = 0.5
+    // mesh.scale.y = 0.5
 
-    onRenderFcts.push((delta) => {
-      mesh.rotation.x += Math.PI * delta
-    })
+    scene.add(mesh)
 
     /* ----------------------------------
      *  render the whole thing on the page
