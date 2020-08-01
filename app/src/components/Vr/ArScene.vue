@@ -34,6 +34,9 @@
       type="pattern"
       :url="markerUrl"
       smooth="true"
+      clickhandler
+      cursor="fuse: false; rayOrigin: mouse"
+      raycaster="objects: .link"
     >
       <a-image
         v-for="(object, index) in objects"
@@ -44,6 +47,8 @@
         scale="1 1 1"
         :width="object.width"
         :height="object.height"
+        :segments-width="object.width"
+        :segments-height="object.height"
         id="object"
         :data-link="getLink(object)"
         alpha-test="0.1"
@@ -71,7 +76,8 @@ export default {
   },
   computed: {
     arjs() {
-      return 'debugUIEnabled:false; trackingMethod: best; sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960;'
+      return `debugUIEnabled:false; trackingMethod: best; sourceType: webcam;`
+      // return `debugUIEnabled:false; trackingMethod: best; sourceType: webcam; sourceWidth:${this.width}; sourceHeight:${this.height}; displayWidth: ${this.width}; displayHeight: ${this.height};`
     },
   },
   data() {
@@ -83,6 +89,8 @@ export default {
         width: 0,
         height: 0,
       },
+      width: 1280,
+      height: 960,
       SITE_URL: process.env.VUE_APP_URL,
     }
   },
@@ -101,10 +109,25 @@ export default {
   },
   async mounted() {
     console.log(this.objects)
+    this.height = window.innerWidth * 2
+    this.width = window.innerHeight * 2
     await this.createMarkerUrl()
 
     const loadAframeAr = new LoadScript('https://raw.githack.com/AR-js-org/AR.js/3.0.0/aframe/build/aframe-ar.js', 'aframe-ar-script').load()
     await Promise.all([loadAframeAr])
+    window.AFRAME.registerComponent('clickhandler', {
+      init() {
+        console.log(this)
+        // this.el.addEventListener('click', (event) => {
+        //   console.log(event)
+        // })
+        Array.from(document.querySelectorAll('.link')).forEach((link) => {
+          link.addEventListener('click', (event) => {
+            console.log(event)
+          })
+        })
+      },
+    })
 
     this.show = true
     await this.$nextTick()
