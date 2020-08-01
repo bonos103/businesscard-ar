@@ -1,3 +1,4 @@
+<template></template>
 <script>
 import * as THREE from 'three'
 import LoadScript from '@/utils/LoadScript'
@@ -54,7 +55,7 @@ export default {
     // const loadAframeAr = new LoadScript('https://raw.githack.com/AR-js-org/AR.js/3.0.0/aframe/build/aframe-ar.js', 'aframe-ar-script').load()
     await Promise.all([loadThreeAr])
 
-    const THREEx = window.THREEx
+    const { THREEx } = window
     THREEx.ArToolkitContext.baseURL = '/'
     // window.AFRAME.registerComponent('clickhandler', {
     //   init() {
