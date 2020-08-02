@@ -18,19 +18,21 @@ import {
   SET_DATA,
   SET_TITLE,
 } from './types'
+import { update } from 'lodash'
 
 const axios = new Axios()
 
-function addItem(items, item) {
-  item.eid = items.length
-  items.push(Object.assign({}, item))
-  return items
-}
-function setEid(items) {
+function updateEid(items) {
   return items.map((item, index) => {
     item.eid = index
     return item
   })
+}
+
+function addItem(items, item) {
+  item.eid = items.length
+  items.push(Object.assign({}, item))
+  return updateEid(items)
 }
 
 const defaultItemText = {
@@ -117,8 +119,8 @@ export default {
       const result = await axios.get(`/project/${id}`)
       if (result.data) {
         const project = result.data
-        const items = setEid(project.items || [])
-        project.items = setEid(items)
+        const items = updateEid(project.items || [])
+        project.items = items
         commit(GET_PROJECT, project)
       }
     },
@@ -200,6 +202,7 @@ export default {
     },
     [DELETE_ITEM](state, eid) {
       state.project.items = state.project.items.filter(item => item.eid !== eid)
+      updateEid(state.project.items)
       state.selectItemEid = undefined
     },
     [SELECT_ITEM_EID](state, eid) {
