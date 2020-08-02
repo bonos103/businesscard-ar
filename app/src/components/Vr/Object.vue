@@ -1,13 +1,13 @@
 <template lang="pug">
   div#target1(:class="$style.wrapper", :style="objectStyle")
-    div {{text || item.value}}
+    | {{text || item.value}}
 </template>
 <style module>
-  .wrapper {
+  /* .wrapper {
     display: inline-flex;
     justify-content: center;
     white-space: pre-wrap;
-  }
+  } */
 </style>
 <script>
 export default {
@@ -29,6 +29,7 @@ export default {
       return {
         fontSize: `${(this.item.font_size * 2) || 36}px`,
         color: this.item.color || 'blue',
+        textAlign: 'left',
         width: `${this.item.width * 200 || 900}px`,
         height: `${this.item.height * 200 || 300}px`,
       }
