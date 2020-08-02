@@ -82,7 +82,7 @@ export default {
       alpha: true,
     })
     renderer.setSize(window.innerWidth, window.innerHeight)
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(window.devicePixelRatio)
     renderer.domElement.style.position = 'absolute'
     renderer.domElement.style.top = '0px'
     renderer.domElement.style.left = '0px'
@@ -111,12 +111,12 @@ export default {
       sourceType: 'webcam',
 
       // // to read from an image
-      // sourceType : 'image',
-      // sourceUrl : `${THREEx.ArToolkitContext.baseURL}data/preview.png`,
+      // sourceType: 'image',
+      // sourceUrl: `${THREEx.ArToolkitContext.baseURL}data/preview.png`,
 
       // to read from a video
-      // sourceType : 'video',
-      // sourceUrl : `${THREEx.ArToolkitContext.baseURL}data/preview.mp4`,
+      // sourceType: 'video',
+      // sourceUrl: `${THREEx.ArToolkitContext.baseURL}data/preview.mp4`,
     })
 
     /* ----------------------------------
@@ -195,14 +195,14 @@ export default {
      ----------------------------------*/
 
     // add a torus knot
-    let geometry = new THREE.CubeGeometry(1, 1, 1)
-    let material = new THREE.MeshNormalMaterial({
-      transparent: true,
-      opacity: 0.5,
-      side: THREE.DoubleSide,
-    })
+    // let geometry = new THREE.CubeGeometry(1, 1, 1)
+    // let material = new THREE.MeshNormalMaterial({
+    //   transparent: true,
+    //   opacity: 0.5,
+    //   side: THREE.DoubleSide,
+    // })
     // メッシュを生成
-    let mesh = new THREE.Mesh(geometry, material)
+    // let mesh = new THREE.Mesh(geometry, material)
     // mesh.position.y = geometry.parameters.height / 2
     // scene.add(mesh)
 
@@ -215,21 +215,44 @@ export default {
     //   torusKnot.rotation.x += Math.PI * delta
     // })
 
-    const texture = new THREE.TextureLoader().load(this.objects[0].src)
-    const { width, height, x, y, z } = this.objects[0]
-    texture.minFilter = THREE.LinearFilter
-    texture.anisotropy = 2
-    geometry = new THREE.PlaneGeometry(width, height)
-    material = new THREE.MeshBasicMaterial({ map: texture})
-    mesh = new THREE.Mesh(geometry, material)
-    mesh.position.y = 0
-    mesh.position.z = z
-    mesh.position.x = x
-    mesh.rotation.x = -1 * Math.PI / 2
-    // mesh.scale.x = 0.5
-    // mesh.scale.y = 0.5
+    // const texture = new THREE.TextureLoader().load(this.objects[0].src)
+    // const { width, height, x, y, z } = this.objects[0]
+    // texture.minFilter = THREE.LinearFilter
+    // texture.anisotropy = 2
+    // geometry = new THREE.PlaneGeometry(width, height)
+    // material = new THREE.MeshBasicMaterial({ map: texture})
+    // mesh = new THREE.Mesh(geometry, material)
+    // mesh.position.y = 0
+    // mesh.position.z = z
+    // mesh.position.x = x
+    // mesh.rotation.x = -1 * Math.PI / 2
+    // // mesh.scale.x = 0.5
+    // // mesh.scale.y = 0.5
 
-    scene.add(mesh)
+    this.objects.forEach((object, index) => {
+      const {
+        width,
+        height,
+        x,
+        y,
+        z,
+        src,
+      } = object
+      const texture = new THREE.TextureLoader().load(src)
+      texture.minFilter = THREE.LinearFilter
+      const geometry = new THREE.PlaneGeometry(width, height)
+      const material = new THREE.MeshBasicMaterial({ map: texture })
+      material.transparent = true
+      material.depthTest = false
+      const mesh = new THREE.Mesh(geometry, material)
+      mesh.position.y = y + (index * 0.1)
+      mesh.position.z = z
+      mesh.position.x = x
+      mesh.rotation.x = -1 * Math.PI / 2
+
+      scene.add(mesh)
+    })
+
 
     /* ----------------------------------
      *  render the whole thing on the page
