@@ -101,6 +101,7 @@ export default {
      */
     // Create a camera
     const camera = new THREE.Camera()
+    // const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000)
     scene.add(camera)
 
     /*
@@ -117,6 +118,8 @@ export default {
       // to read from a video
       // sourceType: 'video',
       // sourceUrl: `${THREEx.ArToolkitContext.baseURL}data/preview.mp4`,
+      displayWidth: window.innerWidth,
+      displayHeight: window.innerHeight,
     })
 
     /* ----------------------------------
@@ -237,6 +240,7 @@ export default {
         y,
         z,
         src,
+        id,
       } = object
       const texture = new THREE.TextureLoader().load(src)
       texture.minFilter = THREE.LinearFilter
@@ -249,9 +253,33 @@ export default {
       mesh.position.z = z
       mesh.position.x = x
       mesh.rotation.x = -1 * Math.PI / 2
+      mesh.name = id
 
       scene.add(mesh)
     })
+
+
+    /*
+     * クリックイベントを処理
+     */
+    // const mouse = new THREE.Vector2()
+    // const raycaster = new THREE.Raycaster()
+
+    document.addEventListener('click', (event) => {
+      // camera.updateMatrixWorld();
+      event.preventDefault()
+      const x = ( event.clientX / window.innerWidth ) * 2 - 1;
+      const y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+      const mouse = new THREE.Vector3(x, y, 1)
+      // console.log(mouse)
+      mouse.unproject(camera)
+      // console.log(mouse)
+      const raycaster = new THREE.Raycaster(mouse, camera.position.normalize())
+      // raycaster.setFromCamera( mouse, camera );
+      const intersects = raycaster.intersectObjects( scene.children );
+      console.log(intersects[0] && intersects[0].object.name)
+    }, false)
+
 
 
     /* ----------------------------------
