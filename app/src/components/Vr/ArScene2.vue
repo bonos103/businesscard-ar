@@ -81,13 +81,15 @@ export default {
       antialias: true,
       alpha: true,
     })
-    renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.setSize(640, 480)
+    // renderer.setSize(window.innerWidth, window.innerHeight)
     renderer.setPixelRatio(window.devicePixelRatio)
     renderer.domElement.style.position = 'absolute'
     renderer.domElement.style.top = '0px'
     renderer.domElement.style.left = '0px'
-    renderer.domElement.style.width = '100%'
-    renderer.domElement.style.height = '100%'
+    // renderer.domElement.style.width = '100%'
+    // renderer.domElement.style.height = '100%'
+    renderer.domElement.style.display = 'none'
     document.body.appendChild(renderer.domElement)
 
     // array of functions for the rendering loop
@@ -100,7 +102,9 @@ export default {
      * Initialize a basic camera
      */
     // Create a camera
-    const camera = new THREE.Camera()
+    const camera = new THREE.PerspectiveCamera()
+    // const camera = new THREE.OrthographicCamera()
+    // const camera = new THREE.Camera()
     // const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000)
     scene.add(camera)
 
@@ -118,8 +122,11 @@ export default {
       // to read from a video
       // sourceType: 'video',
       // sourceUrl: `${THREEx.ArToolkitContext.baseURL}data/preview.mp4`,
-      displayWidth: window.innerWidth,
-      displayHeight: window.innerHeight,
+      // sourceWidth: 1044,
+      // sourceHeight: 784,
+
+      // displayWidth: window.innerWidth,
+      // displayHeight: window.innerHeight,
     })
 
     /* ----------------------------------
@@ -135,6 +142,8 @@ export default {
       maxDetectionRate: 60, // マーカの検出レート（デフォルト60）
       // canvasWidth: source.parameters.sourceWidth, // マーカ検出用画像の幅（デフォルト640）
       // canvasHeight: source.parameters.sourceHeight, // マーカ検出用画像の高さ（デフォルト480）
+      // canvasWidth: 1044,
+      // canvasHeight: 784,
     })
     // initialize it
     arToolkitContext.init(() => {
@@ -148,6 +157,7 @@ export default {
       if (arToolkitSource.ready === false) {
         return
       }
+      renderer.domElement.style.display = 'block'
 
       arToolkitContext.update(arToolkitSource.domElement)
       // update scene.visible if the marker is seen
@@ -187,6 +197,7 @@ export default {
       // patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji',
       // as we controls the camera, set changeMatrixMode: 'cameraTransformMatrix'
       changeMatrixMode: 'cameraTransformMatrix',
+      // changeMatrixMode: 'modelViewMatrix',
     })
     // as we do changeMatrixMode: 'cameraTransformMatrix', start with invisible scene
     scene.visible = false
@@ -263,20 +274,82 @@ export default {
      * クリックイベントを処理
      */
     // const mouse = new THREE.Vector2()
-    // const raycaster = new THREE.Raycaster()
+    const raycaster = new THREE.Raycaster()
 
-    document.addEventListener('click', (event) => {
+    function convertClientPositionToScenePosition ({ x, y }) {
+      const width = window.innerWidth
+      const height = window.innerHeight
+      const cw = Number.parseFloat(document.querySelector('canvas').style.width)
+      const ch = Number.parseFloat(document.querySelector('canvas').style.height)
+
+      const screenX = (x / width) * 2 - 1
+      const screenY = (y / height) * 2 - 1
+
+      const sceneX = screenX * (width / cw)
+      const sceneY = screenY * (height / ch) * -1
+      return {
+        x: sceneX,
+        y: sceneY,
+      }
+        // var t = window.innerWidth
+        //   , n = window.innerHeight
+        //   , r = Number.parseFloat(window.document.querySelector("#webgl-canvas").style.width)
+        //   , i = Number.parseFloat(window.document.querySelector("#webgl-canvas").style.height)
+        //   , o = e.x
+        //   , a = e.y;
+        // o = o / t * 2 - 1,
+        // a = a / n * 2 - 1;
+        // var s = void 0
+        //   , c = void 0;
+        // return "initial" !== window.document.querySelector("#webgl-canvas").style.transform ? (s = n / i * -a * .77,
+        // c = t / r * -o * .7) : (s = o * (t / r) * .7,
+        // c = n / i * -a * .7),
+        // {
+        //     x: s,
+        //     y: c
+        // }
+    }
+
+    renderer.domElement.addEventListener('click', (event) => {
+    // document.addEventListener('click', (event) => {
+      const element = event.currentTarget
       // camera.updateMatrixWorld();
       event.preventDefault()
-      const x = ( event.clientX / window.innerWidth ) * 2 - 1;
-      const y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-      const mouse = new THREE.Vector3(x, y, 1)
+      // mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+      // mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
       // console.log(mouse)
-      mouse.unproject(camera)
+
+      // const x = ( event.clientX / window.innerWidth ) * 2 - 1;
+      // const y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+      // less-ar
+      // const { x, y } = convertClientPositionToScenePosition({ x: event.clientX, y: event.clientY })
+      // const mouse = new THREE.Vector3(x, y, -0.5)
+      // mouse.unproject(camera)
+      // const raycaster = new THREE.Raycaster(camera.position, mouse.normalize())
+
+      // // original
+      // const raycaster = new THREE.Raycaster()
+      // const x = (event.clientX / window.innerWidth) * 2 - 1;
+      // const y = - (event.clientY / window.innerHeight) * 2 + 1;
+      // // Persp
+      // // raycaster.ray.origin.setFromMatrixPosition(camera.matrixWorld)
+      // // raycaster.ray.direction.set(x, y, 1).unproject(camera).sub(raycaster.ray.origin).normalize()
+      // // Ori
+      // raycaster.ray.direction.set(0, 0, -1).transformDirection(camera.matrixWorld);
+      // raycaster.camera = camera
+
+      // qiita
+      const x = event.clientX - element.offsetLeft;
+      const y = event.clientY - element.offsetTop;
+      const w = element.offsetWidth;
+      const h = element.offsetHeight;
+      const mouse = new THREE.Vector2((x / w) * 2 - 1, -(y / h) * 2 + 1);
+      raycaster.setFromCamera(mouse, camera);
+
       // console.log(mouse)
-      const raycaster = new THREE.Raycaster(mouse, camera.position.normalize())
-      // raycaster.setFromCamera( mouse, camera );
-      const intersects = raycaster.intersectObjects( scene.children );
+      // raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(scene.children, true);
       console.log(intersects[0] && intersects[0].object.name)
     }, false)
 
@@ -298,12 +371,12 @@ export default {
       // keep looping
       requestAnimationFrame(animate)
       // measure time
-      lastTimeMsec = lastTimeMsec || nowMsec - (1000 / 60)
-      const deltaMsec = Math.min(200, nowMsec - lastTimeMsec)
-      lastTimeMsec = nowMsec
+      // lastTimeMsec = lastTimeMsec || nowMsec - (1000 / 60)
+      // const deltaMsec = Math.min(200, nowMsec - lastTimeMsec)
+      // lastTimeMsec = nowMsec
       // call each update function
       onRenderFcts.forEach((onRenderFct) => {
-        onRenderFct(deltaMsec / 1000, nowMsec / 1000)
+        onRenderFct()
       })
     }
     requestAnimationFrame(animate)
