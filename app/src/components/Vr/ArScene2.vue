@@ -148,8 +148,6 @@ export default {
       if (arToolkitSource.ready === false) {
         return
       }
-      renderer.domElement.style.display = 'block'
-
       arToolkitContext.update(arToolkitSource.domElement)
       // update scene.visible if the marker is seen
       scene.visible = camera.visible
@@ -169,9 +167,10 @@ export default {
       onResize()
     })
     arToolkitSource.init(() => {
-      setTimeout(() => {
+      arToolkitSource.domElement.addEventListener('canplay', () => {
         onResize()
-      }, 2000)
+        renderer.domElement.style.display = 'block'
+      }, true)
     })
 
     /* ----------------------------------
