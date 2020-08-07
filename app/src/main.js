@@ -8,6 +8,7 @@ import {
   Modal,
   Notification,
   Row,
+  Tooltip,
 } from 'ant-design-vue'
 import Vue from 'vue'
 import VueMeta from 'vue-meta'
@@ -31,6 +32,7 @@ Vue.use(Layout)
 Vue.use(Modal)
 Vue.use(Notification)
 Vue.use(Row)
+Vue.use(Tooltip)
 Vue.use(VueMeta)
 
 Object.entries(rules)

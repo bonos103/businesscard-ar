@@ -7,6 +7,7 @@
             logo-simple-icon
         div(:class="$style.title")
           a-input(type="text", placeholder="プロジェクト名", :value="title", @input="changeTitle")
+            a-icon(slot="suffix" type="edit")
       div(:class="$style.headerRight")
         div(:class="$style.item")
           div(@click="isPreviewModal = true") プレビュー
@@ -98,10 +99,11 @@
           a-input(
             type="text",
             placeholder="ユーザーID",
-            :value="item.value",
+            :value="socialPath",
             @input="changeValue",
             style="width: 280px;",
           )
+            span(slot="addonBefore") {{socialOrigin}}
 </template>
 <style module>
   .wrap {
@@ -146,7 +148,14 @@
       &:not(:focus) {
         background-color: transparent;
         border: none;
+        transition: background-color 0.2s ease-in-out;
+        &:hover {
+          background-color: var(--white);
+        }
       }
+    }
+    & :global(.ant-input-suffix) {
+      pointer-events: none;
     }
   }
   .item {
@@ -250,6 +259,7 @@ import {
   SET_DATA,
   SET_TITLE,
 } from '@/store/modules/projects/types'
+import SocialLinkOrigin from '@/utils/SocialLinkOrigin'
 // import LoadingIcon from '@/assets/images/icons/loading.svg?component'
 import LoadingIcon from '@/components/Icon/LoadingIcon.vue'
 import LogoSimpleIcon from '@/components/Icon/LogoSimpleIcon.vue'
@@ -273,6 +283,18 @@ export default {
     ...mapGetters('projects', {
       item: 'selectItem',
     }),
+    socialOrigin() {
+      if (this.item.type !== 'social') {
+        return ''
+      }
+      return SocialLinkOrigin(this.item.value)
+    },
+    socialPath() {
+      if (this.item.type !== 'social') {
+        return this.item.value
+      }
+      return this.item.value.replace(this.socialOrigin, '')
+    },
   },
   data() {
     return {
@@ -300,9 +322,7 @@ export default {
       this.SET_DATA({ color: colors.hex })
     },
     changeValue(e) {
-      if (/^https:\/\/(www\.instagram\.com|www\.facebook\.com|twitter\.com)\//.test(e.target.value || '')) {
-        this.SET_DATA({ value: e.target.value })
-      }
+      this.SET_DATA({ value: `${this.socialOrigin}${e.target.value || ''}` })
     },
     async handleSave() {
       this.loading = true

@@ -16,8 +16,10 @@
         )
     div(:class="$style.tool")
       edit-tool
-    div(:class="$style.download", @click="handleDownload")
-      download-icon
+    a-tooltip(placement="topRight", arrowPointAtCenter)
+      span(slot="title") QRコードをダウンロード
+      div(:class="$style.download", @click="handleDownload")
+        download-icon
 </template>
 <style module>
   .canvas {

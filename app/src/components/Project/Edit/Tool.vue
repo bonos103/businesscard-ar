@@ -1,14 +1,18 @@
 <template lang="pug">
   div(:class="$style.block")
-    div(:class="$style.item", @click="addItemText")
-      text-icon
-    div(:class="$style.item", @click.stop="socialExpand = true")
-      social-icon
-      tool-social(
-        :class="$style.socialList",
-        @close="socialExpand = false",
-        v-if="socialExpand",
-      )
+    a-tooltip(placement="right", arrowPointAtCenter)
+      span(slot="title") テキストを配置します
+      div(:class="$style.item", @click="addItemText")
+        text-icon
+    a-tooltip(placement="right", arrowPointAtCenter)
+      span(slot="title") ソーシャルアイコンを配置します
+      div(:class="$style.item", @click.stop="socialExpand = true")
+        social-icon
+        tool-social(
+          :class="$style.socialList",
+          @close="socialExpand = false",
+          v-if="socialExpand",
+        )
 </template>
 <style module>
   .block {
