@@ -151,6 +151,13 @@ export default {
     },
     onClickObject(event) {
       event.preventDefault()
+      const intersectObject = this.getIntersectObject(event)
+      const item  = this.getItemById(intersectObject.name)
+      if (item && item.value && item.type === 'social') {
+        window.open(item.value, 'qrar')
+      }
+    },
+    getIntersectObject(event) {
       const element = event.currentTarget
       const x = event.clientX - element.offsetLeft;
       const y = event.clientY - element.offsetTop;
@@ -158,9 +165,12 @@ export default {
       const h = element.offsetHeight;
       const mouse = new THREE.Vector2((x / w) * 2 - 1, -(y / h) * 2 + 1);
       this.raycaster.setFromCamera(mouse, this.camera);
-
-      const intersects = this.raycaster.intersectObjects(this.scene.children, true);
+      const intersects = this.raycaster.intersectObjects(this.scene.children);
       console.log(intersects[0] && intersects[0].object.name)
+      return intersects[0] && intersects[0].object
+    },
+    getItemById(id) {
+      return this.objects.find(o => o.id === id)
     },
   },
   async mounted() {
