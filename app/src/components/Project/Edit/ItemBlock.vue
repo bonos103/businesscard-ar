@@ -6,10 +6,11 @@
     ref="item",
     @click.stop="activateItem",
   )
-    slot(
-      :textStyle="textStyle",
-      :handleChangeValue="handleChangeValue",
-    )
+    div(:class="$style.inner")
+      slot(
+        :textStyle="textStyle",
+        :handleChangeValue="handleChangeValue",
+      )
     item-knob(
       v-if="active",
       :option="knobOption",
@@ -37,6 +38,11 @@
     &:hover:not([active]) {
       border: 1px solid var(--cyan);
     }
+  }
+  .inner {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
   }
   .menu {
     position: absolute;

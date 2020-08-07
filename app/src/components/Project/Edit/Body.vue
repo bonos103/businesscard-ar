@@ -16,7 +16,7 @@
         )
     div(:class="$style.tool")
       edit-tool
-    a-tooltip(placement="topRight", arrowPointAtCenter)
+    a-tooltip(placement="topRight", arrowPointAtCenter, :mouseLeaveDelay="0")
       span(slot="title") QRコードをダウンロード
       div(:class="$style.download", @click="handleDownload")
         download-icon

@@ -7,7 +7,7 @@
         slot(name="text") {{text}}
       div(:class="$style.buttonGroup")
         a-button(:class="$style.button", @click="handleCancel") いいえ
-        a-button(type="primary", :class="$style.button", @click="$emit('ok')") はい
+        a-button(:type="okType", :class="$style.button", @click="$emit('ok')") はい
 </template>
 <style lang="postcss" module>
   .body {
@@ -48,6 +48,7 @@ export default {
     width: { type: [String, Number], default: 460 },
     title: { type: String, default: '' },
     text: { type: String, default: '' },
+    okType: { type: String, default: 'primary' },
   },
   methods: {
     handleCancel() {

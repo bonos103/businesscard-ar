@@ -6,6 +6,7 @@
       v-model="visibleDeleteModal",
       @cancel="visibleDeleteModal = false",
       @ok="handleDelete",
+      ok-type="danger",
     )
       div(slot="text") このアイテムを削除してよろしいですか？
 </template>
