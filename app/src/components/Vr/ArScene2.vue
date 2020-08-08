@@ -51,7 +51,7 @@ export default {
       arToolkitContext: null,
       markerControls: null,
       raycaster: null,
-      ratio: 0.9,
+      ratio: 0.8,
     }
   },
   methods: {

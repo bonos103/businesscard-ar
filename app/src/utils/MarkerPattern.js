@@ -5,7 +5,7 @@ import THREEx from '@/assets/javascripts/threex-arpatternfile'
 class MarkerPatter {
   constructor(link, ratio, size) {
     this.link = link
-    this.ratio = ratio || 0.9
+    this.ratio = ratio || 0.8
     this.size = size || 300
   }
 
