@@ -51,6 +51,7 @@ export default {
       arToolkitContext: null,
       markerControls: null,
       raycaster: null,
+      ratio: 0.9,
     }
   },
   methods: {
@@ -209,6 +210,7 @@ export default {
       detectionMode: 'mono', // 検出モード（color/color_and_matrix/mono/mono_and_matrix）
       imageSmoothingEnabled: true, // 画像をスムージングするか（デフォルトfalse）
       maxDetectionRate: 60, // マーカの検出レート（デフォルト60）
+      patternRatio: this.ratio,
     })
     // initialize it
     this.initArToolkitContext()

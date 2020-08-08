@@ -45,8 +45,9 @@
     top: 0;
     left: 0;
     background-color: #fff;
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
+    border: 25px solid var(--black);
     transform: translate(-50%, -50%);
     & img {
       width: 100%;
