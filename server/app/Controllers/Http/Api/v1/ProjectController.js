@@ -1,4 +1,5 @@
 'use strict'
+
 const _differenceBy = require('lodash/differenceBy')
 
 const Item = use('App/Models/Item')
@@ -35,7 +36,7 @@ class ProjectController {
   async show({ response, params, auth }) {
     const { id } = params
     // const user = await auth.getUser()
-    const project = await Project.query().findById(id).withItems().last()
+    const project = await Project.query().where('id', id).orWhere('uid', id).withItems().last()
 
     if (!project) {
       return response.badRequest({

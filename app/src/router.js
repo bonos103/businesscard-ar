@@ -53,7 +53,7 @@ const router = new Router({
       meta: { requiredAuth: true },
     },
     {
-      path: '/ar/:uid',
+      path: '/ar/:id', // uidが入るがPreviewと変数を共通にするためにidとする
       name: 'ArShow',
       component: () => import(/* webpackChunkName: "Vr" */ './views/Project/Preview.vue'),
     },
