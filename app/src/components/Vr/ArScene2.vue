@@ -51,7 +51,8 @@ export default {
       arToolkitContext: null,
       markerControls: null,
       raycaster: null,
-      ratio: 0.8,
+      ratio: 0.9,
+      markerRoot: null,
     }
   },
   methods: {
@@ -68,7 +69,7 @@ export default {
     },
     initRenderer() {
       const renderer = new THREE.WebGLRenderer({
-        antialias: true,
+        // antialias: true,
         alpha: true,
       })
       renderer.setSize(640, 480)
@@ -107,7 +108,7 @@ export default {
         this.arToolkitSource.copyElementSizeTo(this.arToolkitContext.arController.canvas)
       }
     },
-    registerObject(object, index) {
+    registerObject(object, index, root) {
       const {
         width,
         height,
@@ -130,10 +131,26 @@ export default {
       mesh.rotation.x = -1 * Math.PI / 2
       mesh.name = id
 
-      this.scene.add(mesh)
+      // this.scene.add(mesh)
+      root.add(mesh)
     },
-    registerObjects() {
-      this.objects.forEach(this.registerObject)
+    registerObjects(THREEx) {
+      const self = this
+      this.markerRoot = new THREE.Group()
+      this.scene.add(this.markerRoot)
+
+      // build a smoothedControls
+      const smoothedRoot = new THREE.Group()
+      this.scene.add(smoothedRoot)
+      const smoothedControls = new THREEx.ArSmoothedControls(smoothedRoot, {
+        lerpPosition: 0.4,
+        lerpQuaternion: 0.3,
+        lerpScale: 1,
+      })
+      this.renderFunctions.push(() => {
+        smoothedControls.update(self.markerRoot)
+      })
+      this.objects.forEach((o, i) => this.registerObject(o, i, smoothedRoot))
     },
     renderScene() {
       const self = this
@@ -153,6 +170,9 @@ export default {
     onClickObject(event) {
       event.preventDefault()
       const intersectObject = this.getIntersectObject(event)
+      if (!intersectObject) {
+        return
+      }
       const item  = this.getItemById(intersectObject.name)
       if (item && item.value && item.type === 'social') {
         window.open(item.value, 'qrar')
@@ -166,7 +186,7 @@ export default {
       const h = element.offsetHeight;
       const mouse = new THREE.Vector2((x / w) * 2 - 1, -(y / h) * 2 + 1);
       this.raycaster.setFromCamera(mouse, this.camera);
-      const intersects = this.raycaster.intersectObjects(this.scene.children);
+      const intersects = this.raycaster.intersectObjects(this.scene.children, true);
       console.log(intersects[0] && intersects[0].object.name)
       return intersects[0] && intersects[0].object
     },
@@ -222,7 +242,7 @@ export default {
       }
       self.arToolkitContext.update(self.arToolkitSource.domElement)
       // update scene.visible if the marker is seen
-      self.scene.visible = self.camera.visible
+      // self.scene.visible = self.camera.visible
     })
 
     // handle resize
@@ -234,18 +254,32 @@ export default {
     this.initArToolkitResource()
 
     // init controls for camera
-    // マーカを登録
-    this.markerControls = new THREEx.ArMarkerControls(this.arToolkitContext, this.camera, {
-      type: 'pattern',
-      patternUrl: this.markerUrl,
-      changeMatrixMode: 'cameraTransformMatrix',
-    })
-    // as we do changeMatrixMode: 'cameraTransformMatrix', start with invisible scene
-    this.scene.visible = false
+    // // マーカを登録
+    // this.markerControls = new THREEx.ArMarkerControls(this.arToolkitContext, this.camera, {
+    //   type: 'pattern',
+    //   patternUrl: this.markerUrl,
+    //   changeMatrixMode: 'cameraTransformMatrix',
+    //   smooth: true,
+    //   smoothCount: 5,
+    //   smoothTolerance: 10,
+    //   smoothThreshold: 5,
+    // })
+    // // as we do changeMatrixMode: 'cameraTransformMatrix', start with invisible scene
+    // this.scene.visible = false
 
     // add an object in the scene
     // オブジェクトの登録
-    this.registerObjects();
+    this.registerObjects(THREEx);
+
+    this.markerControls = new THREEx.ArMarkerControls(this.arToolkitContext, this.markerRoot, {
+      type: 'pattern',
+      patternUrl: this.markerUrl,
+      // changeMatrixMode: 'cameraTransformMatrix',
+      // smooth: true,
+      // smoothCount: 5,
+      // smoothTolerance: 10,
+      // smoothThreshold: 5,
+    })
 
     // クリックイベントを処理
     this.raycaster = new THREE.Raycaster()
