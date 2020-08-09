@@ -6,7 +6,7 @@
           | QRコードを設置するだけ。
           br
           | ARでちょっと楽しく。
-        router-link(to="Signin")
+        router-link(to="/signin")
           a-button(
             type="primary",
             size="large",
@@ -53,7 +53,7 @@
             | 発行したQRコードに表示される内容は、リアルタイムに更新可能です。入力した内容が古くなる心配はありません。
 
     div(:class="$style.signupSection")
-      router-link(to="Signin")
+      router-link(to="/signin")
         a-button(
           type="primary",
           size="large",

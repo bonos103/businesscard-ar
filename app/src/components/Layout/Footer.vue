@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    div(:class="$style.copyright") © 2019 BONOS
+    div(:class="$style.copyright") © 2020 QRAR
 </template>
 <style module>
   .copyright {

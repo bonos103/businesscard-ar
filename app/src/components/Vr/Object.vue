@@ -3,11 +3,11 @@
     | {{text || item.value}}
 </template>
 <style module>
-  /* .wrapper {
-    display: inline-flex;
-    justify-content: center;
+  .wrapper {
+    /* display: inline-flex;
+    justify-content: center; */
     white-space: pre-wrap;
-  } */
+  }
 </style>
 <script>
 export default {

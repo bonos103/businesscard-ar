@@ -116,7 +116,7 @@ export default {
     },
     async [GET_PROJECT]({ commit }, payload) {
       const getProject = () => {
-        if (typeof payload === 'string') {
+        if (typeof payload === 'number' || typeof payload === 'string') {
           return axios.get(`/project/${payload}`)
         }
         const { id, type } = payload

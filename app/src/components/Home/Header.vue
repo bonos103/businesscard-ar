@@ -6,7 +6,8 @@
     div(:class="$style.menu")
       div(:class="$style.buttonGroup")
         //- router-link(to="/signup", :class="$style.button") 新規登録
-        router-link(to="/signin", :class="$style.button") ログイン
+        router-link(v-if="currentUser", to="/project", :class="$style.button") プロジェクトへ
+        router-link(v-else, to="/signin", :class="$style.button") ログイン
 </template>
 <style module>
   .header {
@@ -46,10 +47,16 @@
 </style>
 <script>
 import LogoIcon from '@/components/Icon/LogoIcon.vue'
+import { mapState } from 'vuex'
 
 export default {
   components: {
     LogoIcon,
+  },
+  computed: {
+    ...mapState('users', {
+      currentUser: 'currentUser',
+    }),
   },
 }
 </script>
