@@ -27,13 +27,14 @@
       h2(:class="$style.sectionTitle") 試してみる？
       div(:class="$style.try")
         div(:class="$style.tryCode")
-          img(src="@/assets/images/top/qrcode.png")
+          img(src="@/assets/images/top/businesscard.png")
         div(:class="$style.trySection")
-          div(:class="$style.tryLabel") スマホでQRコードを読み込んでください。
-          div(:class="$style.tryText")
-            | QRコードを読み込むとWebブラウザを開きます。
-            br
-            | ブラウザ上で起動したカメラをこちらのQRコードに向けてください。
+          div
+            div(:class="$style.tryLabel") スマホでQRコードを読み込んでください。
+            div(:class="$style.tryText")
+              | QRコードを読み込むとWebブラウザを開きます。
+              br
+              | ブラウザ上で起動したカメラをこちらのQRコードに向けてください。
 
     div(:class="$style.section")
       h2(:class="$style.sectionTitle") QRARの特徴
@@ -41,7 +42,7 @@
         div(:class="$style.featureSection")
           h3(:class="$style.featureTitle") アプリ不要
           div(:class="$style.featureDescription")
-            | QRARでは、AR読み込み専用のアプリは不要となっています。普段お使いのブラウザでARを表示することができますので、気軽に楽しんでいただけます。
+            | QRARでは、専用アプリをインストールする必要はありません。普段お使いのブラウザでARを表示できるので、気軽に楽しんでいただけます。
         div(:class="$style.featureSection")
           h3(:class="$style.featureTitle") QRコードにかざすだけ
           div(:class="$style.featureDescription")
@@ -115,8 +116,12 @@
     margin-left: auto;
     margin-right: auto;
     @media (--md) {
+      max-width: 700px;
       padding-top: 30px;
       padding-bottom: 60px;
+    }
+    @media (--lg) {
+      max-width: 900px;
     }
   }
   .stepItem {
@@ -147,7 +152,10 @@
     padding: 0 10%;
     margin-bottom: 20px;
     @media (--md) {
-      max-width: 170px;
+      max-width: 190px;
+    }
+    @media (--lg) {
+      min-width: 220px;
     }
   }
   .registerButton {
@@ -155,26 +163,27 @@
   }
 
   .try {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     max-width: 672px;
     padding: 0 16px;
     margin: 0 auto;
   }
   .tryCode {
-    flex: 0 0 150px;
-    width: 150px;
+    max-width: 455px;
+    box-shadow: 0 10px 20px -8px color-mod(var(--black) a(15%));
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 30px;
     & img {
       width: 100%;
     }
   }
   .trySection {
-    flex: 0 1 auto;
-    padding-left: 5%;
+    display: flex;
+    justify-content: center;
   }
   .tryLabel {
     font-size: 1.8rem;
+    font-weight: bold;
     margin-bottom: 0.8em;
   }
   .tryText {
