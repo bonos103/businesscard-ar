@@ -4,15 +4,15 @@
       span(slot="title") テキストを配置します
       div(:class="$style.item", @click="addItemText")
         text-icon
-    a-tooltip(placement="right", arrowPointAtCenter, :mouseLeaveDelay="0")
-      span(slot="title") ソーシャルアイコンを配置します
-      div(:class="$style.item", @click.stop="socialExpand = true")
+    div(:class="$style.item", @click.stop="socialExpand = true")
+      a-tooltip(placement="right", arrowPointAtCenter, :mouseLeaveDelay="0")
+        span(slot="title") ソーシャルアイコンを配置します
         social-icon
-        tool-social(
-          :class="$style.socialList",
-          @close="socialExpand = false",
-          v-if="socialExpand",
-        )
+      tool-social(
+        :class="$style.socialList",
+        @close="socialExpand = false",
+        v-if="socialExpand",
+      )
 </template>
 <style module>
   .block {
