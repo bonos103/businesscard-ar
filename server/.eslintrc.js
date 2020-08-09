@@ -13,6 +13,7 @@ module.exports = {
     'no-param-reassign': 'off',
     'semi': ['error', 'never'],
     'max-len': ['error', { 'code': 100, 'ignoreComments': true, 'ignoreTrailingComments': true, 'ignoreUrls': true, 'ignoreStrings': true, 'ignoreTemplateLiterals': true, 'ignoreRegExpLiterals': true }],
+    'class-methods-use-this': 0,
   },
   parserOptions: {
     sourceType: 'script',

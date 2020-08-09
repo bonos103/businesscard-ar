@@ -1,8 +1,7 @@
 'use strict'
 
-const _differenceBy = require('lodash/differenceBy')
+const differenceBy = require('lodash/differenceBy')
 
-const Item = use('App/Models/Item')
 const Project = use('App/Models/Project')
 
 class ProjectController {
@@ -33,10 +32,11 @@ class ProjectController {
     })
   }
 
-  async show({ response, params, auth }) {
+  async show({ response, request, params }) {
     const { id } = params
+    const type = request.get('type') || id
     // const user = await auth.getUser()
-    const project = await Project.query().where('id', id).orWhere('uid', id).withItems().last()
+    const project = await Project.query().where(type, id).withItems().last()
 
     if (!project) {
       return response.badRequest({
@@ -55,7 +55,9 @@ class ProjectController {
     return response.ok(project.toJSON())
   }
 
-  async update({ response, request, params, auth }) {
+  async update({
+    response, request, params, auth,
+  }) {
     const { id } = params
     const { title, items } = request.only(['title', 'items'])
     const user = await auth.getUser()
@@ -82,7 +84,7 @@ class ProjectController {
 
     // TODO itemsのsave
     // removeカラムを抽出して削除、
-    const removeItems = _differenceBy(projectItems.rows, items, 'id')
+    const removeItems = differenceBy(projectItems.rows, items, 'id')
     // idなしはcretae
     const createItems = items.filter((item) => !item.id)
     // id持ちはsave

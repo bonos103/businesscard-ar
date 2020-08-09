@@ -115,8 +115,15 @@ export default {
         commit(GET_PROJECTS, result.data)
       }
     },
-    async [GET_PROJECT]({ commit }, id) {
-      const result = await axios.get(`/project/${id}`)
+    async [GET_PROJECT]({ commit }, payload) {
+      const getProject = async () => {
+        if (typeof payload === 'string') {
+          return await axios.get(`/project/${payload}`)
+        }
+        const { id, type } = payload
+        return await axios.get(`/project/${payload}?type=${type}`)
+      }
+      const result = await getProject()
       if (result.data) {
         const project = result.data
         const items = updateEid(project.items || [])
