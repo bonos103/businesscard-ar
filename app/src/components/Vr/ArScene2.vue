@@ -159,7 +159,7 @@ export default {
       })
 
       // run the rendering loop
-      function animate(nowMsec) {
+      function animate() {
         requestAnimationFrame(animate)
         self.renderFunctions.forEach((onRenderFct) => {
           onRenderFct()
@@ -173,20 +173,20 @@ export default {
       if (!intersectObject) {
         return
       }
-      const item  = this.getItemById(intersectObject.name)
+      const item = this.getItemById(intersectObject.name)
       if (item && item.value && item.type === 'social') {
         window.open(item.value, 'qrar')
       }
     },
     getIntersectObject(event) {
       const element = event.currentTarget
-      const x = event.clientX - element.offsetLeft;
-      const y = event.clientY - element.offsetTop;
-      const w = element.offsetWidth;
-      const h = element.offsetHeight;
-      const mouse = new THREE.Vector2((x / w) * 2 - 1, -(y / h) * 2 + 1);
-      this.raycaster.setFromCamera(mouse, this.camera);
-      const intersects = this.raycaster.intersectObjects(this.scene.children, true);
+      const x = event.clientX - element.offsetLeft
+      const y = event.clientY - element.offsetTop
+      const w = element.offsetWidth
+      const h = element.offsetHeight
+      const mouse = new THREE.Vector2((x / w) * 2 - 1, -(y / h) * 2 + 1)
+      this.raycaster.setFromCamera(mouse, this.camera)
+      const intersects = this.raycaster.intersectObjects(this.scene.children, true)
       console.log(intersects[0] && intersects[0].object.name)
       return intersects[0] && intersects[0].object
     },
@@ -269,7 +269,7 @@ export default {
 
     // add an object in the scene
     // オブジェクトの登録
-    this.registerObjects(THREEx);
+    this.registerObjects(THREEx)
 
     this.markerControls = new THREEx.ArMarkerControls(this.arToolkitContext, this.markerRoot, {
       type: 'pattern',

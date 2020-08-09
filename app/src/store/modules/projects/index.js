@@ -18,7 +18,6 @@ import {
   SET_DATA,
   SET_TITLE,
 } from './types'
-import { update } from 'lodash'
 
 const axios = new Axios()
 
@@ -116,12 +115,12 @@ export default {
       }
     },
     async [GET_PROJECT]({ commit }, payload) {
-      const getProject = async () => {
+      const getProject = () => {
         if (typeof payload === 'string') {
-          return await axios.get(`/project/${payload}`)
+          return axios.get(`/project/${payload}`)
         }
         const { id, type } = payload
-        return await axios.get(`/project/${payload}?type=${type}`)
+        return axios.get(`/project/${id}?type=${type}`)
       }
       const result = await getProject()
       if (result.data) {
