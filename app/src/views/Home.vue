@@ -24,7 +24,7 @@
         div 体験する
 
     div(:class="$style.section")
-      h2(:class="$style.sectionTitle") 試してみる？
+      h2(:class="$style.sectionTitle") 試してみる
       div(:class="$style.try")
         div(:class="$style.tryCode")
           img(src="@/assets/images/top/businesscard.png")
