@@ -1,11 +1,11 @@
 <template lang="pug">
   div(:class="$style.block")
-    a-tooltip(placement="right", arrowPointAtCenter, :mouseLeaveDelay="0")
+    a-tooltip(placement="topLeft", arrowPointAtCenter, :mouseLeaveDelay="0")
       span(slot="title") テキストを配置します
       div(:class="$style.item", @click="addItemText")
         text-icon
     div(:class="$style.item", @click.stop="socialExpand = true")
-      a-tooltip(placement="right", arrowPointAtCenter, :mouseLeaveDelay="0")
+      a-tooltip(placement="topLeft", arrowPointAtCenter, :mouseLeaveDelay="0")
         span(slot="title") ソーシャルアイコンを配置します
         social-icon
       tool-social(
