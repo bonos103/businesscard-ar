@@ -10,7 +10,7 @@
             a-icon(slot="suffix" type="edit")
       div(:class="$style.headerRight")
         div(:class="$style.item")
-          div(@click="isPreviewModal = true") プレビュー
+          div(@click="isPreviewModal = true", :class="$style.previewButton") プレビュー
           preview-modal(v-model="isPreviewModal", :id="$route.params.id", v-if="isPreviewModal")
         //- div(:class="$style.item")
           minus-icon
@@ -19,91 +19,92 @@
         button(:class="$style.button", @click="handleSave", :disabled="loading")
           loading-icon(v-if="loading")
           span(v-else) 保存
-    div(:class="$style.toolHeader", v-if="item")
-      div(:class="$style.headerRight", v-if="item.type === 'text'")
-        div(:class="$style.toolHeaderItem")
-          label サイズ
-          a-dropdown(v-model="visibleToolSize")
-            div(:class="$style.toolSize")
-              | {{item.font_size}}
-            div(:class="$style.toolSizeSelect", slot="overlay")
-              div(
-                :class="$style.toolSizeSelectItem",
-                @click="changeSize(10)",
-                :active="item.font_size === 10"
-              ) 10
-              div(
-                :class="$style.toolSizeSelectItem",
-                @click="changeSize(11)",
-                :active="item.font_size === 11"
-              ) 11
-              div(
-                :class="$style.toolSizeSelectItem",
-                @click="changeSize(12)",
-                :active="item.font_size === 12"
-              ) 12
-              div(
-                :class="$style.toolSizeSelectItem",
-                @click="changeSize(14)",
-                :active="item.font_size === 14"
-              ) 14
-              div(
-                :class="$style.toolSizeSelectItem",
-                @click="changeSize(16)",
-                :active="item.font_size === 16"
-              ) 16
-              div(
-                :class="$style.toolSizeSelectItem",
-                @click="changeSize(18)",
-                :active="item.font_size === 18"
-              ) 18
-              div(
-                :class="$style.toolSizeSelectItem",
-                @click="changeSize(20)",
-                :active="item.font_size === 20"
-              ) 20
-              div(
-                :class="$style.toolSizeSelectItem",
-                @click="changeSize(24)",
-                :active="item.font_size === 24",
-                ) 24
-              div(
-                :class="$style.toolSizeSelectItem",
-                @click="changeSize(28)",
-                :active="item.font_size === 28",
-              ) 28
-              div(
-                :class="$style.toolSizeSelectItem",
-                @click="changeSize(32)",
-                :active="item.font_size === 32",
-              ) 32
-              div(
-                :class="$style.toolSizeSelectItem",
-                @click="changeSize(40)",
-                :active="item.font_size === 40",
-              ) 40
+    transition(name="slide")
+      div(:class="$style.toolHeader", v-if="item")
+        div(:class="$style.toolHeaderRight", v-if="item.type === 'text'")
+          div(:class="$style.toolHeaderItem")
+            label サイズ
+            a-dropdown(v-model="visibleToolSize")
+              div(:class="$style.toolSize")
+                | {{item.font_size}}
+              div(:class="$style.toolSizeSelect", slot="overlay")
+                div(
+                  :class="$style.toolSizeSelectItem",
+                  @click="changeSize(10)",
+                  :active="item.font_size === 10"
+                ) 10
+                div(
+                  :class="$style.toolSizeSelectItem",
+                  @click="changeSize(11)",
+                  :active="item.font_size === 11"
+                ) 11
+                div(
+                  :class="$style.toolSizeSelectItem",
+                  @click="changeSize(12)",
+                  :active="item.font_size === 12"
+                ) 12
+                div(
+                  :class="$style.toolSizeSelectItem",
+                  @click="changeSize(14)",
+                  :active="item.font_size === 14"
+                ) 14
+                div(
+                  :class="$style.toolSizeSelectItem",
+                  @click="changeSize(16)",
+                  :active="item.font_size === 16"
+                ) 16
+                div(
+                  :class="$style.toolSizeSelectItem",
+                  @click="changeSize(18)",
+                  :active="item.font_size === 18"
+                ) 18
+                div(
+                  :class="$style.toolSizeSelectItem",
+                  @click="changeSize(20)",
+                  :active="item.font_size === 20"
+                ) 20
+                div(
+                  :class="$style.toolSizeSelectItem",
+                  @click="changeSize(24)",
+                  :active="item.font_size === 24",
+                  ) 24
+                div(
+                  :class="$style.toolSizeSelectItem",
+                  @click="changeSize(28)",
+                  :active="item.font_size === 28",
+                ) 28
+                div(
+                  :class="$style.toolSizeSelectItem",
+                  @click="changeSize(32)",
+                  :active="item.font_size === 32",
+                ) 32
+                div(
+                  :class="$style.toolSizeSelectItem",
+                  @click="changeSize(40)",
+                  :active="item.font_size === 40",
+                ) 40
 
-        div(:class="$style.toolHeaderItem")
-          label カラー
-          a-dropdown(v-model="visibleToolColor", placement="bottomRight")
-            div(:class="$style.toolColor", :style="{ backgroundColor: item.color }")
-            sketch-picker(
-              slot="overlay",
-              :value="item.color",
-              @input="changeColor"
+          div(:class="$style.toolHeaderItem")
+            label カラー
+            a-dropdown(v-model="visibleToolColor", placement="bottomRight")
+              div(:class="$style.toolColor", :style="{ backgroundColor: item.color }")
+              sketch-picker(
+                slot="overlay",
+                :value="item.color",
+                @input="changeColor"
+              )
+
+        div(:class="$style.headerRight", v-if="item.type === 'social'")
+          div(:class="$style.toolHeaderItem")
+            label リンク
+            a-input(
+              type="text",
+              placeholder="ユーザーID",
+              :value="socialPath",
+              @input="changeValue",
+              style="width: 280px;",
             )
-
-      div(:class="$style.headerRight", v-if="item.type === 'social'")
-        div(:class="$style.toolHeaderItem")
-          label リンク
-          a-input(
-            type="text",
-            placeholder="ユーザーID",
-            :value="socialPath",
-            @input="changeValue",
-            style="width: 280px;",
-          )
-            span(slot="addonBefore") {{socialOrigin}}
+              span(slot="addonBefore") {{socialOrigin}}
 </template>
 <style module>
   .wrap {
@@ -115,7 +116,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 40px;
+    height: 60px;
     border-bottom: 1px solid var(--gray-lighter);
   }
   .headerLeft {
@@ -128,12 +129,16 @@
       padding-left: 30px;
     }
   }
-  .headerRight {
+  .headerRight,
+  .toolHeaderRight {
     flex: 1 1 auto;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     height: 100%;
+  }
+  .toolHeaderRight {
+    height: 60px;
   }
   .logo {
     color: var(--black);
@@ -161,11 +166,19 @@
   .item {
     display: flex;
     align-items: center;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: var(--gray-darker);
     & i {
       cursor: pointer;
     }
+  }
+  .previewButton {
+    display: flex;
+    align-items: center;
+    font-size: 1.4rem;
+    letter-spacing: 0.2em;
+    height: 60px;
+    cursor: pointer;
   }
   .zoomLabel {
     margin-left: 0.5em;
@@ -178,7 +191,8 @@
     justify-content: center;
     font-size: 1.4rem;
     color: #fff;
-    width: 60px;
+    letter-spacing: 0.2em;
+    width: 100px;
     height: 100%;
     background-color: var(--black);
     border: 1px solid var(--black);
@@ -191,7 +205,9 @@
     }
   }
   .toolHeader {
+    align-items: flex-start;
     height: 60px;
+    overflow: hidden;
   }
   .toolHeaderItem {
     display: flex;
@@ -247,6 +263,17 @@
     border: 1px solid var(--gray-lighter);
     border-radius: 15%;
     cursor: pointer;
+  }
+  :global {
+    & .slide-enter-active,
+    & .slide-leave-active {
+      transition: height 0.3s;
+      overflow: hidden;
+    }
+    & .slide-enter,
+    & .slide-leave-to {
+      height: 0;
+    }
   }
 </style>
 <script>

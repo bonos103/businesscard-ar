@@ -1,7 +1,7 @@
 <template lang="pug">
   div(:class="$style.card")
     div(:class="$style.image")
-      img(:src="project.image.fullPath")
+      img(:src="project.image.fullPath", v-if="project.image")
     div(:class="$style.title") {{project.title}}
 </template>
 <style module>
@@ -12,7 +12,10 @@
   }
   .image {
     position: relative;
+    vertical-align: top;
     width: 100%;
+    background-color: var(--gray-lighter);
+    border-radius: 10px;
     &::before {
       display: inline-block;
       content: '';
