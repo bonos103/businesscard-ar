@@ -42,7 +42,7 @@ const defaultItemText = {
   scale_z: 1,
   x: 0,
   y: 0,
-  z: 0,
+  z: 1.6,
   font_size: 18,
   color: '#000',
   width: 3,
@@ -201,10 +201,12 @@ export default {
     },
     [NEW_PROJECT](state, project) {
       state.project = Object.assign({}, project)
+      state.selectItemEid = 0
     },
     [ADD_ITEM](state, item) {
       const items = addItem(state.project.items, item)
       state.project.items = items
+      state.selectItemEid = items[items.length - 1].eid
     },
     [DELETE_ITEM](state, eid) {
       state.project.items = state.project.items.filter(item => item.eid !== eid)
