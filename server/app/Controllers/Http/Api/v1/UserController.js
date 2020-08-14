@@ -81,7 +81,7 @@ class UserController {
   }
 
   async logout({ auth, response }) {
-    const user = await auth.getUser();
+    const user = await auth.getUser()
     await auth
       .authenticator('jwt')
       .revokeTokensForUser(user)
@@ -93,7 +93,7 @@ class UserController {
   async loginFacebook({ ally }) {
     try {
       await ally.driver('facebook').redirect()
-    } catch(e) {
+    } catch (e) {
       Logger.error(e)
     }
   }
@@ -132,7 +132,7 @@ class UserController {
   async loginTwitter({ ally }) {
     try {
       await ally.driver('twitter').redirect()
-    } catch(e) {
+    } catch (e) {
       Logger.error(e)
     }
   }
@@ -172,7 +172,7 @@ class UserController {
   }
 
   async destroy({ auth, response }) {
-    const user = await auth.getUser();
+    const user = await auth.getUser()
     await auth
       .authenticator('jwt')
       .revokeTokensForUser(user)

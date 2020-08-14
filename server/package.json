@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "esw -w & adonis serve --dev",
+    "dev": "esw -w --fix & adonis serve --dev",
     "test": "node ace test"
   },
   "keywords": [

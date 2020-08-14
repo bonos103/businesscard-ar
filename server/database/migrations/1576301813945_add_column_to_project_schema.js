@@ -4,14 +4,14 @@
 const Schema = use('Schema')
 
 class AddColumnToProjectSchema extends Schema {
-  up () {
+  up() {
     this.table('projects', (table) => {
       // alter table
       table.integer('image_id').unsigned().references('id').inTable('media')
     })
   }
 
-  down () {
+  down() {
     this.table('projects', (table) => {
       // reverse alternations
       table.dropForeign('image_id')

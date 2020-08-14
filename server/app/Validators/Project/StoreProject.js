@@ -3,7 +3,7 @@
 const Antl = use('Antl')
 
 class ProjectStoreProject {
-  get rules () {
+  get rules() {
     return {
       title: 'required|max:255',
     }

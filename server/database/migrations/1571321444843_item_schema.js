@@ -4,7 +4,7 @@
 const Schema = use('Schema')
 
 class ItemSchema extends Schema {
-  up () {
+  up() {
     this.create('items', (table) => {
       table.enu('type', ['text', 'social', 'image']).defaultTo('text')
       table.text('value')
@@ -25,7 +25,7 @@ class ItemSchema extends Schema {
     })
   }
 
-  down () {
+  down() {
     this.drop('items')
   }
 }

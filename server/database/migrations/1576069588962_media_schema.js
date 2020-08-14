@@ -4,7 +4,7 @@
 const Schema = use('Schema')
 
 class MediaSchema extends Schema {
-  up () {
+  up() {
     this.create('media', (table) => {
       table.increments()
       table.timestamps()
@@ -15,7 +15,7 @@ class MediaSchema extends Schema {
     })
   }
 
-  down () {
+  down() {
     this.drop('media')
   }
 }

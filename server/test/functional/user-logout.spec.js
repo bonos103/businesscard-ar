@@ -19,7 +19,7 @@ test('success logout', async ({ assert, client }) => {
 
   const response = await client.post('/api/v1/user/logout').loginVia(user, 'jwt').end()
 
-  const result = await auth.generateForRefreshToken(refreshToken).catch((e) => assert.isOk(true, e))
+  const result = await auth.generateForRefreshToken(refreshToken).catch(e => assert.isOk(true, e))
 
   if (result) {
     assert.fail('refreshTokenが無効になっていません', result)

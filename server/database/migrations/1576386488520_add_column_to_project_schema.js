@@ -4,14 +4,14 @@
 const Schema = use('Schema')
 
 class AddColumnToProjectSchema extends Schema {
-  up () {
+  up() {
     this.table('projects', (table) => {
       // alter table
       table.string('uid').unique().index()
     })
   }
 
-  down () {
+  down() {
     this.table('projects', (table) => {
       // reverse alternations
       table.dropUnique('uid')

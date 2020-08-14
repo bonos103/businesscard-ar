@@ -27,7 +27,7 @@ const path = require('path')
 // Certificate
 const options = {
   key: fs.readFileSync(path.join(__dirname, '../cert/localhost+2-key.pem')),
-  cert: fs.readFileSync(path.join(__dirname, '../cert/localhost+2.pem'))
+  cert: fs.readFileSync(path.join(__dirname, '../cert/localhost+2.pem')),
 }
 
 new Ignitor(Ford)

@@ -82,24 +82,27 @@ class ProjectController {
     project.merge({ title })
     await project.save()
 
-    // TODO itemsのsave
     // removeカラムを抽出して削除、
     const removeItems = differenceBy(projectItems.rows, items, 'id')
     // idなしはcretae
-    const createItems = items.filter((item) => !item.id)
+    const createItems = items.filter(item => !item.id)
     // id持ちはsave
-    const updateItems = items.filter((item) => item.id).map((item) => {
-      const itm = projectItems.rows.find((row) => row.id == item.id)
+    const updateItems = items.filter(item => item.id).map((item) => {
+      const itm = projectItems.rows.find(row => row.id === item.id)
       itm.merge(item)
       return itm
     })
 
-    await project.items().whereIn('id', removeItems.map((item) => item.id)).delete()
+    await project.items().whereIn('id', removeItems.map(item => item.id)).delete()
     const createdItems = await project.items().createMany(createItems)
-    await Promise.all(updateItems.map((item) => item.save()))
+    await Promise.all(updateItems.map(item => item.save()))
 
-    projectItems.rows = projectItems.rows.filter((row) => removeItems.findIndex((el) => el.id === row.id) === -1)
-    createdItems.forEach((row) => projectItems.addRow(row))
+    projectItems.rows = projectItems.rows.filter(
+      row => removeItems.findIndex(
+        el => el.id === row.id,
+      ) === -1,
+    )
+    createdItems.forEach(row => projectItems.addRow(row))
 
     await project.takeThumbnail({ auth })
 

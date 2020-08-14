@@ -8,11 +8,11 @@ const Media = use('App/Models/Media')
 // const Config = use('Config')
 
 class ProjectImage {
-  register (Model, customOptions = {}) {
+  register(Model, customOptions = {}) {
     const defaultOptions = {}
     const options = Object.assign(defaultOptions, customOptions)
 
-    Model.prototype.takeThumbnail = async function({ auth }) {
+    Model.prototype.takeThumbnail = async function ({ auth }) {
       if (!this.user_id) {
         return
       }

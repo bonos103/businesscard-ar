@@ -4,7 +4,7 @@
 const Schema = use('Schema')
 
 class AddColumnToUserSchema extends Schema {
-  up () {
+  up() {
     this.table('users', (table) => {
       // alter table
       table.enu('source', ['local', 'facebook', 'twitter']).defaultTo('local')
@@ -14,7 +14,7 @@ class AddColumnToUserSchema extends Schema {
     })
   }
 
-  down () {
+  down() {
     this.table('users', (table) => {
       // reverse alternations
       table.dropColumn('source')

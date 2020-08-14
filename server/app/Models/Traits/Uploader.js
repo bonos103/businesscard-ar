@@ -8,7 +8,7 @@ const Helpers = use('Helpers')
 
 const isTest = Env.get('NODE_ENV') === 'testing'
 class Uploader {
-  register (Model, customOptions = {}) {
+  register(Model, customOptions = {}) {
     const defaultOptions = {
       dest: 'upload',
     }
@@ -18,7 +18,9 @@ class Uploader {
       options.dest = 'upload/test'
     }
 
-    Model.upload = async ({ file, name, dir = '', type, size }) => {
+    Model.upload = async ({
+      file, name, dir = '', type, size,
+    }) => {
       const nameObject = path.parse(name)
       const fileName = path.format({
         name: `${[nameObject.name, new Date().getTime()].join('_')}`,
@@ -33,14 +35,14 @@ class Uploader {
         name: fileName,
         dir,
         type,
-        size
+        size,
       })
       await m.save()
 
       return m
     }
 
-    Model.prototype.deleteFile = async function() {
+    Model.prototype.deleteFile = async function () {
       console.log(this.toJSON())
       const filePath = path.join(Helpers.publicPath(options.dest), this.dir, this.name)
       await Drive.delete(filePath)
