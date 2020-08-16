@@ -30,7 +30,7 @@ test('can create project if valid data', async ({ client }) => {
     title,
     user_id: user.id,
   })
-})
+}).timeout(8000)
 
 test('cannot create project if not authenticated', async ({ client }) => {
   const { title } = await ProjectFactory.make()
@@ -78,8 +78,6 @@ test('failed create project if title of over 255 characters', async ({ client })
     .loginVia(user, 'jwt')
     .send(data)
     .end()
-
-  console.log(response)
 
   response.assertStatus(400)
   response.assertJSONSubset([

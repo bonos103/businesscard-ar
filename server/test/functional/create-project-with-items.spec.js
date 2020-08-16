@@ -42,4 +42,4 @@ test('can create project with items', async ({ client }) => {
       item.toJSON(),
     ],
   })
-})
+}).timeout(6000)

@@ -1,9 +1,7 @@
 'use strict'
 
-const { test, trait, after } = use('Test/Suite')('CreateProject')
-const Drive = use('Drive')
+const { test, trait } = use('Test/Suite')('CreateProject')
 const Factory = use('Factory')
-const Helpers = use('Helpers')
 
 const ItemFactory = Factory.model('App/Models/Item')
 const ProjectFactory = Factory.model('App/Models/Project')

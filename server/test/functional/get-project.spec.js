@@ -48,11 +48,3 @@ test('cannot get project if no project', async ({ client }) => {
     validation: 'required',
   })
 })
-
-test('cannot get project if unsigned', async ({ client }) => {
-  const response = await client
-    .get('/api/v1/project/1')
-    .end()
-
-  response.assertStatus(401)
-})

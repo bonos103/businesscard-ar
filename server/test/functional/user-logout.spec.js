@@ -31,7 +31,7 @@ test('success logout', async ({ assert, client }) => {
   })
 })
 
-test('failed logout if not logined', async ({ assert, client }) => {
+test('failed logout if not logined', async ({ client }) => {
   const response = await client.post('/api/v1/user/logout').end()
 
   response.assertStatus(401)

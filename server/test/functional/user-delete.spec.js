@@ -6,7 +6,6 @@ const Factory = use('Factory')
 const ItemFactory = Factory.model('App/Models/Item')
 const UserFactory = Factory.model('App/Models/User')
 const ProjectFactory = Factory.model('App/Models/Project')
-const Item = use('App/Models/Item')
 const User = use('App/Models/User')
 const Project = use('App/Models/Project')
 
@@ -39,9 +38,6 @@ test('delete user', async ({ assert, client }) => {
     .delete(`/api/v1/user/${user.id}`)
     .loginVia(user)
     .end()
-
-
-  console.log(response)
 
   const deletedUser = await User.find(user.id)
   const deletedProjct = await Project.find(project.id)

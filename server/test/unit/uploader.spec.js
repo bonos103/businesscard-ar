@@ -2,7 +2,7 @@
 
 const path = require('path')
 
-const { test, trait, after } = use('Test/Suite')('Uploader')
+const { test, trait } = use('Test/Suite')('Uploader')
 const Drive = use('Drive')
 const Env = use('Env')
 const Factory = use('Factory')
