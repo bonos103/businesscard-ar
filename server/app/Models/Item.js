@@ -8,16 +8,16 @@ class Item extends Model {
     return this.belongsTo('App/Models/Project')
   }
 
-  getScaleX(scale_x) {
-    return Number(scale_x)
+  getScaleX(x) {
+    return Number(x)
   }
 
-  getScaleY(scale_y) {
-    return Number(scale_y)
+  getScaleY(y) {
+    return Number(y)
   }
 
-  getScaleZ(scale_z) {
-    return Number(scale_z)
+  getScaleZ(z) {
+    return Number(z)
   }
 
   getX(x) {
