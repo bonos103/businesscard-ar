@@ -5,7 +5,7 @@ const Media = use('App/Models/Media')
 
 class UserQuit {
   register(Model) {
-    Model.prototype.quit = async () => {
+    Model.prototype.quit = async function quit() {
       const projects = await this.projects().fetch()
       const projectIds = projects.toJSON().map(el => el.id)
       const imageIds = projects.toJSON().map(el => el.image_id)

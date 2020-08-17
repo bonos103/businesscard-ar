@@ -12,7 +12,7 @@ class ProjectImage {
     const defaultOptions = {}
     const options = Object.assign(defaultOptions, customOptions) // eslint-disable-line
 
-    Model.prototype.takeThumbnail = async ({ auth }) => {
+    Model.prototype.takeThumbnail = async function takeThumbnail({ auth }) {
       if (!this.user_id) {
         return
       }
