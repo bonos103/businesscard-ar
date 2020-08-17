@@ -26,7 +26,7 @@ class Media extends Model {
     return path.join('/', dest, dir, name)
   }
 
-  getFullPath({ name, dir }) {
+  getFullPath() {
     return new URL(this.getPath(this), Env.get('URL'))
   }
 }

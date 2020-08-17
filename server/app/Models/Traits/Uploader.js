@@ -42,8 +42,7 @@ class Uploader {
       return m
     }
 
-    Model.prototype.deleteFile = async function () {
-      console.log(this.toJSON())
+    Model.prototype.deleteFile = async () => {
       const filePath = path.join(Helpers.publicPath(options.dest), this.dir, this.name)
       await Drive.delete(filePath)
     }

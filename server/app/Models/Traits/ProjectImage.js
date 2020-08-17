@@ -10,9 +10,9 @@ const Media = use('App/Models/Media')
 class ProjectImage {
   register(Model, customOptions = {}) {
     const defaultOptions = {}
-    const options = Object.assign(defaultOptions, customOptions)
+    const options = Object.assign(defaultOptions, customOptions) // eslint-disable-line
 
-    Model.prototype.takeThumbnail = async function ({ auth }) {
+    Model.prototype.takeThumbnail = async ({ auth }) => {
       if (!this.user_id) {
         return
       }
