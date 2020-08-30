@@ -7,7 +7,8 @@
     div(:class="$style.item", @click.stop="socialExpand = true")
       a-tooltip(placement="topLeft", arrowPointAtCenter, :mouseLeaveDelay="0")
         span(slot="title") ソーシャルアイコンを配置します
-        social-icon
+        div(:class="$style.iconBlock")
+          social-icon
       tool-social(
         :class="$style.socialList",
         @close="socialExpand = false",
@@ -37,6 +38,13 @@
     & + .item {
       margin-top: 2px;
     }
+  }
+  .iconBlock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
   }
   .socialList {
     position: absolute;
