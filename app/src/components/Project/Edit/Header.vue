@@ -23,6 +23,10 @@
       div(:class="$style.toolHeader", v-if="item")
         div(:class="$style.toolHeaderRight", v-if="item.type === 'text'")
           div(:class="$style.toolHeaderItem")
+            label 行揃え
+            div(:class="$style.toolAlign", @click="changeAlign()")
+              align-icon(:type="item.align")
+          div(:class="$style.toolHeaderItem")
             label サイズ
             a-dropdown(v-model="visibleToolSize")
               div(:class="$style.toolSize")
@@ -215,11 +219,22 @@
     align-items: center;
     font-size: 1.4rem;
     color: var(--gray-darker);
+    user-select: none;
     margin-right: 20px;
     & label {
       flex: 0 0 auto;
       margin-right: 0.5em;
     }
+  }
+  .toolAlign {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.4rem;
+    color: var(--black);
+    cursor: pointer;
+    width: 24px;
+    height: 28px;
   }
   .toolSize {
     position: relative;
@@ -268,7 +283,7 @@
   :global {
     & .slide-enter-active,
     & .slide-leave-active {
-      transition: height 0.3s;
+      transition: height 0.3s 0.3s;
       overflow: hidden;
     }
     & .slide-enter,
@@ -289,6 +304,7 @@ import {
 } from '@/store/modules/projects/types'
 import SocialLinkOrigin from '@/utils/SocialLinkOrigin'
 // import LoadingIcon from '@/assets/images/icons/loading.svg?component'
+import AlignIcon from '@/components/Icon/AlignIcon.vue'
 import LoadingIcon from '@/components/Icon/LoadingIcon.vue'
 import LogoSimpleIcon from '@/components/Icon/LogoSimpleIcon.vue'
 import MinusIcon from '@/components/Icon/MinusIcon.vue'
@@ -297,6 +313,7 @@ import PreviewModal from '@/components/QrCode/PreviewModal.vue'
 
 export default {
   components: {
+    AlignIcon,
     LoadingIcon,
     LogoSimpleIcon,
     MinusIcon,
@@ -342,6 +359,14 @@ export default {
     }),
     changeTitle(e) {
       this.SET_TITLE(e.target.value)
+    },
+    changeAlign() {
+      const type = ['left', 'center', 'right']
+      const index = type.findIndex(t => t === this.item.align)
+      if (index + 1 < type.length) {
+        return this.SET_DATA({ align: type[index + 1] })
+      }
+      return this.SET_DATA({ align: type[0] })
     },
     changeSize(value) {
       this.SET_DATA({ font_size: value })

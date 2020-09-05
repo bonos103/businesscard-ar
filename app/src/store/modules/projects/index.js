@@ -45,6 +45,7 @@ const defaultItemText = {
   z: 1.6,
   font_size: 18,
   color: '#000',
+  align: 'left',
   width: 3,
   height: 2,
 }

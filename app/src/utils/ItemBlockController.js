@@ -24,12 +24,14 @@ export default class ItemBlockController {
     if (!position) {
       return false
     }
+    const browserSize = this.convertBrowserSize()
     let {
       width,
       height,
       x,
       z,
-    } = this.convertBrowserSize()
+    } = browserSize
+    const { y } = browserSize
 
     switch (position) {
       case 'top-left': {
@@ -88,6 +90,7 @@ export default class ItemBlockController {
       width,
       height,
       x,
+      y,
       z,
     })
     this.item = Object.assign(this.item, result)

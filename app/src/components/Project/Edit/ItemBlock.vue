@@ -85,6 +85,7 @@ export default {
       return {
         fontSize: `${this.item.font_size}px`,
         color: this.item.color,
+        textAlign: this.item.align,
         padding: 0,
       }
     },
