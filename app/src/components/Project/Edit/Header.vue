@@ -90,6 +90,7 @@
               div(:class="$style.toolColor", :style="{ backgroundColor: item.color }")
               sketch-picker(
                 slot="overlay",
+                :disableAlpha="true"
                 :value="item.color",
                 @input="changeColor"
               )
