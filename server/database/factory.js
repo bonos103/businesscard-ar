@@ -41,6 +41,7 @@ Factory.blueprint('App/Models/Item', (faker, i, data) => ({
   height: data.height || 4,
   font_size: data.font_size || 18,
   color: data.color || '#000000',
+  align: data.align || 'left',
 }))
 
 Factory.blueprint('App/Models/Media', () => ({
