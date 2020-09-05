@@ -384,6 +384,7 @@ export default {
           notification.error({ message: '作成できませんでした。' })
         })
         if (!result) {
+          this.loading = false
           return
         }
         notification.success({ message: '新規作成しました。' })
@@ -394,6 +395,7 @@ export default {
           notification.error({ message: '保存できませんでした。' })
         })
         if (!result) {
+          this.loading = false
           return
         }
         notification.success({ message: '保存しました。' })
