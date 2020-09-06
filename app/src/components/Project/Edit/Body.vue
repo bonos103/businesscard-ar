@@ -153,12 +153,13 @@ export default {
         $canvas.scrollTo($canvas.scrollLeft - (dx / 2), $canvas.scrollTop - (dy / 2))
       }, 1000 / 60)
     },
-    async handleDownload() {
+    async handleDownload(event) {
+      event.preventDefault()
       const { uid } = this.project
       if (!uid) {
         return
       }
-      const { href } = this.$router.resolve({ name: 'ArShow', params: { uid } })
+      const { href } = this.$router.resolve({ name: 'ArShow', params: { id: uid } })
       const link = new URL(href, this.SITE_URL)
       const markerPattern = new MarkerPattern(link.href)
       const base64 = await markerPattern.markerImage
@@ -170,7 +171,12 @@ export default {
       const blob = new Blob([buffer.buffer], {
         type: 'image/png',
       })
-      window.open(URL.createObjectURL(blob))
+      // window.open(URL.createObjectURL(blob))
+      const blobURL = URL.createObjectURL(blob)
+      const $a = document.createElement('a')
+      $a.download = 'qrar.png'
+      $a.href = blobURL
+      $a.click()
     },
   },
 }
