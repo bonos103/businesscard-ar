@@ -26,6 +26,7 @@ Factory.blueprint('App/Models/Ar', (faker, i, data) => ({
 
 Factory.blueprint('App/Models/Project', (faker, i, data) => ({
   title: data.title || faker.sentence({ word: 20 }),
+  status: data.status || 'publish',
 }))
 
 Factory.blueprint('App/Models/Item', (faker, i, data) => ({

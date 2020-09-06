@@ -8,6 +8,7 @@ const UserFactory = Factory.model('App/Models/User')
 const ProjectFactory = Factory.model('App/Models/Project')
 const User = use('App/Models/User')
 const Project = use('App/Models/Project')
+const Item = use('App/Models/Item')
 
 trait('DatabaseTransactions')
 trait('Test/ApiClient')
@@ -39,12 +40,16 @@ test('delete user', async ({ assert, client }) => {
     .loginVia(user)
     .end()
 
+  console.log(response.error)
+
   const deletedUser = await User.find(user.id)
-  const deletedProjct = await Project.find(project.id)
+  const deletedProject = await Project.find(project.id)
+  const deletedItem = await Item.find(item.id)
   // console.log(deletedUser.toJSON())
-  // console.log(deletedProjct.toJSON())
+  // console.log(deletedProject.toJSON())
 
   response.assertStatus(200)
   assert.notExists(deletedUser, 'User still exists')
-  assert.notExists(deletedProjct, 'Project still exists')
+  assert.notExists(deletedProject, 'Project still exists')
+  assert.notExists(deletedItem, 'Project still exists')
 }).timeout(6000)

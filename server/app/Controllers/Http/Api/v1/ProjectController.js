@@ -108,6 +108,43 @@ class ProjectController {
 
     return response.ok(project.toJSON())
   }
+
+  async storePreview({ response, request, auth }) {
+    const Database = use('Database')
+    Database.on('query', console.log)
+    const user = await auth.getUser()
+
+    const { title, items = [] } = request.only(['title', 'items'])
+
+    // 既に存在するpreview projectを探す
+    const previewProject = await Project
+      .query()
+      .where({
+        user_id: user.id,
+        status: 'preview',
+      })
+      .last()
+
+    // 古いpreviewを削除
+    if (previewProject) {
+      await Promise.all([
+        previewProject.items().delete(),
+      ])
+      await previewProject.delete()
+    }
+
+    const project = await Project.create({
+      title,
+      user_id: user.id,
+      status: 'preview',
+    })
+    await project.items().createMany(items)
+    await project.load('items')
+
+    return response.created({
+      ...project.toJSON(),
+    })
+  }
 }
 
 module.exports = ProjectController

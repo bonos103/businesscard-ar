@@ -39,6 +39,7 @@ Route.group(() => {
   ])).validator(new Map([
     [['project.store'], ['Project/StoreProject']],
   ]))
+  Route.post('project/preview', 'ProjectController.storePreview').middleware(['auth'])
 
   Route.get('puppeteer', 'PuppeteerController.index')
 }).prefix('api/v1').namespace('Api/v1')
