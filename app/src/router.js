@@ -50,7 +50,7 @@ const router = new Router({
       path: '/project/:id/preview',
       name: 'ProjectPreview',
       component: () => import(/* webpackChunkName: "Vr" */ './views/Project/Preview.vue'),
-      meta: { requiredAuth: true },
+      // meta: { requiredAuth: true },
     },
     {
       path: '/ar/:id', // uidが入るがPreviewと変数を共通にするためにidとする

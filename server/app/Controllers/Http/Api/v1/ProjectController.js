@@ -34,7 +34,7 @@ class ProjectController {
 
   async show({ response, request, params }) {
     const { id } = params
-    const type = request.get('type') || id
+    const type = request.get().type || 'id'
     // const user = await auth.getUser()
     const project = await Project.query().where(type, id).withItems().last()
 

@@ -48,8 +48,7 @@ export default {
   },
   async mounted() {
     const { id } = this.$route.params
-    const type = this.$route.name === 'ArShow' ? 'uuid' : 'id'
-    await this.GET_PROJECT(id, type)
+    await this.GET_PROJECT({ id, type: 'uid' })
     if (this.$route.query.text) {
       this.text = this.$route.query.text
     }
