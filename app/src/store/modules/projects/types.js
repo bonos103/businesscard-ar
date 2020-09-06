@@ -3,6 +3,7 @@ export const GET_PROJECT = 'GET_PROJECT'
 export const NEW_PROJECT = 'NEW_PROJECT'
 export const POST_PROJECT = 'POST_PROJECT'
 export const PUT_PROJECT = 'PUT_PROJECT'
+export const POST_PREVIEW_PROJECT = 'POST_PREVIEW_PROJECT'
 
 export const ADD_ITEM = 'ADD_ITEM'
 export const DELETE_ITEM = 'DELETE_ITEM'

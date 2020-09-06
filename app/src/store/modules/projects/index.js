@@ -12,6 +12,7 @@ import {
   NEW_PROJECT,
   POST_PROJECT,
   PUT_PROJECT,
+  POST_PREVIEW_PROJECT,
   ADD_ITEM,
   DELETE_ITEM,
   SELECT_ITEM_EID,
@@ -32,6 +33,15 @@ function addItem(items, item) {
   item.eid = items.length
   items.push(Object.assign({}, item))
   return updateEid(items)
+}
+
+function getProjectStoreData(project) {
+  const data = _cloneDeep(project)
+  data.items.forEach((item) => {
+    delete item.eid
+    delete item.image
+  })
+  return data
 }
 
 const defaultItemText = {
@@ -147,16 +157,16 @@ export default {
     async [PUT_PROJECT]({ state }) {
       // const data = Object.assign({}, state.project)
       // const data = { ...state.project }
-      const data = _cloneDeep(state.project)
-      // const data = {
-      //   ...state.project,
-      //   items: [...state.project.items],
-      // }
-      data.items.forEach((item) => {
-        delete item.eid
-        delete item.image
-      })
+      const data = getProjectStoreData(state.project)
       const result = await axios.put(`/project/${data.id}`, data)
+      return result
+    },
+    async [POST_PREVIEW_PROJECT]({ state }) {
+      const data = getProjectStoreData(state.project)
+      data.items.forEach((item) => {
+        delete item.id
+      })
+      const result = await axios.post('/project/preview', data)
       return result
     },
     [ADD_ITEM]({ commit }, { type, value }) {

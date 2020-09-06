@@ -10,14 +10,17 @@
             a-icon(slot="suffix" type="edit")
       div(:class="$style.headerRight")
         div(:class="$style.item")
-          div(@click="isPreviewModal = true", :class="$style.previewButton") プレビュー
-          preview-modal(v-model="isPreviewModal", :id="$route.params.id", v-if="isPreviewModal")
-        //- div(:class="$style.item")
-          minus-icon
-          div(:class="$style.zoomLabel") 100%
-          plus-icon
-        button(:class="$style.button", @click="handleSave", :disabled="loading")
-          loading-icon(v-if="loading")
+        div(
+          @click="handlePreview",
+          :class="$style.previewButton",
+          :disabled="loading === 'preview'",
+        )
+          loading-icon(v-if="loading === 'preview'")
+          span(v-else) プレビュー
+          //- div(@click="isPreviewModal = true", :class="$style.previewButton") プレビュー
+          preview-modal(v-model="isPreviewModal", :id="previewUid", v-if="isPreviewModal")
+        button(:class="$style.button", @click="handleSave", :disabled="loading === 'save'")
+          loading-icon(v-if="loading === 'save'")
           span(v-else) 保存
     transition(name="slide")
       div(:class="$style.toolHeader", v-if="item")
@@ -180,8 +183,10 @@
   .previewButton {
     display: flex;
     align-items: center;
+    justify-content: center;
     font-size: 1.4rem;
     letter-spacing: 0.2em;
+    width: 100px;
     height: 60px;
     cursor: pointer;
   }
@@ -299,6 +304,7 @@ import SketchPicker from 'vue-color/src/components/Sketch.vue'
 import {
   POST_PROJECT,
   PUT_PROJECT,
+  POST_PREVIEW_PROJECT,
   SET_DATA,
   SET_TITLE,
 } from '@/store/modules/projects/types'
@@ -348,12 +354,14 @@ export default {
       isPreviewModal: false,
       visibleToolSize: false,
       visibleToolColor: false,
+      previewUid: undefined,
     }
   },
   methods: {
     ...mapActions('projects', {
       POST_PROJECT,
       PUT_PROJECT,
+      POST_PREVIEW_PROJECT,
       SET_DATA,
       SET_TITLE,
     }),
@@ -377,14 +385,28 @@ export default {
     changeValue(e) {
       this.SET_DATA({ value: `${this.socialOrigin}${e.target.value || ''}` })
     },
+    async handlePreview() {
+      this.loading = 'preview'
+      const result = await this.POST_PREVIEW_PROJECT().catch((err) => {
+        notification.error({ message: 'プレビューに失敗しました。' })
+        console.error(err)
+      })
+      this.previewUid = result.data && result.data.uid
+      if (!this.previewUid) {
+        notification.error({ message: 'プレビューに失敗しました。' })
+        return
+      }
+      this.isPreviewModal = true
+      this.loading = ''
+    },
     async handleSave() {
-      this.loading = true
+      this.loading = 'save'
       if (this.$route.name === 'ProjectNew') {
         const result = await this.POST_PROJECT().catch(() => {
           notification.error({ message: '作成できませんでした。' })
         })
         if (!result) {
-          this.loading = false
+          this.loading = ''
           return
         }
         notification.success({ message: '新規作成しました。' })
@@ -395,12 +417,12 @@ export default {
           notification.error({ message: '保存できませんでした。' })
         })
         if (!result) {
-          this.loading = false
+          this.loading = ''
           return
         }
         notification.success({ message: '保存しました。' })
       }
-      this.loading = false
+      this.loading = ''
     },
   },
 }
