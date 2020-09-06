@@ -110,8 +110,6 @@ class ProjectController {
   }
 
   async storePreview({ response, request, auth }) {
-    const Database = use('Database')
-    Database.on('query', console.log)
     const user = await auth.getUser()
 
     const { title, items = [] } = request.only(['title', 'items'])
