@@ -17,7 +17,7 @@
 import Vue from 'vue'
 import { mapActions, mapState } from 'vuex'
 import { GET_PROJECT } from '@/store/modules/projects/types'
-import ArScene from '@/components/Vr/ArScene2.vue'
+import ArScene from '@/components/Vr/ArScene3.vue'
 // import ArScene from '@/components/Vr/VrScene2.vue'
 import Object from '@/components/Vr/Object.vue'
 import router from '@/router'
