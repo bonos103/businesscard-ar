@@ -16,6 +16,14 @@ class ProjectImage {
       if (!this.user_id) {
         return
       }
+      if (this.image_id) {
+        const oldImage = await Media.find(this.image_id)
+        if (oldImage) {
+          this.image_id = null
+          await this.save()
+          await oldImage.delete()
+        }
+      }
       // const auth = new Auth({}, Config)
       const user = await User.find(this.user_id)
       const jwtToken = await auth.generate(user)
