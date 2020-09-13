@@ -1,5 +1,6 @@
 <template lang="pug">
-  div(:class="$style.wrapper")
+  div
+    load-page(:visible="loading")
 </template>
 <style module>
   .wrapper {
@@ -23,13 +24,20 @@
 import * as THREE from 'three'
 import LoadScript from '@/utils/LoadScript'
 import MarkerPattern from '@/utils/MarkerPattern'
+import LoadPage from '@/components/Vr/LoadPage.vue'
 
 export default {
   props: {
     objects: { type: Array },
   },
+  components: {
+    LoadPage,
+  },
   data() {
     return {
+      SITE_URL: process.env.VUE_APP_URL,
+      ratio: 0.9,
+      loading: true,
       renderer: new THREE.WebGLRenderer({
         antialias: true,
         alpha: true,
@@ -67,13 +75,6 @@ export default {
       this.scene.visible = this.camera.visible
     },
     onWindowResize() {
-      // const w = window.innerWidth
-      // const h = window.innerHeight
-      // this.camera.aspect = w / h
-      // this.camera.updateProjectionMatrix()
-      // this.renderer.setSize(w, h)
-
-      // AR
       // this.renderer.setSize(1280, 960)
       this.arToolkitSource.onResizeElement()
       this.arToolkitSource.copyElementSizeTo(this.renderer.domElement)
@@ -82,30 +83,14 @@ export default {
       }
     },
     getIntersects(x, y) {
-      const video = document.querySelector('canvas')
+      const $canvas = document.querySelector('canvas')
       this.mouseVector.set(
-        (x / video.offsetWidth) * 2 - 1,
-        -(y / video.offsetHeight) * 2 + 1,
+        (x / $canvas.offsetWidth) * 2 - 1,
+        -(y / $canvas.offsetHeight) * 2 + 1,
         1,
       )
       this.raycaster.setFromCamera(this.mouseVector, this.camera)
       return this.raycaster.intersectObject(this.group, true)
-    },
-    onDocumentMouseMove(event) {
-      event.preventDefault()
-      if (this.selectedObject) {
-        this.selectedObject.material.color.set('#69f')
-        this.selectedObject = null
-      }
-
-      const intersects = this.getIntersects(event.layerX, event.layerY)
-      if (intersects.length) {
-        const res = intersects.find(r => r && r.object)
-        if (res) {
-          this.selectedObject = res.object
-          this.selectedObject.material.color.set('#f00')
-        }
-      }
     },
     onClickObject(event) {
       event.preventDefault()
@@ -119,8 +104,7 @@ export default {
       }
       const item = this.getItemById(intersect.object.name)
       if (item && item.value && item.type === 'social') {
-        alert(item.value)
-        // window.open(item.value, 'qrar')
+        window.open(item.value, 'qrar')
       }
     },
     getItemById(id) {
@@ -138,7 +122,6 @@ export default {
       } = object
       const texture = new THREE.TextureLoader().load(src)
       // this.canvas.addParent(texture)
-      console.log(texture)
       texture.minFilter = THREE.LinearFilter
       const geometry = new THREE.PlaneGeometry(width, height)
       const material = new THREE.MeshBasicMaterial({
@@ -161,61 +144,22 @@ export default {
     registerObjects() {
       this.objects.forEach(this.registerObject)
     },
-    createMaterials() {
-      // add sprites
-      // const sprite1 = new THREE.Sprite(new THREE.SpriteMaterial({ color: '#0f0' }))
-      // sprite1.position.set(1, 0, 1)
-      // sprite1.scale.set(2, 5, 1)
-      // this.group.add(sprite1)
-
-      // const sprite2 = new THREE.Sprite(new THREE.SpriteMaterial({ color: '#00f', sizeAttenuation: false }))
-      // sprite2.material.rotation = Math.PI / 3 * 4
-      // sprite2.position.set(2, 0, 1)
-      // sprite2.center.set(0.5, 0)
-      // sprite2.scale.set(0.1, 0.5, 0.1)
-      // this.group.add(sprite2)
-
-      // const group2 = new THREE.Object3D()
-      // group2.scale.set(1, 2, 1)
-      // group2.position.set(-2, 0, 0)
-      // group2.rotation.set(Math.PI / 2, 0, 0)
-      // this.group.add(group2)
-
-      // const sprite3 = new THREE.Sprite(new THREE.SpriteMaterial({ color: '#0ff' }))
-      // sprite3.position.set(0, 0, 3)
-      // sprite3.scale.set(10, 2, 3)
-      // sprite3.center.set(-0.1, 0)
-      // sprite3.material.rotation = Math.PI / 3
-      // group2.add(sprite3)
-
-      const geometry = new THREE.CubeGeometry(1, 0, 1)
-      const material = new THREE.MeshBasicMaterial({
-        transparent: true,
-        opacity: 0.5,
-        side: THREE.DoubleSide,
-        color: '#00f',
-      })
-      const mesh = new THREE.Mesh(geometry, material)
-      mesh.position.x = 4
-      mesh.position.y = geometry.parameters.height / 2
-      // mesh.position.y = 0
-      this.group.add(mesh)
-    },
   },
   async mounted() {
     const self = this
 
     window.THREE = THREE
     const loadThreeAr = new LoadScript('https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar.js', 'three-ar-script', 'pbody').load()
-    await Promise.all([loadThreeAr])
+    await Promise.all([this.createMarkerUrl(), loadThreeAr])
 
     const { THREEx } = window
-    THREEx.ArToolkitContext.baseURL = 'https://localhost:8080/'
+    THREEx.ArToolkitContext.baseURL = this.SITE_URL
 
     // init this.renderer
     this.renderer.setSize(1280, 960)
     this.renderer.setClearColor(new THREE.Color('lightgrey'), 0)
     this.renderer.setPixelRatio(window.devicePixelRatio)
+    this.renderer.domElement.style.display = 'none'
 
     // this.renderer.setSize(window.innerWidth, window.innerHeight)
     document.body.appendChild(this.renderer.domElement)
@@ -225,26 +169,22 @@ export default {
     this.scene.add(this.camera)
     this.scene.add(this.group)
 
-    // init this.camera
-    // this.camera.position.set(15, 15, 15)
-    // this.camera.lookAt(this.scene.position)
-
     // init material
-    this.createMaterials()
     this.registerObjects()
 
     this.arToolkitSource = new THREEx.ArToolkitSource({
       sourceType: 'webcam',
     })
     this.arToolkitContext = new THREEx.ArToolkitContext({
-      cameraParametersUrl: `${THREEx.ArToolkitContext.baseURL}data/camera_para.dat`,
+      cameraParametersUrl: `${THREEx.ArToolkitContext.baseURL}/data/camera_para.dat`,
       detectionMode: 'mono',
       imageSmoothingEnabled: true, // 画像をスムージングするか（デフォルトfalse）
       maxDetectionRate: 60, // マーカの検出レート（デフォルト60）
+      patternRatio: this.ratio,
     })
     this.markerControls = new THREEx.ArMarkerControls(this.arToolkitContext, this.group, {
       type: 'pattern',
-      patternUrl: `${THREEx.ArToolkitContext.baseURL}data/patt.hiro`,
+      patternUrl: this.markerUrl,
       // patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji',
       // as we controls the camera, set changeMatrixMode: 'cameraTransformMatrix'
       changeMatrixMode: 'modelViewMatrix',
@@ -260,23 +200,16 @@ export default {
       this.camera.projectionMatrix.copy(this.arToolkitContext.getProjectionMatrix())
 
       this.arToolkitSource.domElement.addEventListener('canplay', () => {
-        const $video = document.querySelector('canvas')
-        $video.addEventListener('mousemove', self.onDocumentMouseMove, false)
-        $video.addEventListener('mousedown', self.onDocumentMouseMove, false)
-        $video.addEventListener('click', self.onClickObject, false)
+        const $canvas = document.querySelector('canvas')
+        $canvas.addEventListener('click', self.onClickObject, false)
+        self.onWindowResize()
+        self.renderer.domElement.style.display = 'block'
+        self.loading = false
       }, true)
     })
 
     window.addEventListener('resize', this.onWindowResize, false)
-    // window.addEventListener('mousemove', this.onDocumentMouseMove, false)
-    // window.addEventListener('mousedown', this.onDocumentMouseMove, false)
 
-    // console.log(this.arToolkitSource)
-    // const $video = this.arToolkitSource.domElement
-    // $video.addEventListener('mousemove', this.onDocumentMouseMove, false)
-    // $video.addEventListener('mousedown', this.onDocumentMouseMove, false)
-
-    this.onWindowResize()
     this.animate()
   },
 }
