@@ -45,12 +45,14 @@ export default {
       scene: new THREE.Scene(),
       camera: new THREE.PerspectiveCamera(40, 1.3333),
       group: new THREE.Group(),
+      smoothGroup: new THREE.Group(),
       raycaster: new THREE.Raycaster(),
       mouseVector: new THREE.Vector3(),
       selectedObject: null,
       arToolkitSource: null,
       arToolkitContext: null,
       markerControls: null,
+      smoothedControls: null,
     }
   },
   methods: {
@@ -72,7 +74,8 @@ export default {
       }
       this.renderer.render(this.scene, this.camera)
       this.arToolkitContext.update(this.arToolkitSource.domElement)
-      this.scene.visible = this.camera.visible
+      this.smoothedControls.update(this.group)
+      // this.scene.visible = this.camera.visible
     },
     onWindowResize() {
       // this.renderer.setSize(1280, 960)
@@ -90,7 +93,7 @@ export default {
         1,
       )
       this.raycaster.setFromCamera(this.mouseVector, this.camera)
-      return this.raycaster.intersectObject(this.group, true)
+      return this.raycaster.intersectObject(this.smoothGroup, true)
     },
     onClickObject(event) {
       event.preventDefault()
@@ -132,14 +135,14 @@ export default {
       // material.transparent = true
       // material.depthTest = false
       const mesh = new THREE.Mesh(geometry, material)
-      mesh.position.y = y + (index * 0.1)
+      mesh.position.y = y
       mesh.position.z = z
       mesh.position.x = x
       mesh.rotation.x = -1 * Math.PI / 2
       mesh.name = id
 
       // this.scene.add(mesh)
-      this.group.add(mesh)
+      this.smoothGroup.add(mesh)
     },
     registerObjects() {
       this.objects.forEach(this.registerObject)
@@ -168,6 +171,7 @@ export default {
     // this.scene.background = new THREE.Color(0xffffff)
     this.scene.add(this.camera)
     this.scene.add(this.group)
+    this.scene.add(this.smoothGroup)
 
     // init material
     this.registerObjects()
@@ -189,8 +193,16 @@ export default {
       // as we controls the camera, set changeMatrixMode: 'cameraTransformMatrix'
       changeMatrixMode: 'modelViewMatrix',
       // changeMatrixMode: 'cameraTransformMatrix',
+      smooth: true,
+      smoothCount: 10,
     })
-    this.scene.visible = false
+
+    this.smoothedControls = new THREEx.ArSmoothedControls(this.smoothGroup, {
+      lerpPosition: 0.4,
+      lerpQuaternion: 0.3,
+      lerpScale: 1,
+    })
+    // this.scene.visible = false
 
     this.arToolkitSource.init(() => {
       setTimeout(this.onWindowResize, 2000)
