@@ -1,6 +1,7 @@
 <template lang="pug">
   div
     load-page(:visible="loading")
+    capture(v-if="!loading")
 </template>
 <style module>
   .wrapper {
@@ -25,6 +26,7 @@ import * as THREE from 'three'
 import LoadScript from '@/utils/LoadScript'
 import MarkerPattern from '@/utils/MarkerPattern'
 import LoadPage from '@/components/Vr/LoadPage.vue'
+import Capture from '@/components/Vr/Capture.vue'
 
 export default {
   props: {
@@ -32,6 +34,7 @@ export default {
   },
   components: {
     LoadPage,
+    Capture,
   },
   data() {
     return {
@@ -41,6 +44,7 @@ export default {
       renderer: new THREE.WebGLRenderer({
         antialias: true,
         alpha: true,
+        preserveDrawingBuffer: true,
       }),
       scene: new THREE.Scene(),
       camera: new THREE.PerspectiveCamera(40, 1.3333),
@@ -72,6 +76,7 @@ export default {
       if (this.arToolkitSource.ready === false) {
         return
       }
+      this.renderer.clear()
       this.renderer.render(this.scene, this.camera)
       this.arToolkitContext.update(this.arToolkitSource.domElement)
       this.smoothedControls.update(this.group)
@@ -113,7 +118,7 @@ export default {
     getItemById(id) {
       return this.objects.find(o => o.id === id)
     },
-    registerObject(object, index) {
+    registerObject(object) {
       const {
         width,
         height,
