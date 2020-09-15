@@ -199,13 +199,15 @@ export default {
       changeMatrixMode: 'modelViewMatrix',
       // changeMatrixMode: 'cameraTransformMatrix',
       smooth: true,
-      smoothCount: 10,
+      smoothCount: 5,
+      smoothThreshold: 2,
     })
 
     this.smoothedControls = new THREEx.ArSmoothedControls(this.smoothGroup, {
-      lerpPosition: 0.4,
-      lerpQuaternion: 0.3,
+      lerpPosition: 0.1,
+      lerpQuaternion: 1,
       lerpScale: 1,
+      lerpStepDelay: 1 / 60,
     })
     // this.scene.visible = false
 
