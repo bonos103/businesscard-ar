@@ -1,6 +1,7 @@
 <template lang="pug">
   div(:class="$style.wrapper")
     Object(ref="material", :item="item", v-for="item in items", :key="item.eid")
+    div(:class="$style.hide")
 </template>
 <style module>
   .wrapper {
@@ -11,6 +12,14 @@
     top: 0;
     z-index: -10000;
     overflow: hidden;
+  }
+  .hide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--black);
   }
 </style>
 <script>
