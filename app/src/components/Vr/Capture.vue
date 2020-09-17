@@ -1,8 +1,14 @@
 <template lang="pug">
-  div(:class="$style.button", @click="handleCapture") Cap
+  div(:class="$style.button", @click="handleCapture")
+    camera-icon
 </template>
 <script>
+import CameraIcon from '@/components/Icon/CameraIcon.vue'
+
 export default {
+  components: {
+    CameraIcon,
+  },
   methods: {
     projectVideoToCanvas(video, canvas, ratio) {
       const bodyWidth = canvas.width
@@ -55,9 +61,16 @@ export default {
     position: fixed;
     bottom: 20px;
     left: 50%;
-    font-size: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.2rem;
     font-weight: bold;
-    color: red;
+    color: var(--black);
+    width: 60px;
+    height: 60px;
+    background-color: color-mod(var(--white) a(30%));
+    border-radius: 50%;
     transform: translateX(-50%);
   }
 </style>
