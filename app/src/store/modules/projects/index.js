@@ -6,6 +6,7 @@ import Axios from '@/utils/Axios'
 import twitterIcon from '@/assets/images/project/sns/twitter.png'
 import facebookIcon from '@/assets/images/project/sns/facebook.png'
 import instagramIcon from '@/assets/images/project/sns/instagram.png'
+import webIcon from '@/assets/images/project/sns/web.png'
 import {
   GET_PROJECTS,
   GET_PROJECT,
@@ -94,6 +95,19 @@ const defaultItemSocial = {
     scale_y: 1,
     scale_z: 1,
     x: 0.75,
+    y: 0,
+    z: -1,
+    width: 0.5,
+    height: 0.5,
+  },
+  web: {
+    type: 'social',
+    value: '',
+    image: webIcon,
+    scale_x: 1,
+    scale_y: 1,
+    scale_z: 1,
+    x: 1.5,
     y: 0,
     z: -1,
     width: 0.5,

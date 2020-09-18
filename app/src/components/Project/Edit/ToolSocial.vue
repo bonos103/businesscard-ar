@@ -15,6 +15,11 @@
       :class="$style.item",
       @click.prevent.stop="handleClick('instagram')",
     )
+    img(
+      src="@/assets/images/project/sns/web.png",
+      :class="$style.item",
+      @click.prevent.stop="handleClick('web')",
+    )
 </template>
 <style module>
   .list {

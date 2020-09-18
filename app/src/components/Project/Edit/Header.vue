@@ -107,12 +107,12 @@
             label リンク
             a-input(
               type="text",
-              placeholder="ユーザーID",
+              :placeholder="socialOrigin ? 'ユーザーID' : 'URL'",
               :value="socialPath",
               @input="changeValue",
-              style="width: 280px;",
+              style="min-width: 280px;",
             )
-              span(slot="addonBefore") {{socialOrigin}}
+              span(slot="addonBefore", v-if="socialOrigin") {{socialOrigin}}
 </template>
 <style module>
   .wrap {
