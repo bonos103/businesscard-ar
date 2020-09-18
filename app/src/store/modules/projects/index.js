@@ -116,7 +116,7 @@ const defaultItemSocial = {
 }
 
 const firstItems = []
-addItem(firstItems, defaultItemText)
+addItem(firstItems, { ...defaultItemText, z: -1 })
 
 export default {
   namespaced: true,
@@ -124,7 +124,7 @@ export default {
   state: {
     projects: [
       {
-        title: 'はじめてのAR名刺',
+        title: '新しいプロジェクト',
         items: [...firstItems],
       },
     ],
@@ -157,7 +157,7 @@ export default {
     },
     [NEW_PROJECT]({ commit }) {
       const project = {
-        title: 'はじめてのAR名刺',
+        title: '新しいプロジェクト',
         items: [...firstItems],
       }
       commit(NEW_PROJECT, project)

@@ -4,7 +4,10 @@ import html2canvas from 'html2canvas'
 class Object2Canvas {
   constructor(node, options) {
     this.node = node
-    this.options = Object.assign({ backgroundColor: 'transparent' }, options)
+    this.options = Object.assign({
+      backgroundColor: 'transparent',
+      logging: process.env.NODE_ENV === 'development',
+    }, options)
   }
 
   async init() {

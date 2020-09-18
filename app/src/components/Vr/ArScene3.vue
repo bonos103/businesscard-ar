@@ -77,9 +77,9 @@ export default {
         return
       }
       this.renderer.clear()
-      this.renderer.render(this.scene, this.camera)
       this.arToolkitContext.update(this.arToolkitSource.domElement)
       this.smoothedControls.update(this.group)
+      this.renderer.render(this.scene, this.camera)
       // this.scene.visible = this.camera.visible
     },
     onWindowResize() {
@@ -98,7 +98,8 @@ export default {
         1,
       )
       this.raycaster.setFromCamera(this.mouseVector, this.camera)
-      return this.raycaster.intersectObject(this.smoothGroup, true)
+      return this.raycaster.intersectObject(this.group, true)
+      // return this.raycaster.intersectObject(this.smoothGroup, true)
     },
     onClickObject(event) {
       event.preventDefault()
@@ -147,7 +148,8 @@ export default {
       mesh.name = id
 
       // this.scene.add(mesh)
-      this.smoothGroup.add(mesh)
+      this.group.add(mesh)
+      // this.smoothGroup.add(mesh)
     },
     registerObjects() {
       this.objects.forEach(this.registerObject)

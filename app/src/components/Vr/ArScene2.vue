@@ -16,6 +16,7 @@ import * as THREE from 'three'
 import LoadScript from '@/utils/LoadScript'
 import MarkerPattern from '@/utils/MarkerPattern'
 // import Object2Canvas from '@/utils/Object2Canvas'
+import CanvasTexture from '@/utils/CanvasTexture'
 
 export default {
   name: 'VrScene',
@@ -53,6 +54,7 @@ export default {
       raycaster: null,
       ratio: 0.9,
       markerRoot: null,
+      canvas: null,
     }
   },
   methods: {
@@ -102,6 +104,9 @@ export default {
       })
     },
     onResize() {
+      // this.camera.aspect = window.innerWidth / window.innerHeight
+      // this.camera.updateProjectionMatrix()
+      // this.renderer.setSize(window.innerWidth, window.innerHeight)
       this.arToolkitSource.onResizeElement()
       this.arToolkitSource.copyElementSizeTo(this.renderer.domElement)
       if (this.arToolkitContext.arController !== null) {
@@ -119,13 +124,15 @@ export default {
         id,
       } = object
       const texture = new THREE.TextureLoader().load(src)
+      this.canvas.addParent(texture)
+      console.log(texture)
       texture.minFilter = THREE.LinearFilter
       const geometry = new THREE.PlaneGeometry(width, height)
       const material = new THREE.MeshBasicMaterial({ map: texture })
       material.transparent = true
       material.depthTest = false
       const mesh = new THREE.Mesh(geometry, material)
-      mesh.position.y = y + (index * 0.1)
+      mesh.position.y = y
       mesh.position.z = z
       mesh.position.x = x
       mesh.rotation.x = -1 * Math.PI / 2
@@ -138,6 +145,8 @@ export default {
       const self = this
       this.markerRoot = new THREE.Group()
       this.scene.add(this.markerRoot)
+
+      this.canvas = new CanvasTexture()
 
       // build a smoothedControls
       const smoothedRoot = new THREE.Group()
@@ -169,6 +178,7 @@ export default {
     },
     onClickObject(event) {
       event.preventDefault()
+      console.log('click')
       const intersectObject = this.getIntersectObject(event)
       if (!intersectObject) {
         return
@@ -184,6 +194,12 @@ export default {
       const y = event.clientY - element.offsetTop
       const w = element.offsetWidth
       const h = element.offsetHeight
+
+      // const x = event.clientX
+      // const y = event.clientY
+      // const w = window.innerWidth
+      // const h = window.innerHeight
+
       const mouse = new THREE.Vector2((x / w) * 2 - 1, -(y / h) * 2 + 1)
       this.raycaster.setFromCamera(mouse, this.camera)
       const intersects = this.raycaster.intersectObjects(this.scene.children, true)
@@ -193,6 +209,25 @@ export default {
     getItemById(id) {
       return this.objects.find(o => o.id === id)
     },
+    getMousePosition(dom, x, y) {
+      const rect = dom.getBoundingClientRect()
+      return [(x - rect.left) / rect.width, (y - rect.top) / rect.height]
+    },
+    onMouseMove(event) {
+      event.preventDefault()
+      console.log('move')
+      const canvas = document.getElementById('canvas')
+      const [x, y] = this.getMousePosition(canvas, event.clientX, event.clientY)
+      const mouse = new THREE.Vector2((x * 2) - 1, -(y * 2) + 1)
+      this.raycaster.setFromCamera(mouse, this.camera)
+      const intersects = this.raycaster.intersectObjects(this.scene.children, true)
+      if (intersects.length > 0 && intersects[0].uv) {
+        console.log(intersects)
+        const { uv } = intersects[0]
+        intersects[0].object.material.map.transformUv(uv)
+        this.canvas.setCrossPosition(uv.x, uv.y)
+      }
+    },
   },
   async mounted() {
     const self = this
@@ -201,7 +236,7 @@ export default {
     await Promise.all([this.createMarkerUrl(), loadThreeAr])
 
     const { THREEx } = window
-    THREEx.ArToolkitContext.baseURL = '/'
+    THREEx.ArToolkitContext.baseURL = 'https://localhost:8080/'
 
     // init renderer
     this.renderer = this.initRenderer()
@@ -214,12 +249,19 @@ export default {
 
     // Initialize a basic camera
     // Create a camera
-    this.camera = new THREE.PerspectiveCamera()
+    this.camera = new THREE.PerspectiveCamera(60)
+    // this.camera = new THREE.Camera()
     this.scene.add(this.camera)
 
     // handle arToolkitSource
     this.arToolkitSource = new THREEx.ArToolkitSource({
       sourceType: 'webcam',
+      // sourceType: 'video',
+      // sourceUrl: `${THREEx.ArToolkitContext.baseURL}/data/resources/sample1.mp4`,
+      // sourceWidth: 1080,
+      // sourceHeight: 1920,
+      // displayWidth: window.innerWidth,
+      // displayHeight: window.innerHeight,
     })
 
     // initialize arToolkitContext
@@ -231,6 +273,8 @@ export default {
       imageSmoothingEnabled: true, // 画像をスムージングするか（デフォルトfalse）
       maxDetectionRate: 60, // マーカの検出レート（デフォルト60）
       patternRatio: this.ratio,
+      // canvasWidth: window.innerWidth,
+      // canvasHeight: window.innerHeight,
     })
     // initialize it
     this.initArToolkitContext()
@@ -288,6 +332,9 @@ export default {
     // render the scene
     // 画面にレンダリング
     this.renderScene()
+
+    // mouse move
+    document.getElementById('canvas').addEventListener('mousemove', this.onMouseMove, false)
 
     this.show = true
     await this.$nextTick()

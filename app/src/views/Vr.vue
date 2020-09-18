@@ -122,6 +122,7 @@ export default {
       })
       const mesh = new THREE.Mesh(geometry, material)
       mesh.position.x = 4
+      mesh.position.z = 3
       mesh.position.y = geometry.parameters.height / 2
       // mesh.position.y = 0
       this.group.add(mesh)
