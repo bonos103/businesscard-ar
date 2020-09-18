@@ -29,10 +29,16 @@ export default {
       const offsetY = (bodyHeight - arHeight) / 2
       const ctx = canvas.getContext('2d')
       ctx.drawImage(ar, offsetX, offsetY, arWidth, arHeight)
-      const data = ar.toDataURL()
+    },
+    capturedAnimation(data) {
       const img = document.createElement('img')
       img.src = data
+      img.classList.add(this.$style.capture)
       document.body.append(img)
+      requestAnimationFrame(() => {
+        img.dataset.animate = ''
+      })
+      setTimeout(() => img.remove(), 800)
     },
     handleCapture() {
       const ratio = window.devicePixelRatio
@@ -48,10 +54,12 @@ export default {
       this.projectArToCanvas(ar, canvas, ratio)
 
       const link = document.createElement('a')
-      link.download = 'screenshot_qrar'
-      link.href = canvas.toDataURL()
+      const now = new Date()
+      link.download = `screenshot_qrar_${now.toLocaleString()}`
+      const dataURL = canvas.toDataURL()
+      link.href = dataURL
       link.click()
-      console.log('downloaded')
+      this.capturedAnimation(dataURL)
     },
   },
 }
@@ -72,5 +80,19 @@ export default {
     background-color: color-mod(var(--white) a(30%));
     border-radius: 50%;
     transform: translateX(-50%);
+  }
+  .capture {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 10px solid var(--white);
+    z-index: 999;
+    transition: transform 0.3s ease-in;
+    &[data-animate] {
+      transform-origin: center calc(100% + 30px);
+      transform: scale(0);
+    }
   }
 </style>
