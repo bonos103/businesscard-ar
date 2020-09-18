@@ -29,7 +29,7 @@ export default {
       return {
         fontSize: `${(this.item.font_size * 2) || 36}px`,
         color: this.item.color || 'blue',
-        textAlign: 'left',
+        textAlign: this.item.align || 'left',
         width: `${this.item.width * 200 || 900}px`,
         height: `${this.item.height * 200 || 300}px`,
       }
