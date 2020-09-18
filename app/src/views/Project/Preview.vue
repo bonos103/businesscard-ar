@@ -104,6 +104,8 @@ export default {
   },
   metaInfo() {
     return {
+      title: 'QRコード型WebAR QRAR',
+      titleTemplate: '',
       meta: [
         {
           vmid: 'viewport',

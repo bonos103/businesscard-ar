@@ -211,5 +211,8 @@ export default {
       }
     },
   },
+  metaInfo: {
+    title: 'ログイン',
+  },
 }
 </script>

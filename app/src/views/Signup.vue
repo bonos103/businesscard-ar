@@ -183,5 +183,8 @@ export default {
       this.$router.push({ name: 'Project' })
     },
   },
+  metaInfo: {
+    title: 'サインアップ',
+  },
 }
 </script>

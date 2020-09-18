@@ -14,6 +14,12 @@ export default {
   //     ],
   //   }
   // },
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: '',
+    // all titles will be injected into this template
+    titleTemplate: '%s | QRコード型WebAR作成ツール QRAR',
+  },
 }
 </script>
 <style>

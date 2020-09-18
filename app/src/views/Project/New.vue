@@ -31,5 +31,8 @@ export default {
       NEW_PROJECT,
     }),
   },
+  metaInfo: {
+    title: '新規プロジェクト',
+  },
 }
 </script>

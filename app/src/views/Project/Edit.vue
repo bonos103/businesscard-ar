@@ -32,5 +32,8 @@ export default {
       GET_PROJECT,
     }),
   },
+  metaInfo: {
+    title: 'プロジェクト編集',
+  },
 }
 </script>

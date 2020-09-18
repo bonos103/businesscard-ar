@@ -52,5 +52,8 @@ export default {
       GET_PROJECTS,
     }),
   },
+  metaInfo: {
+    title: 'プロジェクト一覧',
+  },
 }
 </script>

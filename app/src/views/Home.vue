@@ -219,16 +219,16 @@
 
 export default {
   name: 'home',
-  metaInfo() {
-    return {
-      meta: [
-        {
-          vmid: 'viewport',
-          name: 'viewport',
-          content: 'width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0',
-        },
-      ],
-    }
+  metaInfo: {
+    title: 'QRコード型WebAR作成ツール QRAR',
+    titleTemplate: '',
+    meta: [
+      {
+        vmid: 'viewport',
+        name: 'viewport',
+        content: 'width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0',
+      },
+    ],
   },
 }
 </script>
