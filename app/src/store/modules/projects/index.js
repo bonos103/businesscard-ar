@@ -222,7 +222,7 @@ export default {
       state.projects = projects
     },
     [GET_PROJECT](state, project) {
-      state.project = { ...project }
+      state.project = project
     },
     [NEW_PROJECT](state, project) {
       state.project = Object.assign({}, project)

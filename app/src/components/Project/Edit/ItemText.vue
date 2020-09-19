@@ -4,7 +4,7 @@
       a-textarea(
         :active="active",
         :style="textStyle",
-        :defaultValue="item.value",
+        :value="item.value",
         :class="$style.textarea",
         @change="handleChangeValue",
       )
