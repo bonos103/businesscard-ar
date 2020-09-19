@@ -12,7 +12,7 @@ class ProjectImage {
     const defaultOptions = {}
     const options = Object.assign(defaultOptions, customOptions) // eslint-disable-line
 
-    Model.prototype.takeThumbnail = async function takeThumbnail({ auth }) {
+    Model.prototype.takeThumbnail = async function takeThumbnail({ auth }, trx) {
       if (!this.user_id) {
         return
       }
@@ -20,8 +20,8 @@ class ProjectImage {
         const oldImage = await Media.find(this.image_id)
         if (oldImage) {
           this.image_id = null
-          await this.save()
-          await oldImage.delete()
+          await this.save(trx)
+          await oldImage.delete(trx)
         }
       }
       // const auth = new Auth({}, Config)
@@ -67,7 +67,7 @@ class ProjectImage {
         dir: 'screen',
       })
       this.image_id = media.id
-      await this.save()
+      await this.save(trx)
     }
   }
 }

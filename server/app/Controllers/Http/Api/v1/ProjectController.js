@@ -2,28 +2,38 @@
 
 const differenceBy = require('lodash/differenceBy')
 
+const Database = use('Database')
 const Project = use('App/Models/Project')
 
 class ProjectController {
   async index({ response, auth }) {
     const user = await auth.getUser()
-    const projects = await Project.query().where('user_id', user.id).withImage().fetch()
+    const projects = await Project.query().where('user_id', user.id).andWhereNot('status', 'preview').withImage()
+      .fetch()
     // withを使うとitemも結合できる
     // const projects = await Project.query().where('user_id', user.id).withItems().fetch()
     return response.ok(projects.toJSON())
   }
 
   async store({ response, request, auth }) {
-    const user = await auth.getUser()
+    const trx = await Database.beginTransaction()
+    let project
+    try {
+      const user = await auth.getUser()
 
-    const { title, items = [] } = request.only(['title', 'items'])
+      const { title, items = [] } = request.only(['title', 'items'])
 
-    const project = await Project.create({
-      title,
-      user_id: user.id,
-    })
-    await project.items().createMany(items)
-    await project.load('items')
+      project = await Project.create({
+        title,
+        user_id: user.id,
+      }, trx)
+      await project.items().createMany(items, trx)
+      await project.load('items')
+      await trx.commit()
+    } catch (error) {
+      await trx.rollback()
+      throw error
+    }
 
     await project.takeThumbnail({ auth })
 
@@ -79,33 +89,39 @@ class ProjectController {
       })
     }
 
-    project.merge({ title })
-    await project.save()
+    const trx = await Database.beginTransaction()
+    try {
+      project.merge({ title })
+      await project.save(trx)
 
-    // removeカラムを抽出して削除、
-    const removeItems = differenceBy(projectItems.rows, items, 'id')
-    // idなしはcretae
-    const createItems = items.filter(item => !item.id)
-    // id持ちはsave
-    const updateItems = items.filter(item => item.id).map((item) => {
-      const itm = projectItems.rows.find(row => row.id === item.id)
-      itm.merge(item)
-      return itm
-    })
+      // removeカラムを抽出して削除、
+      const removeItems = differenceBy(projectItems.rows, items, 'id')
+      // idなしはcretae
+      const createItems = items.filter(item => !item.id)
+      // id持ちはsave
+      const updateItems = items.filter(item => item.id).map((item) => {
+        const itm = projectItems.rows.find(row => row.id === item.id)
+        itm.merge(item)
+        return itm
+      })
 
-    await project.items().whereIn('id', removeItems.map(item => item.id)).delete()
-    const createdItems = await project.items().createMany(createItems)
-    await Promise.all(updateItems.map(item => item.save()))
+      await project.items().whereIn('id', removeItems.map(item => item.id)).delete(trx)
+      const createdItems = await project.items().createMany(createItems, trx)
+      await Promise.all(updateItems.map(item => item.save(trx)))
 
-    projectItems.rows = projectItems.rows.filter(
-      row => removeItems.findIndex(
-        el => el.id === row.id,
-      ) === -1,
-    )
-    createdItems.forEach(row => projectItems.addRow(row))
+      projectItems.rows = projectItems.rows.filter(
+        row => removeItems.findIndex(
+          el => el.id === row.id,
+        ) === -1,
+      )
+      createdItems.forEach(row => projectItems.addRow(row))
 
-    await project.takeThumbnail({ auth })
-
+      await project.takeThumbnail({ auth })
+      await trx.commit()
+    } catch (error) {
+      await trx.rollback()
+      throw error
+    }
     return response.ok(project.toJSON())
   }
 
@@ -123,21 +139,29 @@ class ProjectController {
       })
       .last()
 
-    // 古いpreviewを削除
-    if (previewProject) {
-      await Promise.all([
-        previewProject.items().delete(),
-      ])
-      await previewProject.delete()
-    }
+    const trx = await Database.beginTransaction()
+    let project
+    try {
+      // 古いpreviewを削除
+      if (previewProject) {
+        await Promise.all([
+          previewProject.items().delete(trx),
+        ])
+        await previewProject.delete(trx)
+      }
 
-    const project = await Project.create({
-      title,
-      user_id: user.id,
-      status: 'preview',
-    })
-    await project.items().createMany(items)
-    await project.load('items')
+      project = await Project.create({
+        title,
+        user_id: user.id,
+        status: 'preview',
+      }, trx)
+      await project.items().createMany(items, trx)
+      await project.load('items')
+      await trx.commit()
+    } catch (error) {
+      await trx.rollback()
+      throw error
+    }
 
     return response.created({
       ...project.toJSON(),
