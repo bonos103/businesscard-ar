@@ -163,7 +163,7 @@ export default {
       commit(NEW_PROJECT, project)
     },
     async [POST_PROJECT]({ state }) {
-      const data = Object.assign({}, state.project)
+      const data = getProjectStoreData(state.project)
       data.items.forEach(item => delete item.eid)
       const result = await axios.post('/project', data)
       return result
