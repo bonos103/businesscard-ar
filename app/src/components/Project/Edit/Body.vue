@@ -6,11 +6,11 @@
           img(src="@/assets/images/project/qr.png")
         component(
           v-for="(item, index) in project.items",
-          :key="index",
+          :key="`${project.id || 0}-${index}`",
           :is="item.type | itemComponent",
           :item="item",
           :active="item.eid === selectItemEid",
-          @activate="activateItem($event, item)",
+          @activate="acindextivateItem($event, item)",
           @deactivate="deactivateItem($event, item)",
           @change="handleChange",
         )
