@@ -36,6 +36,13 @@
               br
               | ブラウザ上で起動したカメラをこちらのQRコードに向けてください。
 
+
+    div(:class="$style.section")
+      h2(:class="$style.sectionTitle") AR作成画面の紹介
+        div(:class="$style.tryMovie")
+          video(src="/data/qrar_editor.mp4", autoplay, controls, muted, loop)
+          //- img(src="@/assets/images/top/android.png")
+
     div(:class="$style.section")
       h2(:class="$style.sectionTitle") QRARの特徴
       div(:class="$style.feature")
@@ -170,6 +177,7 @@
   .tryCode {
     max-width: 455px;
     box-shadow: 0 10px 20px -8px color-mod(var(--black) a(15%));
+    border: 1px solid var(--gray-lightest);
     margin-right: auto;
     margin-left: auto;
     margin-bottom: 30px;
@@ -189,6 +197,30 @@
   .tryText {
     font-size: 1.4rem;
   }
+  .tryMovie {
+    max-width: 900px;
+    width: 100%;
+    margin: 60px auto;
+    & video {
+      width: 100%;
+    }
+  }
+  /* .tryMovie {
+    position: relative;
+    width: 300px;
+    margin: 60px auto;
+    & video {
+      width: 277.97px;
+      margin-top: 12.3px;
+      margin-left: 9.5px;
+      border: 1px solid #000;
+    }
+    & img {
+      position: absolute;
+      width: 300px;
+      left: 0;
+    }
+  } */
 
   .featureSection {
     max-width: calc(var(--section-width) + 32px);
