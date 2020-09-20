@@ -2,6 +2,8 @@
 
 const puppeteer = require('puppeteer')
 
+const Env = use('Env')
+
 // const Auth = use('Adonis/Src/Auth')
 const User = use('App/Models/User')
 const Media = use('App/Models/Media')
@@ -43,12 +45,12 @@ class ProjectImage {
       await page.setCookie({
         name: 'token',
         value: jwtToken.token,
-        url: 'https://app:8080/',
+        url: Env.get('CLIENT_URL'),
         expires: Math.floor(new Date('3000/12/12').getTime() / 1000),
         secure: true,
       })
 
-      await page.goto(`https://app:8080/project/${this.id}/edit`, { waitUntil: 'networkidle2' })
+      await page.goto(`${Env.get('CLIENT_URL')}/project/${this.id}/edit`, { waitUntil: 'networkidle2' })
       const image = await page.screenshot({
         // encoding: 'base64',
         clip: {
