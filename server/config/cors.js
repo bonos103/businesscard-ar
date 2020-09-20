@@ -22,6 +22,7 @@ module.exports = {
     const whiteList = [
       'https://localhost:8080',
       'https://192.168.43.107:8080',
+      'https://qrar.bonos.work',
     ]
     return whiteList.includes(currentOrigin)
   },
