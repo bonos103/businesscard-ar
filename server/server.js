@@ -25,10 +25,10 @@ const path = require('path')
 // const pem = require('pem')
 
 // Certificate
-const options = {
+const options = process.env.NODE_ENV === 'development' ? {
   key: fs.readFileSync(path.join(__dirname, '../cert/localhost+2-key.pem')),
   cert: fs.readFileSync(path.join(__dirname, '../cert/localhost+2.pem')),
-}
+} : {}
 
 new Ignitor(Ford)
   .appRoot(__dirname)
