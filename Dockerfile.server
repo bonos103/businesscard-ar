@@ -11,20 +11,21 @@ RUN apk add --no-cache \
   ttf-freefont
 
 # puppeteerのために日本語フォントをインストール
-RUN mkdir /noto
-ADD https://noto-website-2.storage.googleapis.com/pkgs/NotoSansCJKjp-hinted.zip /noto
-WORKDIR /noto
+WORKDIR /app
+RUN mkdir /app/noto
+ADD https://noto-website-2.storage.googleapis.com/pkgs/NotoSansCJKjp-hinted.zip /app/noto
+WORKDIR /app/noto
 RUN unzip NotoSansCJKjp-hinted.zip && \
     mkdir -p /usr/share/fonts/noto && \
     cp *.otf /usr/share/fonts/noto && \
     chmod 644 -R /usr/share/fonts/noto/ && \
     fc-cache -fv
 
-WORKDIR /app
-RUN rm -rf /noto
+# RUN rmdir /app/noto
 
 RUN yarn global add @adonisjs/cli
 
+WORKDIR /app
 COPY ./server/package.json ./
 COPY ./server/yarn.lock ./
 

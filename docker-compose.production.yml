@@ -1,0 +1,36 @@
+version: '3'
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    volumes:
+      - ./server:/app
+      - server_node_modules:/app/node_modules
+    external_links:
+      - mysql
+    restart: always
+    working_dir: /app
+    command: npm run start
+    expose:
+      - 3333
+    environment:
+      NODE_ENV: "production"
+      VIRTUAL_HOST: "api.qrar.bonos.work"
+      VIRTUAL_PORT: 80
+      LETSENCRYPT_HOST: "api.qrar.bonos.work"
+      LETSENCRYPT_EMAIL: "tomi@ryou103.com"
+      LETSENCRYPT_TEST: "false"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "3m"
+        max-file: "1"
+
+volumes:
+  server_node_modules:
+
+networks:
+  common_link:
+    external: true
+
