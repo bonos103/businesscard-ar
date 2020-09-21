@@ -6,7 +6,7 @@ module.exports = {
     host: '0.0.0.0',
     https: {
       key: fs.readFileSync(path.join(__dirname, '../cert/localhost+2-key.pem')),
-      cert: fs.readFileSync(path.join(__dirname, '../cert/localhost+2.pem'))
+      cert: fs.readFileSync(path.join(__dirname, '../cert/localhost+2.pem')),
     },
     disableHostCheck: true,
     compress: true,
@@ -35,24 +35,48 @@ module.exports = {
     svgRule.uses.clear()
   },
   configureWebpack: (config) => { // eslint-disable-line
-    return {
-      optimization: {
-        splitChunks: {
-          name: 'vendor',
-          chunks: 'initial',
-          minChunks: 2,
+    // console.log(config.optimization.splitChunks)
+    if (process.env.NODE_ENV === 'production') {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        maxSize: 250000,
+        cacheGroups: {
+          vendors: {
+            name: 'chunk-vendors',
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10,
+            chunks: 'initial',
+          },
+          common: {
+            name: 'chunk-common',
+            minChunks: 2,
+            priority: -20,
+            chunks: 'initial',
+            reuseExistingChunk: true,
+          },
         },
-      },
-      resolve: {
-        extensions: ['.js', '.vue'],
-      },
+      }
     }
+    // config.optimization = {
+    //   splitChunks: {
+    //     cachegroups: {
+    //       commons: {
+    //         test: /[\\/]node_modules[\\/]/,
+    //         name: 'vendor',
+    //         chunks: 'initial',
+    //       },
+    //     },
+    //   },
+    // }
+    // config.resolve = {
+    //   extensions: ['.js', '.vue'],
+    // }
   },
   css: {
     loaderOptions: {
       less: {
         modifyVars: {
-          'font-family': '"游ゴシック体", "Yu Gothic", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", "Meiryo", "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;'
+          'font-family': '"游ゴシック体", "Yu Gothic", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", "Meiryo", "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;',
         },
         javascriptEnabled: true,
       },
