@@ -24,13 +24,12 @@ const https = require('https')
 const path = require('path')
 // const pem = require('pem')
 
-// Certificate
-const options = {
-  key: fs.readFileSync(path.join(__dirname, '../cert/localhost+2-key.pem')),
-  cert: fs.readFileSync(path.join(__dirname, '../cert/localhost+2.pem')),
-}
-
 if (process.env.NODE_ENV === 'development') {
+  // Certificate
+  const options = {
+    key: fs.readFileSync(path.join(__dirname, '../cert/localhost+2-key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, '../cert/localhost+2.pem')),
+  }
   new Ignitor(Ford)
     .appRoot(__dirname)
     .fireHttpServer(handler => https.createServer(options, handler))
