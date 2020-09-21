@@ -18,10 +18,10 @@ services:
       - 3333
     environment:
       NODE_ENV: "production"
-      VIRTUAL_HOST: "api.qrar.bonos.work"
-      VIRTUAL_PORT: 80
-      LETSENCRYPT_HOST: "api.qrar.bonos.work"
-      LETSENCRYPT_EMAIL: "tomi@ryou103.com"
+      VIRTUAL_HOST: api-qrar.bonos.work
+      VIRTUAL_POST: 80
+      LETSENCRYPT_HOST: api-qrar.bonos.work
+      LETSENCRYPT_EMAIL: tomi@ryou103.com
       LETSENCRYPT_TEST: "false"
     logging:
       driver: "json-file"
