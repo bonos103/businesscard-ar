@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:match*",
+      "destination": "https://api-qrar.bonos.work/api/:match*"
+    },
+    {
+      "source": "/upload/:match*",
+      "destination": "https://api-qrar.bonos.work/upload/:match*"
+    }
+  ]
+}
