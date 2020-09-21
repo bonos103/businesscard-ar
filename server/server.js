@@ -25,15 +25,22 @@ const path = require('path')
 // const pem = require('pem')
 
 // Certificate
-const options = process.env.NODE_ENV === 'development' ? {
+const options = {
   key: fs.readFileSync(path.join(__dirname, '../cert/localhost+2-key.pem')),
   cert: fs.readFileSync(path.join(__dirname, '../cert/localhost+2.pem')),
-} : {}
+}
 
-new Ignitor(Ford)
-  .appRoot(__dirname)
-  .fireHttpServer(handler => https.createServer(options, handler))
-  .catch(console.error)
+if (process.env.NODE_ENV === 'development') {
+  new Ignitor(Ford)
+    .appRoot(__dirname)
+    .fireHttpServer(handler => https.createServer(options, handler))
+    .catch(console.error)
+} else {
+  new Ignitor(Ford)
+    .appRoot(__dirname)
+    .fireHttpServer()
+    .catch(console.error)
+}
 
 // pem.createCertificate({ days: 1, selfSigned: true }, (error, keys) => {
 //   if (error) {
