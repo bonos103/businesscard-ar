@@ -116,12 +116,13 @@ class ProjectController {
       )
       createdItems.forEach(row => projectItems.addRow(row))
 
-      await project.takeThumbnail({ auth })
       await trx.commit()
     } catch (error) {
       await trx.rollback()
       throw error
     }
+
+    await project.takeThumbnail({ auth })
     return response.ok(project.toJSON())
   }
 
